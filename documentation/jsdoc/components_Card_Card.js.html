@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Card/Card.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Card/Card.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
+/**
+ * @module Card
+ * @description Функциональный React-компонент&lt;br>
+ * Декларирует отрисовку карточки&lt;br>
+ * Возвращает JSX-фрагмент разметки - карточку, заполненный данными карточки&lt;br>
+ * Принимает объект параметров - props&lt;br>
+ * @param {Object} props - объект с параметрами и переданными функциями-коллбэками
+ * @param {String} props.id - уникальный идентификатор карточки, присваивается карточке сервером.&lt;br>
+ * &lt;b>ПРИМЕЧАНИЕ: props.id используется при отрисовке компонента Card для присвоения обязательному параметру key&lt;/b>
+ * @param {String} props.link - ссылка на изображение
+ * @param {String} props.title - название изображения
+ * @param {Number} props.likesQuantity - количество лайков
+ * @param {Object} props.owner - объект, данные о владельце карточки
+ * @param {Array} props.likes - массив, содержит id всех пользователей, лайкнувших карточку
+ * @param {Function} props.onCardClick - функция-колбэк, вызывается при клике по изображению карточки, 
+ * открывает попап с полноразмерным изображением карточки&lt;br>
+ * Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи 
+ * этих параметров в ImagePopup
+ * @param {Function} props.onCardLike -  функция-колбэк, вызывается при клике по "лайку" карточки,
+ * принимает аргументом объект с id карточки и массивом лайков карточки
+ * @param {Function} props.onCardDelete - функция-колбэк, вызывается при клике по иконке удаления карточки,
+ * принимает аргументом объект с id карточки
+ * @returns {JSX} - JSX-фрагмент разметки, элемент card
+ * @since v.2.0.0
+ */
+function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCardLike, onCardDelete }) {
+
+/**
+ * @constant currentUser
+ * @type {Object}
+ * @description - переменная, сохраняет контекст текущего пользователя -
+ * объект с данными о текущем пользователе
+ * @since v.2.0.2 
+ * @ignore
+ */
+  const currentUser = React.useContext(CurrentUserContext);
+  
+  /**
+   * Определяем, являемся ли мы владельцем текущей карточки
+   * @since v.2.0.2
+   * @ignore
+   */ 
+  const isOwn = owner._id === currentUser._id;
+
+  /**
+   * Определяем, лайкали ли мы текущую карточку
+   * @since v.2.0.2
+   * @ignore
+   */
+  const isLiked = likes.some(likeOwner => likeOwner._id === currentUser._id);
+
+  /**
+   * @method handleImageClick
+   * @description Обработчик клика по изображению карточки, вызывает коллбэк props.onCardClick
+   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardClick 
+   * @param {String} object.link - ссылка на изображение кликнутой карточки
+   * @param {String} object.title - название кликнутой карточки
+   * @public
+   * @since v.2.0.0
+   */
+  const handleImageClick = () => { onCardClick({ link, title });
+  };
+
+  /**
+   * @method handleLikeClick
+   * @description Обработчик клика по "лайку" карточки, вызывает коллбэк props.onCardLike
+   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardLike
+   * @param {String} object.id - id лайкнутой карточки
+   * @param {String} object.likes - массив "лайков" лайкнутой карточки
+   * @public
+   * @since v.2.0.2
+   */
+  const handleLikeClick = () => { onCardLike({ id, likes }) };
+
+/**
+ * @method handleDeleteClick
+ * @description Обработчик клика по иконке "удалить", вызывает коллбэк props.onCardDelete
+ * @argument {Object} object - объект с данными удаляемой карточки, аргумент коллбэка props.onCardDelete
+ * @param {String} object.id - id удаляемой карточки
+ * @public
+ * @since v.2.0.2
+ */
+  const handleDeleteClick = () => { onCardDelete({ id }) };
+  
+  return (
+    &lt;li className="card">
+      &lt;img className="card__image" onClick={ handleImageClick } src={ link } alt={ title } name="photo" title="Открыть фото" />
+      &lt;button type="button" onClick={handleDeleteClick } className={ `button button_type_delete card__delete-button ${isOwn ? 'card__delete-button_enabled' : ''}` } name="delete-button" value="delete" title="Удалить фото">&lt;/button>
+      &lt;div className="card__description">
+        &lt;h2 className="card__title">{ title }&lt;/h2>
+        &lt;div className="card__like-info">
+          &lt;button type="button" onClick={handleLikeClick } className={ `button button_type_like card__like-button  ${isLiked ? 'button_like-status_checked' : 'button_like-status_not-checked'}` } name="like-button" value="like">&lt;/button>
+          &lt;span className="card__like-counter">{ likesQuantity }&lt;/span>
+        &lt;/div>
+      &lt;/div>
+    &lt;/li>
+  )
+}
+
+export default Card;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sun Sep 27 2020 21:24:56 GMT+0300 (GMT+03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

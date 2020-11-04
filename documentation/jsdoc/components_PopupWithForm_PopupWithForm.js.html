@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/PopupWithForm/PopupWithForm.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/PopupWithForm/PopupWithForm.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import FormValidator from '../FormValidator/FormValidator';
+import { validationConfig } from '../../utils/constants';
+
+/**
+ * @module PopupWithForm
+ * @description Функциональный React-компонент&lt;br>
+ * Возвращает JSX-фрагмент разметки - попап&lt;br>
+ * Принимает объект параметров - props&lt;br>
+ * @param {Object} props - объект с параметрами и переданными функциями-коллбэками
+ * @param {JSX} props.children - JSX-фрагмент, список инпутов попапа&lt;br>
+ * &lt;b>ПРИМЕЧАНИЕ:&lt;/b> Может не указываться явно, может быть передан JSX-фрагментом
+ * @param {Boolean} props.isOpen - переменая, управляет видимостью попапа:&lt;br>
+ *  - true: попап отображается
+ *  - false: попап не отображается
+ * @param {String} props.name - название формы, вставляется в атрибут name тега form и в css-класс, уточняющий тип формы
+ * @param {String} props.title - название попапа
+ * @param {String} props.submitButtonText - текст, который будет отображаться на кнопке submit
+ * @param {Funcion} props.onClose - функция-коллбэк, вызывается при клике по иконке закрытия попапа, закрывает попап
+ * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею попапа, закрывает попап
+ * @param {Function} props.onSubmit - функция-коллбэк, вызывается при сабмите формы попапа
+ * @param {Boolean} props.isLoading - маркер состояния загрузки новых данных на сервер:  true - идет загрузка, false - нет загрузки
+ * @param {String} props.preloaderText - текст, отображаемый на кнопке сабмит во время загрузки 
+ * @returns {JSX} - JSX-фрагмент разметки, попап
+ * @since v.2.0.0
+ */
+function PopupWithForm(props) {
+
+  /**
+   * Подключаем валидацию форм, используя класс FormValidator из версии 1.0.0
+   * @since v.2.0.1
+   * @ignore
+   */
+  React.useEffect(() => {
+    /**
+     * @constant 
+     * @name formNode 
+     * @type {HTMLFormElement}
+     * @description - Дом-нода формы попапа с формой
+     * @since v.2.0.1
+     * @ignore
+     */
+    const formNode = document.querySelector(`#${props.name}-form`);
+
+    /**
+     * Если в попапе есть форма с инпутами, создаем валидатор и запускаем валидацию этой формы&lt;br>
+     * При размонтировании компонента экземпляр валидатора удаляется
+     * @since v.2.0.1
+     * @ignore
+     */
+    if (props.children) {
+      const formValidator = new FormValidator(validationConfig, formNode);
+      formValidator.enableValidation();
+    }
+    return (formValidator) => {
+      if (props.children) {
+        formValidator = null;
+        formNode.reset();
+      }
+    }
+  }, [props.children, props.name]);
+
+  return (
+    &lt;div onClick={ props.onOverlayClick } className={ `popup page__overlay page__overlay_theme_light popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}` } id={ props.name }>
+      &lt;div className="popup__container">
+        &lt;button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button" name="close-popup"  value="Закрыть">&lt;/button>
+        &lt;form onSubmit={ props.onSubmit} className={ `form popup__form form_type_${props.name}` } name={ `${props.name}-form` } id={ `${props.name}-form` } noValidate>
+          &lt;h2 className="form__title">{ props.title }&lt;/h2>
+          { props.children }
+          &lt;button type="submit" className="button button_type_submit form__submit-button" name={ `${props.name}-button` } value={ props.submitButtonText }>{ props.isLoading ? props.preloaderText : props.submitButtonText }&lt;/button>
+        &lt;/form>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default PopupWithForm;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sun Sep 27 2020 21:24:56 GMT+0300 (GMT+03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

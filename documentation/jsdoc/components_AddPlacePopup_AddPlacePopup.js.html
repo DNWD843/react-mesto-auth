@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/AddPlacePopup/AddPlacePopup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/AddPlacePopup/AddPlacePopup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useCallback } from 'react';
+import PopupWithForm from '../PopupWithForm/PopupWithForm';
+
+/**
+ * @module AddPlacePopup
+ * @description Функциональный React-компонент&lt;br>
+ * Декларирует отрисовку попапа добавления карточки&lt;br>
+ * Принимает объект параметров props&lt;br>
+ * Возвращает JSX-фрагмент разметки попапа добавления карточки
+ * @param {Object} props - объект параметров
+ * @param {Boolean} props.isOpen - маркер состояния попапа: true - открыт, false - закрыт
+ * @param {Function} props.onClose - функция-коллбэк, закрывает попап
+ * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею, закрывает попап
+ * @param {Function} props.onSubmit - функция-коллбэк сабмита формы добавления карточки
+ * @param {Boolean} props.isLoading - маркер состояния загрузки новой карточки: true - идет загрузка, false - нет загрузки
+ * @public
+ * @see {@link PopupWithForm}
+ * @since v.2.0.2
+ */
+function AddPlacePopup(props) {
+
+  const [formValues, setFormValues] = React.useState({
+    name: '',
+    link: ''
+  });
+
+  /**
+   * @method handleInputChange
+   * @description Обработчик изменения полей инпутов формы&lt;br>
+   * Сохраняет значения полей инпутов в стейты
+   * @public
+   * @since v.2.0.2
+   */
+  const handleInputChange = useCallback((e) => {
+    const { name: inputName, value: inputValue } = e.target;
+    setFormValues(prevValues => {
+      return {
+        ...prevValues,
+        [inputName]: inputValue
+      };
+    });
+  }, [setFormValues]);
+
+  const { name, link } = formValues;
+
+  /**
+   * @method handleSubmit
+   * @description Обработчик сабмита формы добавления карточки. 
+   * Вызывает коллбэк props.onSubmit и передает ему объект с данными полей формы
+   * @public
+   * @since v.2.0.2
+   */
+  const handleSubmit = useCallback((evt) => {
+    evt.preventDefault();
+    props.onSubmit({
+      name: formValues.name,
+      link: formValues.link
+    });
+  }, [props, formValues]);
+
+  /**
+   * Очистка полей формы добавления карточки после закрытия формы
+   * @since v.2.0.2
+   * @ignore
+   */
+  React.useEffect(() => {
+    if (!props.isOpen) {
+      setFormValues({
+        name: '',
+        link: ''
+      });
+    }
+  }, [props.isOpen])
+
+  return (
+    &lt;PopupWithForm
+      name="add-photo"
+      title="Новое место"
+      submitButtonText="Создать" 
+      isOpen={ props.isOpen }
+      onClose={ props.onClose }
+      onOverlayClick={ props.onOverlayClick }
+      onSubmit={ handleSubmit }
+      isLoading={ props.isLoading }
+      preloaderText="Сохранение..."
+    >      
+      &lt;>
+        &lt;ul className="form__inputs">
+          &lt;li className="form__field">
+            &lt;input type="text" onChange={handleInputChange} name="name" value={name ? name : ''} className="form__input form__input_type_place-title" id="place-title-input" minLength="1" maxLength="30" placeholder="Название" required />
+            &lt;span className="form__input-error" id="place-title-input-error">&lt;/span>
+          &lt;/li>
+          &lt;li className="form__field">
+            &lt;input type="url" onChange={ handleInputChange } name="link" value={link ? link : ''} className="form__input form__input_type_image-link" id="image-link-input" placeholder="Ссылка на картинку" required />
+            &lt;span className="form__input-error" id="image-link-input-error">&lt;/span>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/>
+    &lt;/PopupWithForm>
+  )
+}
+
+
+export default AddPlacePopup;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sun Sep 27 2020 21:24:56 GMT+0300 (GMT+03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/EditProfilePopup/EditProfilePopup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/EditProfilePopup/EditProfilePopup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useCallback } from 'react';
+import PopupWithForm from '../PopupWithForm/PopupWithForm';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
+/**
+ * @module EditProfilePopup
+ * @description Функциональный React-компонент&lt;br>
+ * Декларирует отрисовку и изменение данных профиля пользователя&lt;br>
+ * Принимает объект параметров props&lt;br>
+ * Возвращает JSX-фрагмент разметки попапа редактирования профиля пользователя
+ * @param {Object} props - объект с параметрами
+ * @param {Boolean} props.isOpen - маркер состояния попапа: true - открыт, false - закрыт
+ * @param {Function} props.onClose - функция-коллбэк, закрывает попап
+ * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею, закрывает попап
+ * @param {Function} props.onUpdateUser -  функция-коллбэк, передает параметры пользователя в компонент App 
+ * для обновления профиля пользователя
+ * @param {Boolean} props.isLoading - маркер состояния загрузки новых данных профиля пользователя: 
+ * true - идет загрузка, false - нет загрузки
+ * @returns {JSX} - JSX-фрагмент разметки, попап редактирования профиля пользователя
+ * @see {@link PopupWithForm}
+ * @since v.2.0.2
+ */
+function EditProfilePopup(props) {
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const [formValues, setFormValues] = React.useState({
+    name: '',
+    description: ''
+  });
+
+  /**
+   * @method handleInputChange
+   * @description Обработчик изменения полей инпутов формы&lt;br>
+   * Сохраняет значения полей инпутов в стейтовые переменные  
+   * @public
+   * @since v.2.0.2
+   */
+  const handleInputChange = useCallback((e) => {
+    const { name: inputName, value: inputValue } = e.target;
+    setFormValues(prevValues => {
+      return {
+        ...prevValues,
+        [inputName]: inputValue
+      };
+    });
+  }, [setFormValues]);
+
+  const { name, description } = formValues;
+
+  /**
+   * @method handleSubmit
+   * @description Обработчик сабмита формы редактирования профиля. 
+   * Вызывает коллбэк props.onUpdateUser и передает ему новые данные пользователя
+   * @public
+   * @since v.2.0.2
+   */
+  const handleSubmit = useCallback((evt) => {
+    evt.preventDefault();
+    props.onUpdateUser({
+      name: formValues.name,
+      about: formValues.description,
+    });
+  }, [props, formValues]);
+
+  /**
+   * После закрытия попапа устанавливаем актуальные данные профиля пользователя в инпутах формы
+   * @since v.2.0.2
+   * @ignore
+   */
+  React.useEffect(() => {
+    if (!props.isOpen) {
+      setFormValues({
+        name: currentUser.name,
+        description: currentUser.about
+      });
+    }
+  }, [currentUser, props.isOpen]);
+
+  return (
+    &lt;PopupWithForm
+      name="edit-profile"
+      title="Редактировать профиль"
+      submitButtonText="Сохранить"
+      isOpen={ props.isOpen }
+      onClose={ props.onClose }
+      onOverlayClick={ props.onOverlayClick }
+      onSubmit={ handleSubmit }
+      isLoading={props.isLoading }
+      preloaderText="Сохранение..."
+    >
+      &lt;>
+        &lt;ul className="form__inputs">
+          &lt;li className="form__field">
+            &lt;input type="text" onChange={ handleInputChange } className="form__input form__input_type_name" value={ name ? name : '' } name="name" id="user-name-input" placeholder="Имя" minLength="2" maxLength="40" required />
+            &lt;span className="form__input-error" id="user-name-input-error">&lt;/span>
+          &lt;/li>
+          &lt;li className="form__field">
+            &lt;input type="text" onChange={ handleInputChange } className="form__input form__input_type_job" value={ description ? description : '' } name="description" id="user-job-input" placeholder="О себе" minLength="2" maxLength="200" required />
+            &lt;span className="form__input-error" id="user-job-input-error">&lt;/span>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/>
+    &lt;/PopupWithForm>
+  );
+}
+
+export default EditProfilePopup;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sun Sep 27 2020 21:24:56 GMT+0300 (GMT+03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
