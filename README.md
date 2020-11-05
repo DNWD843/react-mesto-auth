@@ -1,7 +1,7 @@
 **ПРОЕКТ "МЕСТО - РОССИЯ"**
 
 License: Yandex.Praktikum<br>
-Version: 2.0.6<br>
+Version: 2.1.0<br>
 Author: Dmitry Neklyudov<br>
 
 **Описание**<br>
@@ -32,6 +32,9 @@ Author: Dmitry Neklyudov<br>
 `npm run jsdoc:build`
  
 **Описание версий проекта**     
+***Версия 2.1.0***      
+Добавлены аутентификация и авторизация пользователей.      
+
 ***Версия 2.0.6***       
 Валидация форм реализована с помощью пользовательского хука useFormWithValidation.
 

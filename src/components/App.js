@@ -1,4 +1,5 @@
 import React from 'react';
+import {Switch, Route, Redirect} from 'react-router-dom'
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -9,6 +10,10 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmPopup from './DeleteConfirmPopup';
+import Login from './Login';
+import Register from './Register';
+import { ROUTES_MAP } from '../utils/routesMap';
+import ProtectedRoute from './ProtectedRoute';
 
 /**
  * @description Классовый React-компонент<br> 
@@ -46,6 +51,7 @@ class App extends React.Component {
      * @param {Boolean} state.isNewCardLoading - стейт загрузки новой карточки: true - идет загрузка, false - нет загрузки
      * @param {Boolean} state.isDeleteProcessing - стейт процесса удаления карточки: 
      * true - идет удаление, false - удаление не производится
+     * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true) или нет (false)
      * @this App
      * @ignore
      */
@@ -61,7 +67,8 @@ class App extends React.Component {
       isNewProfileLoading: false,
       isNewAvatarLoading: false,
       isNewCardLoading: false,
-      isDeleteProcessing: false
+      isDeleteProcessing: false,
+      loggedIn: true,
     };
   }
 
@@ -404,15 +411,37 @@ class App extends React.Component {
         <CurrentUserContext.Provider value={ this.state.currentUser }>
           <Header />
 
-          <Main
-            onEditProfile={ this.handleEditProfileClick }
-            onAddPlace={ this.handleAddPlaceClick }
-            onEditAvatar={ this.handleEditAvatarClick }
-            onCardClick={ this.handleCardClick }
-            onCardLike={ this.handleCardLike }
-            onCardDelete={ this.handleCardDelete }
-            cards={ this.state.cards }
-          />
+          <Switch>
+            <ProtectedRoute
+              path={ ROUTES_MAP.MAIN } exact
+              loggedIn={ this.state.loggedIn }
+              onEditProfile={ this.handleEditProfileClick }
+              onAddPlace={ this.handleAddPlaceClick }
+              onEditAvatar={ this.handleEditAvatarClick }
+              onCardClick={ this.handleCardClick }
+              onCardLike={ this.handleCardLike }
+              onCardDelete={ this.handleCardDelete }
+              cards={ this.state.cards }
+              component={Main}
+            />             
+            
+            <Route path={ROUTES_MAP.SIGNUP}>
+              <Register
+                isLoading={ false }
+              />
+            </Route>
+
+            <Route path={ROUTES_MAP.SIGNIN}>
+              <Login
+                isLoading={ false }
+              />
+            </Route>
+
+            <Route path={ ROUTES_MAP.MAIN }>
+              { !this.state.loggedIn && <Redirect to="/sign-in" /> }
+            </Route>
+
+          </Switch>
 
           <Footer />
 
@@ -454,6 +483,7 @@ class App extends React.Component {
             onOverlayClick={ this.handleClickOnOverlay }
             isOpen={ this.state.isImagePopupOpen }
           />
+          
         </CurrentUserContext.Provider>
       </>
     );

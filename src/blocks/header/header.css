@@ -1,6 +1,10 @@
 @import url('./__logo/header__logo.css');
+@import url('./__link/header__link.css');
 .header {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(84, 84, 84, .7);
+  display: flex;
+  justify-content: space-between;
+
 }

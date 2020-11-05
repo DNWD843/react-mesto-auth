@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import headerLogoPath from '../images/headerLogo.svg';
 
 /**
@@ -12,6 +13,17 @@ function Header() {
   return (
     <header className="header page__header">
       <img className="header__logo" src={ headerLogoPath } alt="логотип проекта 'Место-Россия'" />
+      <Switch>
+        <Route path="/sign-in">
+          <Link to="/sign-up" className="header__link">Регистрация</Link>
+        </Route>
+        <Route path="/sign-up">
+          <Link to="/sign-in" className="header__link">Войти</Link>
+        </Route>
+        <Route path="/" exact>
+          <p style={ { color: "white" }}>Просто логин</p>
+        </Route>
+      </Switch>
     </header>
   );
 }
