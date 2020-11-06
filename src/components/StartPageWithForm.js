@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
     
-export default function StartPageForm(props) {
+function StartPageWithForm(props) {
   return (
     <div className="start-page-container page__start-page-container">
       <form onSubmit={ props.onSubmit } className={ `form start-page-container__form form_type_${props.name}` } name={ `${props.name}-form` } id={ `${props.name}-form` } >
@@ -15,3 +15,5 @@ export default function StartPageForm(props) {
     </div>
   );
 };
+
+export default StartPageWithForm;

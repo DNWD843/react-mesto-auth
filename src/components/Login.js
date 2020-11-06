@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import StartPageForm from './StartPageForm';
+import StartPageWithForm from './StartPageWithForm';
 
 export default function Login(props) {
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
@@ -10,7 +10,7 @@ export default function Login(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log('login submit');
-    
+
   };
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ export default function Login(props) {
   }, []);
 
   return (
-    <StartPageForm
+    <StartPageWithForm
       name='login'
       title='Вход'
       onSubmit={ handleSubmit }
@@ -26,7 +26,6 @@ export default function Login(props) {
       isLoading={ props.isLoading }
       submitButtonText='Войти'
       preloaderText='Вход в систему...'
-      
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -60,6 +59,6 @@ export default function Login(props) {
           </li>
         </ul>
       </>
-    </StartPageForm>
+    </StartPageWithForm>
   );
 };

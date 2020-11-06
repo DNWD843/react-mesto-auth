@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import StartPageForm from './StartPageForm';
+import StartPageWithForm from './StartPageWithForm';
+import {register} from '../utils/auth';
 
 export default function Register(props) {
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
@@ -9,7 +10,8 @@ export default function Register(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log('registered!');
+    register(userEmail, regPassword);
+
   };
 
   React.useEffect(() => {
@@ -17,7 +19,7 @@ export default function Register(props) {
   }, []);
 
   return (
-    <StartPageForm
+    <StartPageWithForm
       name='register'
       title='Регистрация'
       onSubmit={ handleSubmit }
@@ -25,7 +27,6 @@ export default function Register(props) {
       isLoading={ props.isLoading }
       submitButtonText='Зарегистрироваться'
       preloaderText='Регистрация...'
-
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -59,6 +60,6 @@ export default function Register(props) {
           </li>
         </ul>
       </>
-    </StartPageForm>
+    </StartPageWithForm>
   );
-};
+}

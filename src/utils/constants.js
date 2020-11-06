@@ -4,3 +4,5 @@ export const ROUTES_MAP = {
   SIGNUP: '/sign-up',
   NOTFOUND: '/404'
 };
+
+export const BASE_URL = 'https://api.nomoreparties.co';

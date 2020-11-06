@@ -12,7 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmPopup from './DeleteConfirmPopup';
 import Login from './Login';
 import Register from './Register';
-import { ROUTES_MAP } from '../utils/routesMap';
+import { ROUTES_MAP } from '../utils/constants';
 import ProtectedRoute from './ProtectedRoute';
 
 /**
@@ -68,7 +68,7 @@ class App extends React.Component {
       isNewAvatarLoading: false,
       isNewCardLoading: false,
       isDeleteProcessing: false,
-      loggedIn: true,
+      loggedIn: false,
     };
   }
 
@@ -483,7 +483,7 @@ class App extends React.Component {
             onOverlayClick={ this.handleClickOnOverlay }
             isOpen={ this.state.isImagePopupOpen }
           />
-          
+
         </CurrentUserContext.Provider>
       </>
     );
