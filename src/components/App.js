@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom'
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,6 +14,8 @@ import Login from './Login';
 import Register from './Register';
 import { ROUTES_MAP } from '../utils/constants';
 import ProtectedRoute from './ProtectedRoute';
+import { getToken } from '../utils/token';
+import {getContent} from '../utils/auth';
 
 /**
  * @description Классовый React-компонент<br> 
@@ -69,6 +71,7 @@ class App extends React.Component {
       isNewCardLoading: false,
       isDeleteProcessing: false,
       loggedIn: false,
+      userData: {email: ''},
     };
   }
 
@@ -360,12 +363,44 @@ class App extends React.Component {
       });
   }
 
+  handleLogin = (userData) => {
+    //e.preventDefault();
+    this.setState({
+      loggedIn: true,
+      userData
+    });
+  }
+
+  tokenCheck = () => {
+    const token = getToken();
+    console.log('tokenCheck result: ' + token);
+    if (token) {
+      getContent(token)
+        .then((res) => {
+          console.log(res);
+          if (res) {
+            const userData = {
+              email: res.data.email
+            }
+            this.setState({
+              loggedIn: true,
+              userData
+            }, () => {
+              this.props.history.push(ROUTES_MAP.MAIN);
+            });
+        }
+        })
+      .catch ((err) => console.log(err));
+    }
+  }
+
   /**
    * При монтировании компонента загружаем с сервера актуальные данные профиля пользователя
    * и карточки
    * @ignore
    */
   componentDidMount() {
+    this.tokenCheck();
     Promise.all([api.loadUserData(), api.loadCards()])
       .then(([currentUserData, initialCardsData]) => {
         this.setState({ currentUser: currentUserData });
@@ -393,7 +428,7 @@ class App extends React.Component {
         this.setState({ cards: initialCards });
       })
       .catch(err => { console.log(err); });
-  };
+  }
 
   /**
    * @method render
@@ -409,7 +444,7 @@ class App extends React.Component {
     return (
       <>
         <CurrentUserContext.Provider value={ this.state.currentUser }>
-          <Header />
+          <Header userData={this.state.userData} />
 
           <Switch>
             <ProtectedRoute
@@ -434,11 +469,12 @@ class App extends React.Component {
             <Route path={ROUTES_MAP.SIGNIN}>
               <Login
                 isLoading={ false }
+                handleLogin={this.handleLogin}
               />
             </Route>
 
             <Route path={ ROUTES_MAP.MAIN }>
-              { !this.state.loggedIn && <Redirect to="/sign-in" /> }
+              { !this.state.loggedIn ? <Redirect to={ROUTES_MAP.SIGNIN} /> : <Redirect to={ROUTES_MAP.MAIN} />}
             </Route>
 
           </Switch>
@@ -490,4 +526,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -77,7 +77,7 @@ export function useFormWithValidation() {
      * @since v.2.0.6
      */
     (newValues = {}, newErrors = {}, newIsValid = false) => {
-      setValues(newValues);
+      setValues((newValues));
       setErrors(newErrors);
       setIsValid(newIsValid);
     },

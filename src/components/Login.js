@@ -1,20 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useHistory } from 'react-router';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
+import * as auth from '../utils/auth';
 import StartPageWithForm from './StartPageWithForm';
+import { ROUTES_MAP } from '../utils/constants';
 
-export default function Login(props) {
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+function Login(props) {
+  const { values, errors, isValid, handleInputChange, setValues, resetForm } = useFormWithValidation();
+
+  const [message, setMessage] = useState('');
+  const history = useHistory();
 
   const { login, password } = values;
 
   const handleSubmit = (evt) => {
+    console.log('login: ' + login + ' , pass: ' + password);
     evt.preventDefault();
-    console.log('login submit');
-
+    if (!login || !password) {
+      return;
+    }
+    auth.authorize(password, login)
+      .then((data) => {
+        console.log(data);
+        if (!data) {
+          return setMessage('Что-то пошло не так!');
+        }
+        if (data.token) {
+          setMessage('')
+          //setValues({ ...values, login: '', password: '' });
+          const userData = { email: login };
+          props.handleLogin(userData);
+          history.push(ROUTES_MAP.MAIN);
+        } 
+      })
+      .catch((err) => console.log(err));
   };
 
   React.useEffect(() => {
     resetForm({}, {}, false);
+    //eslint-disable-next-line
   }, []);
 
   return (
@@ -62,3 +86,5 @@ export default function Login(props) {
     </StartPageWithForm>
   );
 };
+
+export default Login;

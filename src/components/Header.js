@@ -9,7 +9,8 @@ import headerLogoPath from '../images/headerLogo.svg';
  * @returns {JSX} - JSX-фрагмент разметки, блок Header
  * @since v.2.0.0
  */
-function Header() {
+function Header({userData}) {
+  const { email } = userData;
   return (
     <header className="header page__header">
       <img className="header__logo" src={ headerLogoPath } alt="логотип проекта 'Место-Россия'" />
@@ -21,7 +22,7 @@ function Header() {
           <Link to="/sign-in" className="header__link">Войти</Link>
         </Route>
         <Route path="/" exact>
-          <p style={ { color: "white" }}>Просто логин</p>
+          <p className="header__link">{email}</p>
         </Route>
       </Switch>
     </header>

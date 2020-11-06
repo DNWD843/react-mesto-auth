@@ -1,21 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
-import {register} from '../utils/auth';
+import * as auth from '../utils/auth';
+import { useHistory } from 'react-router';
+import { ROUTES_MAP } from '../utils/constants';
 
-export default function Register(props) {
+function Register(props) {
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+  
+  const [message, setMessage] = useState('');
+  const history = useHistory();
 
   const { userEmail, regPassword } = values;
+  
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    register(userEmail, regPassword);
-
+    auth.register(regPassword, userEmail)
+      .then((res) => {
+        if(res.data) {
+          setMessage('');
+          history.push(ROUTES_MAP.SIGNIN);
+          console.log('message: ' + message);
+        } else {
+          setMessage('Что-то пошло не так!');
+          console.log(message);
+        }
+      });
   };
 
   React.useEffect(() => {
     resetForm({}, {}, false);
+    //eslint-disable-next-line
   }, []);
 
   return (
@@ -63,3 +79,5 @@ export default function Register(props) {
     </StartPageWithForm>
   );
 }
+
+export default Register;
