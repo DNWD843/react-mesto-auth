@@ -22,7 +22,7 @@ function Header({userData}) {
           <Link to="/sign-in" className="header__link">Войти</Link>
         </Route>
         <Route path="/" exact>
-          <p className="header__link">{email}</p>
+          <Link to="#" className="header__link">{email}</Link>
         </Route>
       </Switch>
     </header>

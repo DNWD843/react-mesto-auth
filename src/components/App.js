@@ -12,7 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmPopup from './DeleteConfirmPopup';
 import Login from './Login';
 import Register from './Register';
-import { ROUTES_MAP } from '../utils/constants';
+import * as TO_ from '../utils/routesMap';
 import ProtectedRoute from './ProtectedRoute';
 import { getToken } from '../utils/token';
 import {getContent} from '../utils/auth';
@@ -386,7 +386,7 @@ class App extends React.Component {
               loggedIn: true,
               userData
             }, () => {
-              this.props.history.push(ROUTES_MAP.MAIN);
+              this.props.history.push(TO_.MAIN);
             });
         }
         })
@@ -448,7 +448,7 @@ class App extends React.Component {
 
           <Switch>
             <ProtectedRoute
-              path={ ROUTES_MAP.MAIN } exact
+              path={ TO_.MAIN } exact
               loggedIn={ this.state.loggedIn }
               onEditProfile={ this.handleEditProfileClick }
               onAddPlace={ this.handleAddPlaceClick }
@@ -460,21 +460,21 @@ class App extends React.Component {
               component={Main}
             />             
             
-            <Route path={ROUTES_MAP.SIGNUP}>
+            <Route path={TO_.SIGNUP}>
               <Register
                 isLoading={ false }
               />
             </Route>
 
-            <Route path={ROUTES_MAP.SIGNIN}>
+            <Route path={TO_.SIGNIN}>
               <Login
                 isLoading={ false }
                 handleLogin={this.handleLogin}
               />
             </Route>
 
-            <Route path={ ROUTES_MAP.MAIN }>
-              { !this.state.loggedIn ? <Redirect to={ROUTES_MAP.SIGNIN} /> : <Redirect to={ROUTES_MAP.MAIN} />}
+            <Route path={ TO_.MAIN }>
+              { !this.state.loggedIn ? <Redirect to={TO_.SIGNIN} /> : <Redirect to={TO_.MAIN} />}
             </Route>
 
           </Switch>

@@ -3,7 +3,7 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 import * as auth from '../utils/auth';
 import { useHistory } from 'react-router';
-import { ROUTES_MAP } from '../utils/constants';
+import * as TO_  from '../utils/routesMap';
 
 function Register(props) {
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
@@ -20,7 +20,7 @@ function Register(props) {
       .then((res) => {
         if(res.data) {
           setMessage('');
-          history.push(ROUTES_MAP.SIGNIN);
+          history.push(TO_.SIGNIN);
           console.log('message: ' + message);
         } else {
           setMessage('Что-то пошло не так!');

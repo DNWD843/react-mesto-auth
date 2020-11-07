@@ -1,11 +1,13 @@
-import { BASE_URL } from './constants';
+import * as PATH_TO_ from './endpoints';
 import { setToken } from './token';
+
+const BASE_URL = 'https://auth.nomoreparties.co';
 
 export const register = (password, email) => {
 
   console.log(email, password);
 
-  return fetch(`${BASE_URL}/signup`, {
+  return fetch(`${BASE_URL}${PATH_TO_.LOGIN}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +26,7 @@ export const register = (password, email) => {
 };
 
 export const authorize = (password, email) => {
-  return fetch(`${BASE_URL}/signin`, {
+  return fetch(`${BASE_URL}${PATH_TO_.REGISTER}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +45,7 @@ export const authorize = (password, email) => {
 };
 
 export const getContent = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
+  return fetch(`${BASE_URL}${PATH_TO_.USER}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

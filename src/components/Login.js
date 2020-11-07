@@ -3,10 +3,10 @@ import { useHistory } from 'react-router';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import * as auth from '../utils/auth';
 import StartPageWithForm from './StartPageWithForm';
-import { ROUTES_MAP } from '../utils/constants';
+import * as TO_ from '../utils/routesMap';
 
 function Login(props) {
-  const { values, errors, isValid, handleInputChange, setValues, resetForm } = useFormWithValidation();
+  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const [message, setMessage] = useState('');
   const history = useHistory();
@@ -30,7 +30,7 @@ function Login(props) {
           //setValues({ ...values, login: '', password: '' });
           const userData = { email: login };
           props.handleLogin(userData);
-          history.push(ROUTES_MAP.MAIN);
+          history.push(TO_.MAIN);
         } 
       })
       .catch((err) => console.log(err));
