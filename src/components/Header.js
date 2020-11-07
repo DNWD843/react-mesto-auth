@@ -1,6 +1,8 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, useHistory } from 'react-router-dom';
 import headerLogoPath from '../images/headerLogo.svg';
+import { TOKEN_KEY } from '../utils/token';
+import * as TO_ from '../utils/routesMap';
 
 /**
  * @module Header
@@ -11,6 +13,11 @@ import headerLogoPath from '../images/headerLogo.svg';
  */
 function Header({userData}) {
   const { email } = userData;
+  const history = useHistory();
+  function signOut() {
+    localStorage.removeItem(TOKEN_KEY);
+    history.push(TO_.SIGNIN);
+  }
   return (
     <header className="header page__header">
       <img className="header__logo" src={ headerLogoPath } alt="логотип проекта 'Место-Россия'" />
@@ -22,7 +29,15 @@ function Header({userData}) {
           <Link to="/sign-in" className="header__link">Войти</Link>
         </Route>
         <Route path="/" exact>
-          <Link to="#" className="header__link">{email}</Link>
+          <ul className="header__navbar">
+            <li className="header__navbar-item">
+              <Link to="#" className="header__link">{email}</Link>
+            </li>
+            <li className="header__navbar-item">
+              <button onClick={ signOut } className="button button_type_signout header__button-signout">Выйти</button>
+            </li>
+          </ul>
+          
         </Route>
       </Switch>
     </header>

@@ -71,7 +71,8 @@ class App extends React.Component {
       isNewCardLoading: false,
       isDeleteProcessing: false,
       loggedIn: false,
-      userData: {email: ''},
+      userData: { email: '' },
+      message: '',
     };
   }
 
@@ -373,12 +374,16 @@ class App extends React.Component {
 
   tokenCheck = () => {
     const token = getToken();
-    console.log('tokenCheck result: ' + token);
+    //console.log('tokenCheck result: ' + token);
     if (token) {
+      //let token = [1, 2, 3];
       getContent(token)
         .then((res) => {
-          console.log(res);
-          if (res) {
+          //console.log(res.message);
+          if (res.message) {
+            this.setState({ message: res.message });
+          }
+          if (res.data) {
             const userData = {
               email: res.data.email
             }
@@ -388,7 +393,7 @@ class App extends React.Component {
             }, () => {
               this.props.history.push(TO_.MAIN);
             });
-        }
+        } 
         })
       .catch ((err) => console.log(err));
     }
@@ -469,7 +474,8 @@ class App extends React.Component {
             <Route path={TO_.SIGNIN}>
               <Login
                 isLoading={ false }
-                handleLogin={this.handleLogin}
+                handleLogin={ this.handleLogin }
+                tokenCheckMessage={this.state.message}
               />
             </Route>
 

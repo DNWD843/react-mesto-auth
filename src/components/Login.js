@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import * as auth from '../utils/auth';
@@ -14,20 +14,20 @@ function Login(props) {
   const { login, password } = values;
 
   const handleSubmit = (evt) => {
-    console.log('login: ' + login + ' , pass: ' + password);
     evt.preventDefault();
     if (!login || !password) {
+      setMessage('Ошибка входа: не передано одно из полей!')
       return;
     }
     auth.authorize(password, login)
       .then((data) => {
-        console.log(data);
+        console.log(data)
         if (!data) {
-          return setMessage('Что-то пошло не так!');
+          
+          return setMessage(`Ошибка входа: пользователь с email ${login} не найден!`);
         }
         if (data.token) {
           setMessage('')
-          //setValues({ ...values, login: '', password: '' });
           const userData = { email: login };
           props.handleLogin(userData);
           history.push(TO_.MAIN);
@@ -36,10 +36,15 @@ function Login(props) {
       .catch((err) => console.log(err));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     resetForm({}, {}, false);
+    setMessage('');
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    setMessage('');
+  }, [values]);
 
   return (
     <StartPageWithForm
@@ -80,8 +85,10 @@ function Login(props) {
               maxLength="35"
             />
             <span className="form__input-error" id="user-password-input-error">{ errors.password || '' }</span>
+            <span style={ { color: "white", fontSize: "10px" } }>{ message || props.tokenCheckMessage }</span>
           </li>
         </ul>
+        
       </>
     </StartPageWithForm>
   );

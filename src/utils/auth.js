@@ -4,28 +4,6 @@ import { setToken } from './token';
 const BASE_URL = 'https://auth.nomoreparties.co';
 
 export const register = (password, email) => {
-
-  console.log(email, password);
-
-  return fetch(`${BASE_URL}${PATH_TO_.LOGIN}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ password, email })
-  })
-    .then((res) => {
-      console.log(res);
-      return res.json();
-    })
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => console.log(err));
-};
-
-export const authorize = (password, email) => {
   return fetch(`${BASE_URL}${PATH_TO_.REGISTER}`, {
     method: 'POST',
     headers: {
@@ -34,6 +12,22 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email })
   })
     .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => console.log(err));
+};
+
+export const authorize = (password, email) => {
+  return fetch(`${BASE_URL}${PATH_TO_.LOGIN}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password, email })
+  })
+    .then((res) => {
+      console.log(res.status)
+      return res.json();
+    })
     .then((data) => {
       console.log(data);
       if (data.token) {
@@ -51,12 +45,10 @@ export const getContent = (token) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
-  })
+  })   
     .then((res) => {
-      console.log(res);
-      return res.json();
+      //console.log(res.status, res);
+      return res.json()
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 }

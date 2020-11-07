@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 import * as auth from '../utils/auth';
@@ -18,21 +18,24 @@ function Register(props) {
     evt.preventDefault();
     auth.register(regPassword, userEmail)
       .then((res) => {
-        if(res.data) {
+        if (!res.data) {
+          setMessage('Некорректно заполнено одно из полей!');
+        } else {
           setMessage('');
           history.push(TO_.SIGNIN);
-          console.log('message: ' + message);
-        } else {
-          setMessage('Что-то пошло не так!');
-          console.log(message);
         }
       });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     resetForm({}, {}, false);
+    setMessage('');
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    setMessage('');
+  }, [values]);
 
   return (
     <StartPageWithForm
@@ -74,6 +77,7 @@ function Register(props) {
             />
             <span className="form__input-error" id="reg-password-input-error">{ errors.regPassword || '' }</span>
           </li>
+          <span style={ { color: "white" } }>{ message }</span>
         </ul>
       </>
     </StartPageWithForm>
