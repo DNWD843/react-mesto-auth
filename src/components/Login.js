@@ -37,7 +37,7 @@ function Login(props) {
   };
 
   useEffect(() => {
-    resetForm({}, {}, false);
+    resetForm({login: props.userData.email}, {}, false);
     setMessage('');
     //eslint-disable-next-line
   }, []);

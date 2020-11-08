@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, Redirect, withRouter} from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,18 +14,18 @@ import Login from './Login';
 import Register from './Register';
 import * as TO_ from '../utils/routesMap';
 import ProtectedRoute from './ProtectedRoute';
-import { getToken } from '../utils/token';
-import {getContent} from '../utils/auth';
+import { getToken, TOKEN_KEY } from '../utils/token';
+import { getContent } from '../utils/auth';
 
 /**
- * @description Классовый React-компонент<br> 
+ * @description Классовый React-компонент<br>
  * Главный компонент приложения<br>
  * Собирает все компоненты приложения и декларирует их отрисовку<br>
  * @returns {JSX} - JSX-разметка приложения
  * @since v.2.0.0
  */
 class App extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
 
     /**
@@ -33,27 +33,31 @@ class App extends React.Component {
      * @param {Object} state - объект со стейтами
      * @param {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
      *  управляет видимостью попапа редактирования профиля. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки, 
+     * @param {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки,
      * управляет видимостью попапа добавления карточки. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара, 
+     * @param {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара,
      * управляет видимостью попапа редактирования аватара. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления карточки,
-     * управляет видимостью попапа подтверждения удаления карточки. Начальное значение false - попап скрыт
+     * @param {Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления
+     *  карточки, управляет видимостью попапа подтверждения удаления карточки.
+     *  Начальное значение false - попап скрыт
      * @param {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Object | undefined} state.selectedCard - стейт кликнутой карточки, 
-     * Может иметь одно из двух значений: объект с данными карточки или undefined. 
+     * @param {Object | undefined} state.selectedCard - стейт кликнутой карточки,
+     * Может иметь одно из двух значений: объект с данными карточки или undefined.
      * Начальное значение undefined - карточка не определена
      * @param {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
      * @param {Array} state.cards - стейт, содержит массив объектов с данными карточек
-     * @param {Boolean} state.isNewProfileLoading - стейт загрузки новых данных профиля пользователя: 
+     * @param {Boolean} state.isNewProfileLoading - стейт загрузки новых данных профиля
+     *  пользователя:
      * true - идет загрузка, false - нет загрузки
      * @param {Boolean} state.isNewAvatarLoading - стейт загрузки нового аватара пользователя:
      * true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isNewCardLoading - стейт загрузки новой карточки: true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isDeleteProcessing - стейт процесса удаления карточки: 
+     * @param {Boolean} state.isNewCardLoading - стейт загрузки новой карточки:
+     *  true - идет загрузка, false - нет загрузки
+     * @param {Boolean} state.isDeleteProcessing - стейт процесса удаления карточки:
      * true - идет удаление, false - удаление не производится
-     * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true) или нет (false)
+     * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
+     *  или нет (false)
      * @this App
      * @ignore
      */
@@ -97,11 +101,11 @@ class App extends React.Component {
     });
   }
 
- /**
+  /**
   * @method handleEscClose
   * @description Обработчик нажатия на клавишу Escape<br>
   * Стрелочная функция, закрывает попап при нажатии клавиши Esc
-  * @param {Event} evt - событие 
+  * @param {Event} evt - событие
   * @public
   * @memberof App
   * @instance
@@ -124,7 +128,7 @@ class App extends React.Component {
    * @since v.2.0.0
    */
   handleClickOnOverlay = (evt) => {
-   /**
+    /**
      * Проверка истинности условия - клик по оверлею <br>
      * Примечание: этот метод используется как обработчик в слушателе клика на оверлее попапа<br>
      * Поэтому в данном случае условие проверяет совпадение клика именно на оверлее попапа
@@ -136,23 +140,23 @@ class App extends React.Component {
   }
 
   /**
-   * @method handleCardLike
-   * @description Обработчик клика по иконке "лайк"<br>
-   * Стрелочная функция, принимает аргументом объект с данными карточки. 
-   * Ставит или снимает "лайки", в зависимости от состояния "лайка".
-   * @param {Object} card - объект с данными лайкнутой карточки 
-   * @param {String} card.id - id лайкнутой карточки
-   * @param {Array} card.likes - массив "лайков" лайкнутой карточки
-   * @public
-   * @memberof App
-   * @instance
-   * @since v.2.0.2
-   */
+  * @method handleCardLike
+  * @description Обработчик клика по иконке "лайк"<br>
+  * Стрелочная функция, принимает аргументом объект с данными карточки.
+  * Ставит или снимает "лайки", в зависимости от состояния "лайка".
+  * @param {Object} card - объект с данными лайкнутой карточки
+  * @param {String} card.id - id лайкнутой карточки
+  * @param {Array} card.likes - массив "лайков" лайкнутой карточки
+  * @public
+  * @memberof App
+  * @instance
+  * @since v.2.0.2
+  */
   handleCardLike = (card) => {
-    const isLiked = card.likes.some(likeOwner => likeOwner._id === this.state.currentUser._id);
+    const isLiked = card.likes.some((likeOwner) => likeOwner._id === this.state.currentUser._id);
     api.changeLikeCardStatus(card.id, !isLiked)
-      .then(newCard => {
-        const newCards = this.state.cards.map(cardsItem => cardsItem.id === card.id
+      .then((newCard) => {
+        const newCards = this.state.cards.map((cardsItem) => cardsItem.id === card.id
           ? {
             id: newCard._id,
             link: newCard.link,
@@ -167,16 +171,16 @@ class App extends React.Component {
       .catch(err => { console.log(err); });
   };
 
- /**
-  * @function handleCardClick
-  * @description Обработчик клика по изображению карточки<br>
-  * Стрелочная функция, открывает попап с полноразмерным изображением карточки, 
-  * добавляет слушатель нажатия клавиши Esc
-  * @public
-  * @memberof App
-  * @instance
-  * @since v.2.0.0
-  */
+  /**
+   * @function handleCardClick
+   * @description Обработчик клика по изображению карточки<br>
+   * Стрелочная функция, открывает попап с полноразмерным изображением карточки,
+   * добавляет слушатель нажатия клавиши Esc
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.0.0
+   */
   handleCardClick = (card) => {
     document.addEventListener('keydown', this.handleEscClose);
     this.setState({ selectedCard: card });
@@ -186,7 +190,7 @@ class App extends React.Component {
   /**
    * @method handleCardDelete
    * @description Обработчик клика по иконке "удалить"<br>
-   * Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт. 
+   * Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт.
    * Открывает попап подтверждения удаления карточки
    * @param {Object} card - объект с данными удаляемой карточки
    * @public
@@ -247,7 +251,7 @@ class App extends React.Component {
    * @function handleUpdateAvatar
    * @description Обработчик сабмита формы редактирования аватара<br>
    * Изменяет аватар пользователя.<br>
-   * Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя, 
+   * Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя,
    * возвращает объект с изменнуми данными пользователя
    * @param {Object} Object - объект с новой ссылкой на аватар пользователя
    * @param {String} Object.avatar - новая ссылка на аватар пользователя
@@ -288,7 +292,7 @@ class App extends React.Component {
    * @function handleUpdateUser
    * @description Обработчик сабмита формы редактирования профиля<br>
    * Редактирует профиль пользователя.<br>
-   * Стрелочная функция, принимает объект с новыми данными профиля пользователя, 
+   * Стрелочная функция, принимает объект с новыми данными профиля пользователя,
    * возвращает объект с измененными данными профиля пользователя
    * @param {Object} Object - объект с новыми данными профиля пользователя
    * @param {String} Object.name - новое имя пользователя
@@ -330,7 +334,7 @@ class App extends React.Component {
   /**
    * @method handleAddPlaceSubmit
    * @description Обработчик сабмита формы добавления новой карточки<br>
-   * Стрелочная функция, принимает аргументом объект с данными для создания карточки, 
+   * Стрелочная функция, принимает аргументом объект с данными для создания карточки,
    * возвращает карточку, полученную с сервера
    * @param {Object} Object - объект с данными для создания карточки
    * @param {String} Object.name - название карточки
@@ -384,19 +388,22 @@ class App extends React.Component {
             this.setState({ message: res.message });
           }
           if (res.data) {
-            const userData = {
-              email: res.data.email
-            }
+
             this.setState({
               loggedIn: true,
-              userData
+              userData: { email: res.data.email }
             }, () => {
               this.props.history.push(TO_.MAIN);
             });
-        } 
+          }
         })
-      .catch ((err) => console.log(err));
+        .catch((err) => console.log(err));
     }
+  }
+
+  signOut = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    this.props.history.push(TO_.SIGNIN);
   }
 
   /**
@@ -411,7 +418,7 @@ class App extends React.Component {
         this.setState({ currentUser: currentUserData });
         /**
          * @description массив объектов с деструктурированными данными карточек
-         * @param {Object} initialCardsData - массив объектов с данными карточек, полученный 
+         * @param {Object} initialCardsData - массив объектов с данными карточек, полученный
          * после успешного запроса на сервер
          * @constant {Object} initialCards - новый массив объектов с данными карточек
          * @property {String} initialCards.id - уникальный id карточки
@@ -449,7 +456,7 @@ class App extends React.Component {
     return (
       <>
         <CurrentUserContext.Provider value={ this.state.currentUser }>
-          <Header userData={this.state.userData} />
+          <Header userData={ this.state.userData } signOut={ this.signOut } />
 
           <Switch>
             <ProtectedRoute
@@ -462,25 +469,26 @@ class App extends React.Component {
               onCardLike={ this.handleCardLike }
               onCardDelete={ this.handleCardDelete }
               cards={ this.state.cards }
-              component={Main}
-            />             
-            
-            <Route path={TO_.SIGNUP}>
+              component={ Main }
+            />
+
+            <Route path={ TO_.SIGNUP }>
               <Register
                 isLoading={ false }
               />
             </Route>
 
-            <Route path={TO_.SIGNIN}>
+            <Route path={ TO_.SIGNIN }>
               <Login
                 isLoading={ false }
                 handleLogin={ this.handleLogin }
-                tokenCheckMessage={this.state.message}
+                tokenCheckMessage={ this.state.message }
+                userData={ this.state.userData }
               />
             </Route>
 
             <Route path={ TO_.MAIN }>
-              { !this.state.loggedIn ? <Redirect to={TO_.SIGNIN} /> : <Redirect to={TO_.MAIN} />}
+              { !this.state.loggedIn ? <Redirect to={ TO_.SIGNIN } /> : <Redirect to={ TO_.MAIN } /> }
             </Route>
 
           </Switch>

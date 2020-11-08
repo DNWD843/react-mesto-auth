@@ -1,16 +1,13 @@
-.header__link {
+ .form__redirect-link {
   color: #fff;
   text-decoration: none;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 16.94px;
   opacity: 1;
   transition: opacity .15s linear;
-  align-self: flex-start;
-  margin: 6px 2px 0 0;
-  
 }
 
-.header__link:hover {
+.form__redirect-link:hover {
   opacity: 0.6;
 }

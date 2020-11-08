@@ -6,34 +6,39 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  * @module AddPlacePopup
  * @description Функциональный React-компонент<br>
  * Добавляет карточку в приложение<br>
- * Для успешного добавления карточки пользователь должен ввести корректные данные: 
- * название карточки (изображения) и ссылку (url-адрес) на изображение<br>
+ * Для успешного добавления карточки пользователь должен ввести корректные данные:
+ *  название карточки (изображения) и ссылку (url-адрес) на изображение<br>
  * Принимает объект параметров props<br>
  * Возвращает JSX-фрагмент разметки попапа добавления карточки<br>
  * @param {Object} props - объект параметров
  * @param {Function} props.onClose - функция-коллбэк, закрывает попап
- * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею, закрывает попап
- * @param {Function} props.onSubmit - функция-коллбэк, добавляет карточки в приложение при успешном сабмите формы добавления карточки
+ * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею,
+ *  закрывает попап
+ * @param {Function} props.onSubmit - функция-коллбэк, добавляет карточки в приложение при
+ *  успешном сабмите формы добавления карточки
  * @param {Boolean} props.isOpen - индикатор состояния попапа, управляет его видимостью:<br>
  *  - true - попап открыт<br>
  *  - false - попап закрыт
- * @param {Boolean} props.isLoading - индикатор состояния загрузки новой карточки, 
- * управляет отображением прелоадера загрузки:<br>
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки новой карточки,
+ *  управляет отображением прелоадера загрузки:<br>
  *  - true - идет загрузка, отображется текст-прелоадер на кнопке сабмит;<br>
  *  - false - нет загрузки, на кнопке сабмит дефолтный текст
  * @public
  * @see {@link PopupWithForm}
  * @since v.2.0.2
  */
-const AddPlacePopup = ({ isOpen, isLoading, onClose, onOverlayClick, onSubmit }) => {
-
+const AddPlacePopup = ({
+  isOpen, isLoading, onClose, onOverlayClick, onSubmit,
+}) => {
   /**
    * @constant useFormWithValidation
    * @description Запуск хука валидации формы
    * @see {@link useFormWithValidation}
    * @since v.2.0.6
    */
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+  const {
+    values, errors, isValid, handleInputChange, resetForm,
+  } = useFormWithValidation();
 
   const { title, link } = values;
 
@@ -104,6 +109,6 @@ const AddPlacePopup = ({ isOpen, isLoading, onClose, onOverlayClick, onSubmit })
       </ul>
     </PopupWithForm>
   );
-}
+};
 
 export default AddPlacePopup;

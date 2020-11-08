@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
  * Запускает валидацию формы, с которой используется. Для запуска валидации, хук
  *  импортируется в компонент с формой и запускается. Хук выполняет валидацию и вывод ошибок
  *  используя браузерную валидацию, т.е. свойство validity объекта ValidityState. Возвращает объект
- *  со стейтами и методами. 
+ *  со стейтами и методами.
  * @returns {Object}  { values, errors, isValid, handleInputChange, setValues, resetForm }
  * @since v.2.0.6
  * @public
@@ -53,7 +53,7 @@ export function useFormWithValidation() {
    */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({ ...values, [name]: value });
+    setValues({...values, [name]: value });
     setErrors({ ...errors, [name]: event.target.validationMessage });
     setIsValid(event.target.closest("form").checkValidity());
   };
@@ -61,7 +61,7 @@ export function useFormWithValidation() {
   /**
    * @method
    * @name resetForm
-   * @description Сброс формы после ввода значений<br> Если после ввода значений в форму новые значения не были 
+   * @description Сброс формы после ввода значений<br> Если после ввода значений в форму новые значения не были
    * отправлены, форма приводится в изначальное актуальное состояние установкой стейтов в необходимые состояния.
    *  Состояния стейтов передаются аргументами коллбэку метода resetForm.
    * @public
