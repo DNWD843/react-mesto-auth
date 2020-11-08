@@ -5,6 +5,7 @@
 @import url('./__photo-content/popup__photo-content.css');
 @import url('./__place-image/popup__place-image.css');
 @import url('./__place-name/popup__place-name.css');
+@import url('./__info-tool-tip/popup__info-tool-tip.css');
 .popup {
   display: -webkit-box;
   display: -ms-flexbox;

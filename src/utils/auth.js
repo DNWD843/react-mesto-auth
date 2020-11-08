@@ -1,5 +1,4 @@
 import * as PATH_TO_ from './endpoints';
-import { setToken } from './token';
 
 const BASE_URL = 'https://auth.nomoreparties.co';
 
@@ -25,13 +24,10 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email })
   })
     .then((res) => {
-      console.log(res.status)
       return res.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.token) {
-        setToken(data.token);
         return data;
       } else { return; }
     })
@@ -45,7 +41,7 @@ export const getContent = (token) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
-  })   
+  })
     .then((res) => {
       //console.log(res.status, res);
       return res.json()

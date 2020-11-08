@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * @module PopupWithForm
  * @description Функциональный React-компонент<br>

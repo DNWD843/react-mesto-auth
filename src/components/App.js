@@ -10,12 +10,13 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmPopup from './DeleteConfirmPopup';
+import InfoToolTip from './InfoToolTip';
 import Login from './Login';
 import Register from './Register';
 import * as TO_ from '../utils/routesMap';
 import ProtectedRoute from './ProtectedRoute';
-import { getToken, TOKEN_KEY } from '../utils/token';
-import { getContent } from '../utils/auth';
+import { getToken, setToken, TOKEN_KEY } from '../utils/token';
+import * as auth from '../utils/auth';
 
 /**
  * @description Классовый React-компонент<br>
@@ -67,6 +68,7 @@ class App extends React.Component {
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
       isImagePopupOpen: false,
+      isInfoToolTipOpen: false,
       selectedCard: undefined,
       currentUser: {},
       cards: [],
@@ -74,9 +76,11 @@ class App extends React.Component {
       isNewAvatarLoading: false,
       isNewCardLoading: false,
       isDeleteProcessing: false,
+      isLoading: false,
       loggedIn: false,
-      userData: { email: '' },
+      userData: { email: '', password: '' },
       message: '',
+
     };
   }
 
@@ -96,6 +100,7 @@ class App extends React.Component {
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
+      isInfoToolTipOpen: false,
       isImagePopupOpen: false,
       selectedCard: undefined,
     });
@@ -368,12 +373,67 @@ class App extends React.Component {
       });
   }
 
-  handleLogin = (userData) => {
-    //e.preventDefault();
+  toggleLoadingState = () => {
     this.setState({
-      loggedIn: true,
-      userData
+      isLoading: !this.state.isLoading
     });
+  }
+
+  handleLogin = ({password, login}) => {
+    this.toggleLoadingState();
+
+  /*if (!password || !login) {
+      this.setState({
+        message: 'Ошибка входа: не передано одно из полей!',
+      });
+      this.toggleLoadingState();
+      return;
+    }
+    */
+
+    auth.authorize(password, login)
+      .then((data) => {
+        if (!data) {
+          this.setState({
+            //message: `Ошибка входа: пользователь с email ${login} не найден!`,
+            isInfoToolTipOpen: true
+           });
+          return;
+        }
+        if (data.token) {
+          setToken(data.token);
+          this.setState({
+            message: '',
+            loggedIn: true,
+            userData: {
+              email: login,
+              password,
+            }
+          });
+          this.props.history.push(TO_.MAIN);
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => this.toggleLoadingState());
+  }
+
+  handleRegister = ({email, password}) => {
+    this.toggleLoadingState();
+    auth.register(password, email)
+    .then((res) => {
+      console.log(res);
+      if (!res.data) {
+        this.setState({ message: 'Некорректно заполнено одно из полей' });
+
+        return;
+      }
+      if(res.data) {
+        this.setState({ message: '' });
+        this.props.history.push(TO_.SIGNIN);
+      }
+    })
+    .catch((err) => console.log(err))
+    .finally(() => this.toggleLoadingState());
   }
 
   tokenCheck = () => {
@@ -381,7 +441,7 @@ class App extends React.Component {
     //console.log('tokenCheck result: ' + token);
     if (token) {
       //let token = [1, 2, 3];
-      getContent(token)
+      auth.getContent(token)
         .then((res) => {
           //console.log(res.message);
           if (res.message) {
@@ -474,16 +534,20 @@ class App extends React.Component {
 
             <Route path={ TO_.SIGNUP }>
               <Register
-                isLoading={ false }
+                isLoading={ this.state.isLoading }
+                handleRegister={ this.handleRegister}
+                registrationErrorMessage={this.state.message}
               />
             </Route>
 
             <Route path={ TO_.SIGNIN }>
               <Login
-                isLoading={ false }
+                isLoading={ this.state.isLoading }
                 handleLogin={ this.handleLogin }
-                tokenCheckMessage={ this.state.message }
                 userData={ this.state.userData }
+                loginErrorMessage={this.state.message}
+
+
               />
             </Route>
 
@@ -532,6 +596,16 @@ class App extends React.Component {
             onClose={ this.closeAllPopups }
             onOverlayClick={ this.handleClickOnOverlay }
             isOpen={ this.state.isImagePopupOpen }
+          />
+
+          <InfoToolTip
+            name="InfoToolTip"
+            isOpen={ true/*this.state.isInfoToolTipOpen */}
+            onClose={ this.closeAllPopups }
+            onOverlayClick={ this.handleClickOnOverlay }
+            titleTextSuccess="Вы успешно зарегистрировались!"
+            titleTextFail="Что-то пошло не так! Попробуйте ещё раз."
+            loggedIn={this.state.loggedIn}
           />
 
         </CurrentUserContext.Provider>
