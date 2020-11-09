@@ -8,8 +8,6 @@
   background-color: #fff;
   text-align: center;
   color: #000;
-  -webkit-transition: background-color .15s linear;
-  -o-transition: background-color .15s linear;
   transition: background-color .15s linear;
 }
 

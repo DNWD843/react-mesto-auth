@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import headerLogoPath from '../images/headerLogo.svg';
+import {SIGNIN, SIGNUP, MAIN} from '../utils/routesMap';
 
 /**
  * @module Header
@@ -11,19 +12,19 @@ import headerLogoPath from '../images/headerLogo.svg';
  * @since v.2.0.0
  */
 function Header(props) {
-    
+
   return (
     <header className="header page__header">
       <img className="header__logo" src={ headerLogoPath } alt="логотип проекта 'Место-Россия'" />
       <Switch>
-        <Route path="/sign-in">
-          <Link to="/sign-up" className="header__link">Регистрация</Link>
+        <Route path={SIGNIN}>
+          <Link to={SIGNUP} className="header__link">{props.signupLinkText}</Link>
         </Route>
-        <Route path="/sign-up">
-          <Link to="/sign-in" className="header__link">Войти</Link>
+        <Route path={SIGNUP}>
+          <Link to={SIGNIN} className="header__link">{props.signinLinkText}</Link>
         </Route>
-        <Route path="/" exact>
-          <Navbar {...props} />          
+        <Route path={MAIN} exact>
+          <Navbar signOutButtonText="Выйти" {...props} />
         </Route>
       </Switch>
     </header>

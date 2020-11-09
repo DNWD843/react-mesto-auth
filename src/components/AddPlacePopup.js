@@ -36,9 +36,7 @@ const AddPlacePopup = ({
    * @see {@link useFormWithValidation}
    * @since v.2.0.6
    */
-  const {
-    values, errors, isValid, handleInputChange, resetForm,
-  } = useFormWithValidation();
+  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { title, link } = values;
 
@@ -69,13 +67,13 @@ const AddPlacePopup = ({
       name="add-photo"
       title="Новое место"
       submitButtonText="Создать"
-      isOpen={ isOpen }
-      onClose={ onClose }
-      onOverlayClick={ onOverlayClick }
-      onSubmit={ handleSubmit }
-      isLoading={ isLoading }
+      isOpen={isOpen}
+      onClose={onClose}
+      onOverlayClick={onOverlayClick}
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
       preloaderText="Сохранение..."
-      isDisabled={ !isValid }
+      isDisabled={!isValid}
     >
       <ul className="form__inputs">
         <li className="form__field">
@@ -83,28 +81,28 @@ const AddPlacePopup = ({
             id="place-title-input"
             name="title"
             type="text"
-            onChange={ handleInputChange }
-            value={ title || '' }
+            onChange={handleInputChange}
+            value={title || ''}
             className="form__input form__input_type_place-title"
             placeholder="Название"
             required
             minLength="3"
             maxLength="30"
           />
-          <span className="form__input-error">{ errors.title }</span>
+          <span className="form__input-error">{errors.title}</span>
         </li>
         <li className="form__field">
           <input
             id="image-link-input"
             name="link"
             type="url"
-            onChange={ handleInputChange }
-            value={ link || '' }
+            onChange={handleInputChange}
+            value={link || ''}
             className="form__input form__input_type_image-link"
             placeholder="Ссылка на картинку"
             required
           />
-          <span className="form__input-error">{ errors.link }</span>
+          <span className="form__input-error">{errors.link}</span>
         </li>
       </ul>
     </PopupWithForm>

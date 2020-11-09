@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 
-function Login(props) {
+function Login({isLoading, handleLogin, userData}) {
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
-  const [message, setMessage] = useState(props.loginErrorMessage);
+  //const [message, setMessage] = useState(props.loginErrorMessage);
   const { login, password } = values;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const userData = { password, login };
-    props.handleLogin(userData);
+    handleLogin(userData);
   };
 
   useEffect(() => {
-    resetForm({ login: props.userData.email, password: props.userData.password }, {});
+    resetForm({ login: userData.email, password: userData.password }, {});
     //eslint-disable-next-line
   }, []);
-
+/*
   useEffect(() => {
     setMessage(props.loginErrorMessage)
   }, [props]);
@@ -25,16 +25,18 @@ function Login(props) {
   useEffect(() => {
     setMessage('')
   }, [values]);
-
+*/
   return (
     <StartPageWithForm
       name='login'
       title='Вход'
       onSubmit={handleSubmit}
       isDisabled={!isValid}
-      isLoading={props.isLoading}
+      isLoading={isLoading}
       submitButtonText='Войти'
       preloaderText='Выполняется вход...'
+      redirectTitleText="Уже зарегистрированы? "
+      redirectLinkText="Войти"
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -67,10 +69,9 @@ function Login(props) {
               maxLength="35"
             />
             <span className="form__input-error" id="user-password-input-error">{errors.password || ''}</span>
-            <span style={{ color: "white", fontSize: "10px" }}>{message || ''}</span>
+           {/* <span style={{ color: "white", fontSize: "10px" }}>{message || ''}</span>*/}
           </li>
         </ul>
-
       </>
     </StartPageWithForm>
   );

@@ -11,7 +11,7 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email })
   })
     .then((res) => res.json())
-    .then((res) => res)
+    //.then((res) => res)
     .catch((err) => console.log(err));
 };
 
@@ -23,14 +23,8 @@ export const authorize = (password, email) => {
     },
     body: JSON.stringify({ password, email })
   })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      if (data.token) {
-        return data;
-      } else { return; }
-    })
+    .then((res) => res.json())
+   // .then((res) => res)
     .catch((err) => console.log(err));
 };
 
@@ -42,9 +36,6 @@ export const getContent = (token) => {
       'Authorization': `Bearer ${token}`
     }
   })
-    .then((res) => {
-      //console.log(res.status, res);
-      return res.json()
-    })
+    .then((res) => res.json())
     .catch((err) => console.log(err));
-}
+};

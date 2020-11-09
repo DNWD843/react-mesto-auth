@@ -33,14 +33,13 @@ class App extends React.Component {
      * @description Объявление стейтов и установка их начальных значений
      * @param {Object} state - объект со стейтами
      * @param {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
-     *  управляет видимостью попапа редактирования профиля. Начальное значение false - попап скрыт
+     *  управляет видимостью попапа. Начальное значение false - попап скрыт
      * @param {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки,
-     * управляет видимостью попапа добавления карточки. Начальное значение false - попап скрыт
+     * управляет видимостью попапа. Начальное значение false - попап скрыт
      * @param {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара,
-     * управляет видимостью попапа редактирования аватара. Начальное значение false - попап скрыт
+     * управляет видимостью попапа. Начальное значение false - попап скрыт
      * @param {Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления
-     *  карточки, управляет видимостью попапа подтверждения удаления карточки.
-     *  Начальное значение false - попап скрыт
+     *  карточки, управляет видимостью попапа. Начальное значение false - попап скрыт
      * @param {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
      * @param {Object | undefined} state.selectedCard - стейт кликнутой карточки,
@@ -59,16 +58,25 @@ class App extends React.Component {
      * true - идет удаление, false - удаление не производится
      * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
      *  или нет (false)
+     * @param {Object} state.userData - стейт, объект с данными пользователя
+     * @param {String} state.userData.email - емэйл пользователя (логин профиля)
+     * @param {String} state.userData.password - пароль профиля пользователя
+     * @param {Boolean} state.isInfoToolTipOpen - стейт попапа подсказки о результате авторизации,
+     *  управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @param {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняетсяб
+     *  false- процесс не выполняется
      * @this App
      * @ignore
      */
+
+    /*@param {String} state.message - стейт сообщения об ошибке, используется как буфер для
+      сохранения ошибок из разных компонентов приложения */
     this.state = {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
       isImagePopupOpen: false,
-      isInfoToolTipOpen: false,
       selectedCard: undefined,
       currentUser: {},
       cards: [],
@@ -76,10 +84,11 @@ class App extends React.Component {
       isNewAvatarLoading: false,
       isNewCardLoading: false,
       isDeleteProcessing: false,
-      isLoading: false,
       loggedIn: false,
       userData: { email: '', password: '' },
-      message: '',
+      isInfoToolTipOpen: false,
+      isLoading: false,
+      //message: '',
 
     };
   }
@@ -100,9 +109,9 @@ class App extends React.Component {
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
-      isInfoToolTipOpen: false,
       isImagePopupOpen: false,
       selectedCard: undefined,
+      isInfoToolTipOpen: false,
     });
   }
 
@@ -373,88 +382,101 @@ class App extends React.Component {
       });
   }
 
-  toggleLoadingState = () => {
-    this.setState({
-      isLoading: !this.state.isLoading
-    });
+  handleRegister = ({ email, password }) => {
+    this.setState({ isLoading: true });
+
+    auth.register(password, email)
+      .then((res) => {
+
+        if (!res.data) {
+          this.setState({
+            loggedIn: false,
+            //message: 'Некорректно заполнено одно из полей',
+            isInfoToolTipOpen: true,
+          });
+          return;
+        }
+
+        if (res.data) {
+          /*  this.setState({
+              //message: '',
+            });*/
+          this.props.history.push(TO_.SIGNIN);
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
   }
+  handleLogin = ({ password, login }) => {
+    this.setState({
+      isLoading: true
+    })
 
-  handleLogin = ({password, login}) => {
-    this.toggleLoadingState();
-
-  /*if (!password || !login) {
-      this.setState({
-        message: 'Ошибка входа: не передано одно из полей!',
-      });
-      this.toggleLoadingState();
-      return;
-    }
-    */
+    /*if (!password || !login) {
+        this.setState({
+          message: 'Ошибка входа: не передано одно из полей!',
+        });
+        this.toggleLoadingState();
+        return;
+      }
+      */
 
     auth.authorize(password, login)
       .then((data) => {
         if (!data) {
           this.setState({
             //message: `Ошибка входа: пользователь с email ${login} не найден!`,
-            isInfoToolTipOpen: true
-           });
+            loggedIn: false,
+            isInfoToolTipOpen: true,
+          });
           return;
         }
         if (data.token) {
           setToken(data.token);
           this.setState({
-            message: '',
+            //message: '',
             loggedIn: true,
             userData: {
               email: login,
               password,
-            }
+            },
+            isInfoToolTipOpen: true,
           });
           this.props.history.push(TO_.MAIN);
+        } else {
+          this.setState({
+            //message: `Ошибка входа: пользователь с email ${login} не найден!`,
+            loggedIn: false,
+            isInfoToolTipOpen: true,
+          });
+          return;
         }
       })
       .catch((err) => console.log(err))
-      .finally(() => this.toggleLoadingState());
-  }
-
-  handleRegister = ({email, password}) => {
-    this.toggleLoadingState();
-    auth.register(password, email)
-    .then((res) => {
-      console.log(res);
-      if (!res.data) {
-        this.setState({ message: 'Некорректно заполнено одно из полей' });
-
-        return;
-      }
-      if(res.data) {
-        this.setState({ message: '' });
-        this.props.history.push(TO_.SIGNIN);
-      }
-    })
-    .catch((err) => console.log(err))
-    .finally(() => this.toggleLoadingState());
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   tokenCheck = () => {
     const token = getToken();
-    //console.log('tokenCheck result: ' + token);
     if (token) {
-      //let token = [1, 2, 3];
       auth.getContent(token)
         .then((res) => {
-          //console.log(res.message);
-          if (res.message) {
-            this.setState({ message: res.message });
-          }
-          if (res.data) {
 
+          if (res.data) {
             this.setState({
               loggedIn: true,
               userData: { email: res.data.email }
             }, () => {
               this.props.history.push(TO_.MAIN);
             });
+          } else {
+            console.log(res);
+            this.setState({
+              //message: `Ошибка входа: пользователь с email ${login} не найден!`,
+              loggedIn: false,
+              isInfoToolTipOpen: true,
+            });
+            return;
           }
         })
         .catch((err) => console.log(err));
@@ -476,6 +498,7 @@ class App extends React.Component {
     Promise.all([api.loadUserData(), api.loadCards()])
       .then(([currentUserData, initialCardsData]) => {
         this.setState({ currentUser: currentUserData });
+
         /**
          * @description массив объектов с деструктурированными данными карточек
          * @param {Object} initialCardsData - массив объектов с данными карточек, полученный
@@ -515,94 +538,96 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <CurrentUserContext.Provider value={ this.state.currentUser }>
-          <Header userData={ this.state.userData } signOut={ this.signOut } />
+        <CurrentUserContext.Provider value={this.state.currentUser}>
+          <Header
+            userData={this.state.userData}
+            signOut={this.signOut}
+            signinLinkText="Войти"
+            signupLinkText="Регистрация"
+          />
 
           <Switch>
             <ProtectedRoute
-              path={ TO_.MAIN } exact
-              loggedIn={ this.state.loggedIn }
-              onEditProfile={ this.handleEditProfileClick }
-              onAddPlace={ this.handleAddPlaceClick }
-              onEditAvatar={ this.handleEditAvatarClick }
-              onCardClick={ this.handleCardClick }
-              onCardLike={ this.handleCardLike }
-              onCardDelete={ this.handleCardDelete }
-              cards={ this.state.cards }
-              component={ Main }
+              path={TO_.MAIN} exact
+              loggedIn={this.state.loggedIn}
+              onEditProfile={this.handleEditProfileClick}
+              onAddPlace={this.handleAddPlaceClick}
+              onEditAvatar={this.handleEditAvatarClick}
+              onCardClick={this.handleCardClick}
+              onCardLike={this.handleCardLike}
+              onCardDelete={this.handleCardDelete}
+              cards={this.state.cards}
+              component={Main}
             />
 
-            <Route path={ TO_.SIGNUP }>
+            <Route path={TO_.SIGNUP}>
               <Register
-                isLoading={ this.state.isLoading }
-                handleRegister={ this.handleRegister}
-                registrationErrorMessage={this.state.message}
+                isLoading={this.state.isLoading}
+                handleRegister={this.handleRegister}
+              //registrationErrorMessage={this.state.message}
               />
             </Route>
 
-            <Route path={ TO_.SIGNIN }>
+            <Route path={TO_.SIGNIN}>
               <Login
-                isLoading={ this.state.isLoading }
-                handleLogin={ this.handleLogin }
-                userData={ this.state.userData }
-                loginErrorMessage={this.state.message}
-
-
+                isLoading={this.state.isLoading}
+                handleLogin={this.handleLogin}
+                userData={this.state.userData}
+              //loginErrorMessage={this.state.message}
               />
             </Route>
 
-            <Route path={ TO_.MAIN }>
-              { !this.state.loggedIn ? <Redirect to={ TO_.SIGNIN } /> : <Redirect to={ TO_.MAIN } /> }
+            <Route path={TO_.MAIN}>
+              {!this.state.loggedIn ? <Redirect to={TO_.SIGNIN} /> : <Redirect to={TO_.MAIN} />}
             </Route>
-
           </Switch>
 
           <Footer />
 
           <EditProfilePopup
-            isOpen={ this.state.isEditProfilePopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onUpdateUser={ this.handleUpdateUser }
-            isLoading={ this.state.isNewProfileLoading }
+            isOpen={this.state.isEditProfilePopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onUpdateUser={this.handleUpdateUser}
+            isLoading={this.state.isNewProfileLoading}
           />
 
           <EditAvatarPopup
-            isOpen={ this.state.isEditAvatarPopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onUpdateAvatar={ this.handleUpdateAvatar }
-            isLoading={ this.state.isNewAvatarLoading }
+            isOpen={this.state.isEditAvatarPopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onUpdateAvatar={this.handleUpdateAvatar}
+            isLoading={this.state.isNewAvatarLoading}
           />
 
           <AddPlacePopup
-            isOpen={ this.state.isAddPlacePopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onSubmit={ this.handleAddPlaceSubmit }
-            isLoading={ this.state.isNewCardLoading }
+            isOpen={this.state.isAddPlacePopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onSubmit={this.handleAddPlaceSubmit}
+            isLoading={this.state.isNewCardLoading}
           />
 
           <DeleteConfirmPopup
-            isOpen={ this.state.isDeleteConfirmPopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onSubmit={ this.handleDeleteConfirm }
-            isProcessing={ this.state.isDeleteProcessing }
+            isOpen={this.state.isDeleteConfirmPopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onSubmit={this.handleDeleteConfirm}
+            isProcessing={this.state.isDeleteProcessing}
           />
 
           <ImagePopup
-            card={ this.state.selectedCard }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            isOpen={ this.state.isImagePopupOpen }
+            card={this.state.selectedCard}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            isOpen={this.state.isImagePopupOpen}
           />
 
           <InfoToolTip
             name="InfoToolTip"
-            isOpen={ true/*this.state.isInfoToolTipOpen */}
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
+            isOpen={this.state.isInfoToolTipOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
             titleTextSuccess="Вы успешно зарегистрировались!"
             titleTextFail="Что-то пошло не так! Попробуйте ещё раз."
             loggedIn={this.state.loggedIn}

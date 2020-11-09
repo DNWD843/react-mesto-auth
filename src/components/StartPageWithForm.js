@@ -1,18 +1,47 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import { SIGNIN, SIGNUP } from '../utils/routesMap';
-    
-function StartPageWithForm(props) {
+
+function StartPageWithForm({
+  name, title, onSubmit, isDisabled, isLoading, submitButtonText, preloaderText, redirectTitleText, redirectLinkText, children,
+}) {
   return (
     <div className="start-page-container page__start-page-container">
-      <form onSubmit={ props.onSubmit } className={ `form start-page-container__form form_type_${props.name}` } name={ `${props.name}-form` } id={ `${props.name}-form` } >
-        <h2 className="form__title form__title_type_start">{ props.title }</h2>
-        { props.children }
-        <button type="submit" disabled={ props.isDisabled } className={ `button ${props.isDisabled ? 'button_type_submit-inactive' : 'button_type_submit-start'} form__submit-button form__submit-button_type_start` } name={ `${props.name}-button` } value={ props.submitButtonText }>{ props.isLoading ? props.preloaderText : props.submitButtonText }</button>
-        
-        <Route path={ SIGNUP }>
-          <p className="form__redirect-title" style={ { color: "white", fontSize: "14px" } }>Уже зарегистрированы? <Link to={ SIGNIN } className="form__redirect-link">Войти</Link></p>
-        </Route>
+      <form
+        onSubmit={onSubmit}
+        className={`form start-page-container__form form_type_${name}`}
+        name={`${name}-form`}
+        id={`${name}-form`}
+      >
+        <h2 className="form__title form__title_type_start">{title}</h2>
+        {children}
+        <button
+          type="submit"
+          disabled={isDisabled}
+          className={`button ${isDisabled ? 'button_type_submit-inactive' : 'button_type_submit-start'} form__submit-button form__submit-button_type_start`}
+          name={`${name}-button`}
+          value={submitButtonText}
+        >
+          {isLoading ? preloaderText : submitButtonText}
+        </button>
+        <Switch>
+          <Route path={SIGNUP}>
+            <p className="form__redirect-title">
+              {redirectTitleText}
+              <Link to={SIGNIN} className="form__redirect-link">
+                {redirectLinkText}
+              </Link>
+            </p>
+          </Route>
+          <Route path={SIGNIN}>
+            <p className="form__redirect-title hidden-block">
+              {redirectTitleText}
+              <Link to="#" className="form__redirect-link hidden-block">
+                {redirectLinkText}
+              </Link>
+            </p>
+          </Route>
+        </Switch>
       </form>
     </div>
   );

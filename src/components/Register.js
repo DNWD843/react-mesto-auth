@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 
-function Register(props) {
+function Register({isLoading, handleRegister}){
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
-  const [message, setMessage] = useState(props.registrationErrorMessage);
+  //const [message, setMessage] = useState(props.registrationErrorMessage);
 
   const { regEmail, regPassword } = values;
 
@@ -14,14 +14,14 @@ function Register(props) {
       email: regEmail,
       password: regPassword
     }
-    props.handleRegister(userRegistrationData);
+    handleRegister(userRegistrationData);
   };
 
   useEffect(() => {
     resetForm({}, {}, false);
     //eslint-disable-next-line
   }, []);
-
+/*
   useEffect(() => {
     setMessage(props.registrationErrorMessage)
   }, [props]);
@@ -29,6 +29,7 @@ function Register(props) {
   useEffect(() => {
     setMessage('')
   }, [values]);
+  */
 
   return (
     <StartPageWithForm
@@ -36,9 +37,11 @@ function Register(props) {
       title='Регистрация'
       onSubmit={handleSubmit}
       isDisabled={!isValid}
-      isLoading={props.isLoading}
+      isLoading={isLoading}
       submitButtonText='Зарегистрироваться'
       preloaderText='Регистрация...'
+      redirectTitleText="Уже зарегистрированы? "
+      redirectLinkText="Войти"
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -72,7 +75,7 @@ function Register(props) {
             />
             <span className="form__input-error" id="reg-password-input-error">{errors.regPassword || ''}</span>
           </li>
-          <span style={{ color: "white" }}>{message}</span>
+          {/*<span style={{ color: "white" }}>{message}</span>*/}
         </ul>
       </>
     </StartPageWithForm>
