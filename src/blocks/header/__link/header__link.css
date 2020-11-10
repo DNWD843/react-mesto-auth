@@ -7,10 +7,16 @@
   opacity: 1;
   transition: opacity .15s linear;
   align-self: flex-start;
-  margin: 6px 2px 0 0;
-  
+  margin: 6px 0 0 0;
 }
 
 .header__link:hover {
   opacity: 0.6;
+}
+
+@media screen and (max-width: 425px) {
+  .header__link {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

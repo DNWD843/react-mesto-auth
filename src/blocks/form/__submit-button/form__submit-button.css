@@ -5,7 +5,7 @@
   padding: 14px 0;
 }
 
-@media screen and (max-width: 823px) {
+@media screen and (max-width: 720px) {
   .form__submit-button {
     font-size: 14px;
     line-height: 17px;

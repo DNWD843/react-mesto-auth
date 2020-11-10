@@ -6,3 +6,9 @@
   background-repeat: no-repeat;
   margin: 0 0 32px 0;
 }
+
+@media screen and (max-width: 720px) {
+  .info-tool-tip__image {
+    margin-bottom: 40px;
+  }
+}

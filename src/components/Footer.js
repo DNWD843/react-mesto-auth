@@ -1,4 +1,6 @@
 import React from 'react';
+import {Route} from 'react-router-dom';
+import {MAIN} from '../utils/routesMap';
 
 /**
  * @module Footer
@@ -9,9 +11,11 @@ import React from 'react';
  */
 function Footer() {
   return (
-    <footer className="footer">
-      <p className="footer__copyright">&#169; 2020 Mesto Russia</p>
-    </footer>
+    <Route path={MAIN} exact>
+      <footer className="footer">
+        <p className="footer__copyright">&#169; 2020 Mesto Russia</p>
+      </footer>
+    </Route>
   );
 }
 

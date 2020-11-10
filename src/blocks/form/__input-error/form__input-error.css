@@ -10,7 +10,7 @@
   z-index: 2;
 }
 
-@media screen and (max-width: 823px) {
+@media screen and (max-width: 720px) {
   .form__input-error {
     font-size: 9px;
     line-height: 1.25;

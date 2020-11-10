@@ -3,8 +3,8 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 
 function Register({isLoading, handleRegister}){
+
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
-  //const [message, setMessage] = useState(props.registrationErrorMessage);
 
   const { regEmail, regPassword } = values;
 
@@ -21,15 +21,6 @@ function Register({isLoading, handleRegister}){
     resetForm({}, {}, false);
     //eslint-disable-next-line
   }, []);
-/*
-  useEffect(() => {
-    setMessage(props.registrationErrorMessage)
-  }, [props]);
-
-  useEffect(() => {
-    setMessage('')
-  }, [values]);
-  */
 
   return (
     <StartPageWithForm
@@ -45,7 +36,7 @@ function Register({isLoading, handleRegister}){
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
-          <li className="form__field">
+          <li className="form__field form__field_type_start">
             <input
               id="reg-email"
               name="regEmail"
@@ -75,7 +66,6 @@ function Register({isLoading, handleRegister}){
             />
             <span className="form__input-error" id="reg-password-input-error">{errors.regPassword || ''}</span>
           </li>
-          {/*<span style={{ color: "white" }}>{message}</span>*/}
         </ul>
       </>
     </StartPageWithForm>

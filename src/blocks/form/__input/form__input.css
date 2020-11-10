@@ -12,7 +12,7 @@
   margin: 0;
 }
 
-@media screen and (max-width: 823px) {
+@media screen and (max-width: 720px) {
   .form__input {
     font-size: 12px;
     line-height: 1.25;

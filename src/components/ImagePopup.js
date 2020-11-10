@@ -22,7 +22,7 @@ function ImagePopup(props) {
   return (
     <div onClick={ props.onOverlayClick } className={ `popup page__overlay page__overlay_theme_dark popup_type_view-photo ${props.isOpen ? 'popup_opened' : ''}` } id="view">
       <div className="popup__container">
-        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-photo-button" name="close-photo" value="Закрыть фото"></button>
+        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button popup__close-button_type_photo" name="close-photo" value="Закрыть фото"></button>
         <figure className="popup__photo-content">
           <img className="popup__place-image" src={ `${props.card ? props.card.link : '#'}  ` } alt={ `${props.card ? props.card.title : 'изображение'}` } />
           <figcaption className="popup__place-name">{ `${props.card ? props.card.title : 'изображение'}` }</figcaption>

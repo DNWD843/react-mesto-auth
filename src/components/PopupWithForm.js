@@ -33,7 +33,7 @@ function PopupWithForm(props) {
   return (
     <div onClick={ props.onOverlayClick } className={ `popup page__overlay page__overlay_theme_light popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}` } id={ props.name }>
       <div className="popup__container">
-        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button" name="close-popup" value="Закрыть"></button>
+        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button popup__close-button_type_modal" name="close-popup" value="Закрыть"></button>
         <form onSubmit={ props.onSubmit } className={ `form popup__form form_type_${props.name}` } name={ `${props.name}-form` } id={ `${props.name}-form` } >
           <h2 className="form__title">{ props.title }</h2>
           { props.children }

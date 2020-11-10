@@ -4,7 +4,7 @@
   position: relative;
 }
 
-@media screen and (max-width: 823px) {
+@media screen and (max-width: 720px) {
   .form__field {
     margin-bottom: 13px;
   }

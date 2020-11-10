@@ -11,7 +11,6 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email })
   })
     .then((res) => res.json())
-    //.then((res) => res)
     .catch((err) => console.log(err));
 };
 
@@ -24,7 +23,6 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email })
   })
     .then((res) => res.json())
-   // .then((res) => res)
     .catch((err) => console.log(err));
 };
 

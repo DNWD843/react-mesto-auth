@@ -5,6 +5,7 @@
 @import url('./__inputs/form__inputs.css');
 @import url('./__inputs/_type/form__inputs_type_start.css');
 @import url('./__field/form__field.css');
+@import url('./__field/_type/form__field_type_start.css');
 @import url('./__input/form__input.css');
 @import url('./__input/_type/form__input_type_error.css');
 @import url('./__input/_type/form__input_type_start.css');
@@ -32,7 +33,7 @@
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 823px) {
+@media screen and (max-width: 720px) {
   .form {
     padding: 30px 20px 30px;
   }

@@ -47,15 +47,8 @@ class App extends React.Component {
      * Начальное значение undefined - карточка не определена
      * @param {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
      * @param {Array} state.cards - стейт, содержит массив объектов с данными карточек
-     * @param {Boolean} state.isNewProfileLoading - стейт загрузки новых данных профиля
-     *  пользователя:
-     * true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isNewAvatarLoading - стейт загрузки нового аватара пользователя:
-     * true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isNewCardLoading - стейт загрузки новой карточки:
-     *  true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isDeleteProcessing - стейт процесса удаления карточки:
-     * true - идет удаление, false - удаление не производится
+     * @param {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняетсяб
+     *  false- процесс не выполняется
      * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
      *  или нет (false)
      * @param {Object} state.userData - стейт, объект с данными пользователя
@@ -63,14 +56,9 @@ class App extends React.Component {
      * @param {String} state.userData.password - пароль профиля пользователя
      * @param {Boolean} state.isInfoToolTipOpen - стейт попапа подсказки о результате авторизации,
      *  управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняетсяб
-     *  false- процесс не выполняется
      * @this App
      * @ignore
      */
-
-    /*@param {String} state.message - стейт сообщения об ошибке, используется как буфер для
-      сохранения ошибок из разных компонентов приложения */
     this.state = {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
@@ -80,16 +68,13 @@ class App extends React.Component {
       selectedCard: undefined,
       currentUser: {},
       cards: [],
-      isNewProfileLoading: false,
-      isNewAvatarLoading: false,
-      isNewCardLoading: false,
-      isDeleteProcessing: false,
-      loggedIn: false,
-      userData: { email: '', password: '' },
-      isInfoToolTipOpen: false,
       isLoading: false,
-      //message: '',
-
+      loggedIn: false,
+      userData: {
+        email: '',
+        password: '',
+      },
+      isInfoToolTipOpen: false,
     };
   }
 
@@ -182,7 +167,7 @@ class App extends React.Component {
           : cardsItem);
         this.setState({ cards: newCards });
       })
-      .catch(err => { console.log(err); });
+      .catch((err) => { console.log(err); });
   };
 
   /**
@@ -230,7 +215,7 @@ class App extends React.Component {
   handleDeleteConfirm = (evt) => {
     evt.preventDefault();
     const card = this.state.selectedCard;
-    this.setState({ isDeleteProcessing: true });
+    this.setState({ isLoading: true });
 
     api.deleteCard(card.id)
       .then(() => {
@@ -240,9 +225,9 @@ class App extends React.Component {
         this.setState({ cards: newCards });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isDeleteProcessing: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -275,15 +260,15 @@ class App extends React.Component {
    * @since v.2.0.2
    */
   handleUpdateAvatar = ({ avatar }) => {
-    this.setState({ isNewAvatarLoading: true });
+    this.setState({ isLoading: true });
     api.editAvatar(avatar)
-      .then(res => {
+      .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewAvatarLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -317,16 +302,16 @@ class App extends React.Component {
    * @since v.2.0.2
    */
   handleUpdateUser = ({ name, about }) => {
-    this.setState({ isNewProfileLoading: true });
+    this.setState({ isLoading: true });
 
     api.editProfile({ name, about })
-      .then(res => {
+      .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewProfileLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -360,7 +345,7 @@ class App extends React.Component {
    * @since v.2.0.2
    */
   handleAddPlaceSubmit = ({ name, link }) => {
-    this.setState({ isNewCardLoading: true });
+    this.setState({ isLoading: true });
 
     api.addNewCard({ name, link })
       .then((newCard) => {
@@ -376,80 +361,56 @@ class App extends React.Component {
         this.setState({ cards: resultCardsArr });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewCardLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
-  handleRegister = ({ email, password }) => {
+  handleRegister = ({ password, email }) => {
     this.setState({ isLoading: true });
 
     auth.register(password, email)
       .then((res) => {
-
-        if (!res.data) {
+        if (res.data) {
+          this.props.history.push(TO_.SIGNIN);
+        } else {
           this.setState({
             loggedIn: false,
-            //message: 'Некорректно заполнено одно из полей',
             isInfoToolTipOpen: true,
+          }, () => {
+            console.log(res);
           });
-          return;
-        }
-
-        if (res.data) {
-          /*  this.setState({
-              //message: '',
-            });*/
-          this.props.history.push(TO_.SIGNIN);
         }
       })
       .catch((err) => console.log(err))
       .finally(() => this.setState({ isLoading: false }));
   }
-  handleLogin = ({ password, login }) => {
-    this.setState({
-      isLoading: true
-    })
 
-    /*if (!password || !login) {
-        this.setState({
-          message: 'Ошибка входа: не передано одно из полей!',
-        });
-        this.toggleLoadingState();
-        return;
-      }
-      */
+  handleLogin = ({ password, login }) => {
+    this.setState({isLoading: true});
 
     auth.authorize(password, login)
-      .then((data) => {
-        if (!data) {
+      .then((res) => {
+        if (res.token) {
+          setToken(res.token);
           this.setState({
-            //message: `Ошибка входа: пользователь с email ${login} не найден!`,
-            loggedIn: false,
-            isInfoToolTipOpen: true,
-          });
-          return;
-        }
-        if (data.token) {
-          setToken(data.token);
-          this.setState({
-            //message: '',
             loggedIn: true,
             userData: {
               email: login,
               password,
             },
             isInfoToolTipOpen: true,
+          }, () => {
+            this.props.history.push(TO_.MAIN);
           });
-          this.props.history.push(TO_.MAIN);
         } else {
           this.setState({
-            //message: `Ошибка входа: пользователь с email ${login} не найден!`,
             loggedIn: false,
             isInfoToolTipOpen: true,
+          }, () => {
+            console.log(res);
           });
-          return;
         }
       })
       .catch((err) => console.log(err))
@@ -461,7 +422,6 @@ class App extends React.Component {
     if (token) {
       auth.getContent(token)
         .then((res) => {
-
           if (res.data) {
             this.setState({
               loggedIn: true,
@@ -470,13 +430,12 @@ class App extends React.Component {
               this.props.history.push(TO_.MAIN);
             });
           } else {
-            console.log(res);
             this.setState({
-              //message: `Ошибка входа: пользователь с email ${login} не найден!`,
               loggedIn: false,
               isInfoToolTipOpen: true,
+            }, () => {
+              console.log(res);
             });
-            return;
           }
         })
         .catch((err) => console.log(err));
@@ -564,7 +523,6 @@ class App extends React.Component {
               <Register
                 isLoading={this.state.isLoading}
                 handleRegister={this.handleRegister}
-              //registrationErrorMessage={this.state.message}
               />
             </Route>
 
@@ -573,7 +531,6 @@ class App extends React.Component {
                 isLoading={this.state.isLoading}
                 handleLogin={this.handleLogin}
                 userData={this.state.userData}
-              //loginErrorMessage={this.state.message}
               />
             </Route>
 
@@ -589,7 +546,7 @@ class App extends React.Component {
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
             onUpdateUser={this.handleUpdateUser}
-            isLoading={this.state.isNewProfileLoading}
+            isLoading={this.state.isLoading}
           />
 
           <EditAvatarPopup
@@ -597,7 +554,7 @@ class App extends React.Component {
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
             onUpdateAvatar={this.handleUpdateAvatar}
-            isLoading={this.state.isNewAvatarLoading}
+            isLoading={this.state.isLoading}
           />
 
           <AddPlacePopup
@@ -605,7 +562,7 @@ class App extends React.Component {
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
             onSubmit={this.handleAddPlaceSubmit}
-            isLoading={this.state.isNewCardLoading}
+            isLoading={this.state.isLoading}
           />
 
           <DeleteConfirmPopup
@@ -613,7 +570,7 @@ class App extends React.Component {
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
             onSubmit={this.handleDeleteConfirm}
-            isProcessing={this.state.isDeleteProcessing}
+            isProcessing={this.state.isLoading}
           />
 
           <ImagePopup
@@ -624,7 +581,7 @@ class App extends React.Component {
           />
 
           <InfoToolTip
-            name="InfoToolTip"
+            name="info-tool-tip"
             isOpen={this.state.isInfoToolTipOpen}
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
