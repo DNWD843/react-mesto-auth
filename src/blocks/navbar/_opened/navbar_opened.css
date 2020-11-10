@@ -1,0 +1,11 @@
+.navbar_opened {
+  margin: 40px auto;
+}
+
+/*
+
+@media screen and (max-width: 425px){
+  .navbar-opened {
+    margin: 40px auto 40px;
+  }
+}*/

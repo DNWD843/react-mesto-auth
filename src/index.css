@@ -13,5 +13,7 @@
 @import url('./blocks/popup/_opened/popup_opened.css');
 @import url('./blocks/start-page-container/start-page-container.css');
 @import url('./blocks/navbar/navbar.css');
+@import url('./blocks/navbar/_type/navbar_type_mobile.css');
 @import url('./blocks/info-tool-tip/info-tool-tip.css');
 @import url('./blocks/hidden-block/hidden-block.css');
+@import url('./blocks/navbar/_opened/navbar_opened.css');

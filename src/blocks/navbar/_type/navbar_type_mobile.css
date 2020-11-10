@@ -1,0 +1,28 @@
+.navbar_type_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 619px){
+  .navbar_type_mobile {
+    position: relative;
+    margin: -103px auto 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: margin .3s linear;
+  }
+/*
+  #navbar-menu:checked+.navbar_type_mobile {
+    margin: -10px auto 40px;
+  }
+}*/
+/*
+@media screen and (max-width: 425px){
+  .navbar_type_mobile {
+    margin: -102px auto 40px;
+  }*/
+/*
+  #navbar-menu:checked+.navbar_type_mobile {
+    margin: 12px auto 40px;
+  }*/
+}

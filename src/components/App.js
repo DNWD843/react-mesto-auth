@@ -17,6 +17,7 @@ import * as TO_ from '../utils/routesMap';
 import ProtectedRoute from './ProtectedRoute';
 import { getToken, setToken, TOKEN_KEY } from '../utils/token';
 import * as auth from '../utils/auth';
+import NavBarMobile from './NavBarMobile';
 
 /**
  * @description Классовый React-компонент<br>
@@ -75,6 +76,7 @@ class App extends React.Component {
         password: '',
       },
       isInfoToolTipOpen: false,
+      isMenuOpened: false,
     };
   }
 
@@ -443,8 +445,13 @@ class App extends React.Component {
   }
 
   signOut = () => {
+    this.setState({isMenuOpened: false});
     localStorage.removeItem(TOKEN_KEY);
     this.props.history.push(TO_.SIGNIN);
+  }
+
+  handleMenuButtonClick = () => {
+    this.setState({isMenuOpened: !this.state.isMenuOpened});
   }
 
   /**
@@ -498,11 +505,22 @@ class App extends React.Component {
     return (
       <>
         <CurrentUserContext.Provider value={this.state.currentUser}>
+
+
+          <NavBarMobile
+            signOutButtonText="Выйти"
+            signOut={this.signOut}
+            email={this.state.userData.email}
+            isMenuOpened={this.state.isMenuOpened}
+          />
+
           <Header
             userData={this.state.userData}
             signOut={this.signOut}
             signinLinkText="Войти"
             signupLinkText="Регистрация"
+            handleClick={this.handleMenuButtonClick}
+            isMenuOpened={this.state.isMenuOpened}
           />
 
           <Switch>

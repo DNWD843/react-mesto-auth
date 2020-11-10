@@ -1,6 +1,10 @@
 @import url('./__item/navbar__item.css');
 @import url('./__button-signout/navbar__button-signout.css');
 @import url('./__link/navbar__link.css');
+@import url('./__checkbox/navbar__checkbox.css');
+@import url('./__menu/navbar__menu.css');
+@import url('./__menu/_closed/navbar__menu_closed.css');
+@import url('./__menu/_opened/navbar__menu_opened.css');
 
 .navbar {
   display: flex;
@@ -11,7 +15,6 @@
 
 @media screen and (max-width: 619px) {
   .navbar {
-    flex-direction: column;
-    align-items: center;
+    display: none;
   }
 }
