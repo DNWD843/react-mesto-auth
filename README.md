@@ -70,6 +70,5 @@ Author: Dmitry Neklyudov<br>
  Cборка webpack.
 
  **Посмотреть проект**<br>
- <a href="https://dnwd843.github.io/react-mesto-auth/">***Посмотреть v.2.0.6***</a><br>
+ <a href="https://dnwd843.github.io/react-mesto-auth/">***Посмотреть v.2.1.0***</a><br>
  <a href="http://dnwd843.github.io/mesto/">***Посмотреть v.1.0.0***</a>
-
