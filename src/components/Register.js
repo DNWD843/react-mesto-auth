@@ -2,8 +2,23 @@ import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 
-function Register({isLoading, handleRegister}){
-
+/**
+ * @module Register
+ * @description Функциональный React-компонент<br>
+ * Форма регистрации в приложении. Отправляет запрос на регистрацию пользователя.
+ * @param {Object} props - пропсы, принимаемые компонентом
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки, используется для информирования пользовтаеля
+ *  о том, что инициированный им процесс выполняется
+ * @param {Function} props.handleRegister - функция-коллбэк, вызывается при сабмите формы регистрации, отправляет данные
+ *  пользователя на сервер для его регистрации.
+ * @returns {JSX} - JSX-фрагмент разметки, форма регистрации в приложении
+ * @since v.2.1.0
+ */
+function Register({ isLoading, handleRegister }) {
+  /**
+   * Подключаем пользовательский хук работы с формой и валидации полей формы
+   * @ignore
+   */
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { regEmail, regPassword } = values;
@@ -17,6 +32,10 @@ function Register({isLoading, handleRegister}){
     handleRegister(userRegistrationData);
   };
 
+  /**
+   * При открытии или обновлении формы все ее поля очищаются.
+   * @ignore
+   */
   useEffect(() => {
     resetForm({}, {}, false);
     //eslint-disable-next-line

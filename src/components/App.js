@@ -17,7 +17,7 @@ import * as TO_ from '../utils/routesMap';
 import ProtectedRoute from './ProtectedRoute';
 import { getToken, setToken, TOKEN_KEY } from '../utils/token';
 import * as auth from '../utils/auth';
-import NavBarMobile from './NavBarMobile';
+import NavBar from './NavBar';
 
 /**
  * @description Классовый React-компонент<br>
@@ -33,32 +33,34 @@ class App extends React.Component {
     /**
      * @description Объявление стейтов и установка их начальных значений
      * @param {Object} state - объект со стейтами
-     * @param {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
+     * @property {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
      *  управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки,
+     * @property {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара,
+     * @property {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления
+     * @property{Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления
      *  карточки, управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
+     * @property {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Object | undefined} state.selectedCard - стейт кликнутой карточки,
+     * @property {Object | undefined} state.selectedCard - стейт кликнутой карточки,
      * Может иметь одно из двух значений: объект с данными карточки или undefined.
      * Начальное значение undefined - карточка не определена
-     * @param {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
-     * @param {Array} state.cards - стейт, содержит массив объектов с данными карточек
-     * @param {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняетсяб
+     * @property {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
+     * @property {Array} state.cards - стейт, содержит массив объектов с данными карточек
+     * @property {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняется,
      *  false- процесс не выполняется
-     * @param {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
+     * @property {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
      *  или нет (false)
-     * @param {Object} state.userData - стейт, объект с данными пользователя
-     * @param {String} state.userData.email - емэйл пользователя (логин профиля)
-     * @param {String} state.userData.password - пароль профиля пользователя
-     * @param {Boolean} state.isInfoToolTipOpen - стейт попапа подсказки о результате авторизации,
+     * @property {Object} state.userData - стейт, объект с данными пользователя
+     * @property {String} state.userData.email - емэйл пользователя (логин профиля)
+     * @property {String} state.userData.password - пароль, указанный пользователем при входе
+     * @property{String} state.userData.password - пароль профиля пользователя
+     * @property {Boolean} state.isInfoToolTipOpen - стейт попапа подсказки о результате авторизации,
      *  управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property {Boolean} state.isMenuOpened - стейт состояния меню на мобильном разрешении,
+     *  управляет изображением кнопки открытия/закрытия меню.
      * @this App
-     * @ignore
      */
     this.state = {
       isEditProfilePopupOpen: false,
@@ -152,6 +154,7 @@ class App extends React.Component {
   * @memberof App
   * @instance
   * @since v.2.0.2
+  * @see {@link Card}
   */
   handleCardLike = (card) => {
     const isLiked = card.likes.some((likeOwner) => likeOwner._id === this.state.currentUser._id);
@@ -181,6 +184,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Card}
    */
   handleCardClick = (card) => {
     document.addEventListener('keydown', this.handleEscClose);
@@ -198,6 +202,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.4
+   * @see {@link Card}
    */
   handleCardDelete = (card) => {
     this.setState({ isDeleteConfirmPopupOpen: true });
@@ -213,6 +218,8 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.4
+   * @see {@link Card}
+   * @see {@link DeleteConfirmPopup}
    */
   handleDeleteConfirm = (evt) => {
     evt.preventDefault();
@@ -241,6 +248,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleEditAvatarClick = () => {
     document.activeElement.blur();
@@ -260,6 +268,7 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.2
+   * @see {@link EditAvatarPopup}
    */
   handleUpdateAvatar = ({ avatar }) => {
     this.setState({ isLoading: true });
@@ -282,6 +291,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleEditProfileClick = () => {
     document.activeElement.blur();
@@ -302,6 +312,7 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.2
+   * @see {@link EditProfilePopup}
    */
   handleUpdateUser = ({ name, about }) => {
     this.setState({ isLoading: true });
@@ -325,6 +336,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleAddPlaceClick = () => {
     document.activeElement.blur();
@@ -345,6 +357,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.2
+   * @see {@link AddPlacePopup}
    */
   handleAddPlaceSubmit = ({ name, link }) => {
     this.setState({ isLoading: true });
@@ -369,9 +382,27 @@ class App extends React.Component {
       });
   }
 
+  /**
+   * @method handleRegister
+   * @description Обработчик сабмита в форме регистрации<br>
+   *  Собирает данные, введенные пользователем в форму, отправляет запрос на создание
+   *  учетной записи пользователя, в случае успеха переадресовывает на форму входа в приложение.
+   * @param {Oblect} userData - объект с данными пользователя из формы регистрации
+   * @param {String} userData.email - емэйл (логин), введенный пользователем при регистрации
+   * @param {String} userData.password - пароль, введенный пользователем при регистрации
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link Register}
+   */
   handleRegister = ({ password, email }) => {
     this.setState({ isLoading: true });
-
+    /**
+     * Метод запроса на регистрацию пользователя
+     * @see auth
+     * @ignore
+     */
     auth.register(password, email)
       .then((res) => {
         if (res.data) {
@@ -389,9 +420,28 @@ class App extends React.Component {
       .finally(() => this.setState({ isLoading: false }));
   }
 
+  /**
+   * @method handleLogin
+   * @description Обработчик сабмита в форме входа<br>
+   * Собирает данные, введенные пользователем в форму, отправляет запрос на авторизацию пользователя,
+   *  в случае успеха данные пользователя из формы, сохраняет токен, полученный в ответе от сервера,
+   *  переадресовывает на главную страницу приложения.
+   * @param {Object} userData - объект с данными пользователя из формы входа
+   * @param {String} userData.login - емэйл (логин), введенный пользователем при входе
+   * @param {String} userData.password - пароль, введенный пользователем при входе
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link Login}
+   */
   handleLogin = ({ password, login }) => {
-    this.setState({isLoading: true});
-
+    this.setState({ isLoading: true });
+    /**
+     * Метод запроса на авторизацию пользователя
+     * @see auth
+     * @ignore
+     */
     auth.authorize(password, login)
       .then((res) => {
         if (res.token) {
@@ -419,9 +469,26 @@ class App extends React.Component {
       .finally(() => this.setState({ isLoading: false }));
   }
 
+  /**
+   * @method tokenCheck
+   * @description Метод проверки токена<br>
+   * Если в локальном хранилище браузера сохранен токен, метод отправляет его на сервер для проверки
+   *  его действительности. Если токен действующий - пользователь сразу автоматически авторизуется
+   *  и перенаправляется на главную страницу приложения со своими учетными данными.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link App}
+   */
   tokenCheck = () => {
     const token = getToken();
     if (token) {
+      /**
+       * Метод запроса проверки токена
+       * @see auth
+       * @igore
+       */
       auth.getContent(token)
         .then((res) => {
           if (res.data) {
@@ -444,14 +511,35 @@ class App extends React.Component {
     }
   }
 
-  signOut = () => {
-    this.setState({isMenuOpened: false});
+  /**
+   * @method handleSignoutButtonClick
+   * @description Обработчик клика по кнопке "Выйти"<br>
+   * Пользователь выходит из профиля на форму входа, токен пользователя удаляется.
+   *  Для входа в приложение требуется повторная авторизация.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link NavBar}
+   */
+  handleSignoutButtonClick = () => {
+    this.setState({ isMenuOpened: false });
     localStorage.removeItem(TOKEN_KEY);
     this.props.history.push(TO_.SIGNIN);
   }
 
+  /**
+   * @method handleMenuButtonClick
+   * @description Обработчик клика по кнопке открытия/закрытия меню<br>
+   * Открывает или закрывает меню, содержащее ссылки на профил пользователя и выход из приложения.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link NavBar}
+   */
   handleMenuButtonClick = () => {
-    this.setState({isMenuOpened: !this.state.isMenuOpened});
+    this.setState({ isMenuOpened: !this.state.isMenuOpened });
   }
 
   /**
@@ -506,21 +594,24 @@ class App extends React.Component {
       <>
         <CurrentUserContext.Provider value={this.state.currentUser}>
 
-
-          <NavBarMobile
+          <NavBar
             signOutButtonText="Выйти"
-            signOut={this.signOut}
+            handleSignoutButtonClick={this.handleSignoutButtonClick}
             email={this.state.userData.email}
+            handleMenuClick={this.handleMenuButtonClick}
             isMenuOpened={this.state.isMenuOpened}
+            isDropdownMenu={true}
           />
 
           <Header
-            userData={this.state.userData}
-            signOut={this.signOut}
             signinLinkText="Войти"
             signupLinkText="Регистрация"
-            handleClick={this.handleMenuButtonClick}
+            signOutButtonText="Выйти"
+            handleSignoutButtonClick={this.handleSignoutButtonClick}
+            email={this.state.userData.email}
+            handleMenuClick={this.handleMenuButtonClick}
             isMenuOpened={this.state.isMenuOpened}
+            isDropdownMenu={false}
           />
 
           <Switch>

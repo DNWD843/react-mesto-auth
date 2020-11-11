@@ -2,8 +2,30 @@ import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import StartPageWithForm from './StartPageWithForm';
 
-function Login({isLoading, handleLogin, userData}) {
-
+/**
+ * @module Login
+ * @description Функциональный React-компонент<br>
+ * Форма входа (авторизации) на стартовой странице приложения. После выхода из
+ *  приложения пользователь имеет возможность сразу повторно войти в приложение не вводя
+ *  свои учетные данные, т.к. они сохранены и вставлены в поля форму. Однако, если пользователь
+ *  обновит страницу или закроет ее - данные сотрутся, форма очистится, потребуется повторная авторизация.
+ * @param {Object} props - пропсы, принимаемые компонентом
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки, используется для информирования пользовтаеля
+ *  о том, что инициированный им процесс выполняется
+ * @param {Function} props.handleLogin - функция-коллбэк, вызывается при сабмите формы входа, отправляет данные
+ *  пользователя на сервер для проверки его регистрации и получения токена.
+ * @param {Object} props.userData - объект с данными пользователя. Принимаются для подстановки в форму входа,
+ * если пользователь выходит из приложения.
+ * @param {String} props.userData.login - емэйл (логин), введенный пользователем при входе
+ * @param {String} props.userData.password - пароль, введенный пользователем при входе
+ * @returns {JSX} - JSX-фрагмент разметки, форма авторизации в приложении
+ * @since v.2.1.0
+ */
+function Login({ isLoading, handleLogin, userData }) {
+  /**
+   * Подключаем пользовательский хук работы с формой и валидации полей формы
+   * @ignore
+   */
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { login, password } = values;
@@ -12,8 +34,13 @@ function Login({isLoading, handleLogin, userData}) {
     evt.preventDefault();
     const userData = { password, login };
     handleLogin(userData);
-  };
+  }
 
+  /**
+   * При первом выходе из приложения пользовательские данные подставляются в форму, пользователь может
+   *  сразу войти обратно. После обновления страницы данные сотрутся.
+   * @ignore
+   */
   useEffect(() => {
     resetForm({ login: userData.email, password: userData.password }, {});
     //eslint-disable-next-line

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import Navbar from './Navbar';
+import NavBar from './NavBar';
 import headerLogoPath from '../images/headerLogo.svg';
 import {SIGNIN, SIGNUP, MAIN} from '../utils/routesMap';
 
@@ -12,7 +12,6 @@ import {SIGNIN, SIGNUP, MAIN} from '../utils/routesMap';
  * @since v.2.0.0
  */
 function Header(props) {
-
   return (
     <header className="header page__header">
       <img className="header__logo" src={ headerLogoPath } alt="логотип проекта 'Место-Россия'" />
@@ -24,7 +23,7 @@ function Header(props) {
           <Link to={SIGNIN} className="header__link">{props.signinLinkText}</Link>
         </Route>
         <Route path={MAIN} exact>
-          <Navbar signOutButtonText="Выйти" {...props} />
+          <NavBar {...props} />
         </Route>
       </Switch>
     </header>

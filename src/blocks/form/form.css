@@ -13,7 +13,6 @@
 @import url('./__input-error/_active/form__input-error_active.css');
 @import url('./__redirect-link/form__redirect-link.css');
 @import url('./__redirect-title/form__redirect-title.css');
-
 .form {
   display: -webkit-box;
   display: -ms-flexbox;

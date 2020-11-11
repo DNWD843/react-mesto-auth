@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Register.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Register.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect } from 'react';
+import { useFormWithValidation } from '../hooks/useFormWithValidation';
+import StartPageWithForm from './StartPageWithForm';
+
+/**
+ * @module Register
+ * @description Функциональный React-компонент&lt;br>
+ * Форма регистрации в приложении. Отправляет запрос на регистрацию пользователя.
+ * @param {Object} props - пропсы, принимаемые компонентом
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки, используется для информирования пользовтаеля
+ *  о том, что инициированный им процесс выполняется
+ * @param {Function} props.handleRegister - функция-коллбэк, вызывается при сабмите формы регистрации, отправляет данные
+ *  пользователя на сервер для его регистрации.
+ * @returns {JSX} - JSX-фрагмент разметки, форма регистрации в приложении
+ * @since v.2.1.0
+ */
+function Register({ isLoading, handleRegister }) {
+  /**
+   * Подключаем пользовательский хук работы с формой и валидации полей формы
+   * @ignore
+   */
+  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+
+  const { regEmail, regPassword } = values;
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const userRegistrationData = {
+      email: regEmail,
+      password: regPassword
+    }
+    handleRegister(userRegistrationData);
+  };
+
+  /**
+   * При открытии или обновлении формы все ее поля очищаются.
+   * @ignore
+   */
+  useEffect(() => {
+    resetForm({}, {}, false);
+    //eslint-disable-next-line
+  }, []);
+
+  return (
+    &lt;StartPageWithForm
+      name='register'
+      title='Регистрация'
+      onSubmit={handleSubmit}
+      isDisabled={!isValid}
+      isLoading={isLoading}
+      submitButtonText='Зарегистрироваться'
+      preloaderText='Регистрация...'
+      redirectTitleText="Уже зарегистрированы? "
+      redirectLinkText="Войти"
+    >
+      &lt;>
+        &lt;ul className="form__inputs form__inputs_type_start">
+          &lt;li className="form__field form__field_type_start">
+            &lt;input
+              id="reg-email"
+              name="regEmail"
+              type="email"
+              onChange={handleInputChange}
+              onFocus={handleInputChange}
+              value={regEmail || ''}
+              className="form__input form__input_type_start form__input_type_reg-email"
+              placeholder="Email"
+              required
+            />
+            &lt;span className="form__input-error" id="user-email-input-error">{errors.regEmail || ''}&lt;/span>
+          &lt;/li>
+          &lt;li className="form__field">
+            &lt;input
+              id="reg-password"
+              name="regPassword"
+              type="password"
+              onChange={handleInputChange}
+              onFocus={handleInputChange}
+              value={regPassword || ''}
+              className="form__input form__input_type_start form__input_type_reg-password"
+              placeholder="Пароль"
+              required
+              minLength="3"
+              maxLength="35"
+            />
+            &lt;span className="form__input-error" id="reg-password-input-error">{errors.regPassword || ''}&lt;/span>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/>
+    &lt;/StartPageWithForm>
+  );
+}
+
+export default Register;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-ProtectedRoute.html">ProtectedRoute</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 05:14:32 GMT+0300 (Москва, стандартное время)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

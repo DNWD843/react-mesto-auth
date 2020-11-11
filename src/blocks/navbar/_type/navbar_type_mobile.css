@@ -11,18 +11,4 @@
     align-items: center;
     transition: margin .3s linear;
   }
-/*
-  #navbar-menu:checked+.navbar_type_mobile {
-    margin: -10px auto 40px;
-  }
-}*/
-/*
-@media screen and (max-width: 425px){
-  .navbar_type_mobile {
-    margin: -102px auto 40px;
-  }*/
-/*
-  #navbar-menu:checked+.navbar_type_mobile {
-    margin: 12px auto 40px;
-  }*/
 }

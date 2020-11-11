@@ -1,3 +1,7 @@
+/**
+ * Роуты
+ * @ignore
+ */
 export const MAIN = '/';
 
 export const SIGNIN = '/sign-in';

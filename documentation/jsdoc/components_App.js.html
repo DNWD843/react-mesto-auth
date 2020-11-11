@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -37,45 +38,57 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmPopup from './DeleteConfirmPopup';
+import InfoToolTip from './InfoToolTip';
+import Login from './Login';
+import Register from './Register';
+import * as TO_ from '../utils/routesMap';
+import ProtectedRoute from './ProtectedRoute';
+import { getToken, setToken, TOKEN_KEY } from '../utils/token';
+import * as auth from '../utils/auth';
+import NavBar from './NavBar';
 
 /**
- * @description Классовый React-компонент&lt;br> 
+ * @description Классовый React-компонент&lt;br>
  * Главный компонент приложения&lt;br>
  * Собирает все компоненты приложения и декларирует их отрисовку&lt;br>
  * @returns {JSX} - JSX-разметка приложения
  * @since v.2.0.0
  */
 class App extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
 
     /**
      * @description Объявление стейтов и установка их начальных значений
      * @param {Object} state - объект со стейтами
-     * @param {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
-     *  управляет видимостью попапа редактирования профиля. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки, 
-     * управляет видимостью попапа добавления карточки. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара, 
-     * управляет видимостью попапа редактирования аватара. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления карточки,
-     * управляет видимостью попапа подтверждения удаления карточки. Начальное значение false - попап скрыт
-     * @param {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
+     * @property {Boolean} state.isEditProfilePopupOpen - стейт попапа редактирования профиля,
+     *  управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property {Boolean} state.isAddPlacePopupOpen - стейт попапа добавления карточки,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
-     * @param {Object | undefined} state.selectedCard - стейт кликнутой карточки, 
-     * Может иметь одно из двух значений: объект с данными карточки или undefined. 
+     * @property {Boolean} state.isEditAvatarPopupOpen - стейт попапа редактирования аватара,
+     * управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property{Boolean} state.isDeleteConfirmPopupOpen - стейт попапа подтверждения удаления
+     *  карточки, управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
+     * управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property {Object | undefined} state.selectedCard - стейт кликнутой карточки,
+     * Может иметь одно из двух значений: объект с данными карточки или undefined.
      * Начальное значение undefined - карточка не определена
-     * @param {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
-     * @param {Array} state.cards - стейт, содержит массив объектов с данными карточек
-     * @param {Boolean} state.isNewProfileLoading - стейт загрузки новых данных профиля пользователя: 
-     * true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isNewAvatarLoading - стейт загрузки нового аватара пользователя:
-     * true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isNewCardLoading - стейт загрузки новой карточки: true - идет загрузка, false - нет загрузки
-     * @param {Boolean} state.isDeleteProcessing - стейт процесса удаления карточки: 
-     * true - идет удаление, false - удаление не производится
+     * @property {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
+     * @property {Array} state.cards - стейт, содержит массив объектов с данными карточек
+     * @property {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняется,
+     *  false- процесс не выполняется
+     * @property {Boolean} state.loggedIn - стейт статуса пользователя: залогинен (true)
+     *  или нет (false)
+     * @property {Object} state.userData - стейт, объект с данными пользователя
+     * @property {String} state.userData.email - емэйл пользователя (логин профиля)
+     * @property {String} state.userData.password - пароль, указанный пользователем при входе
+     * @property{String} state.userData.password - пароль профиля пользователя
+     * @property {Boolean} state.isInfoToolTipOpen - стейт попапа подсказки о результате авторизации,
+     *  управляет видимостью попапа. Начальное значение false - попап скрыт
+     * @property {Boolean} state.isMenuOpened - стейт состояния меню на мобильном разрешении,
+     *  управляет изображением кнопки открытия/закрытия меню.
      * @this App
-     * @ignore
      */
     this.state = {
       isEditProfilePopupOpen: false,
@@ -86,10 +99,14 @@ class App extends React.Component {
       selectedCard: undefined,
       currentUser: {},
       cards: [],
-      isNewProfileLoading: false,
-      isNewAvatarLoading: false,
-      isNewCardLoading: false,
-      isDeleteProcessing: false
+      isLoading: false,
+      loggedIn: false,
+      userData: {
+        email: '',
+        password: '',
+      },
+      isInfoToolTipOpen: false,
+      isMenuOpened: false,
     };
   }
 
@@ -111,14 +128,15 @@ class App extends React.Component {
       isDeleteConfirmPopupOpen: false,
       isImagePopupOpen: false,
       selectedCard: undefined,
+      isInfoToolTipOpen: false,
     });
   }
 
- /**
+  /**
   * @method handleEscClose
   * @description Обработчик нажатия на клавишу Escape&lt;br>
   * Стрелочная функция, закрывает попап при нажатии клавиши Esc
-  * @param {Event} evt - событие 
+  * @param {Event} evt - событие
   * @public
   * @memberof App
   * @instance
@@ -141,7 +159,7 @@ class App extends React.Component {
    * @since v.2.0.0
    */
   handleClickOnOverlay = (evt) => {
-   /**
+    /**
      * Проверка истинности условия - клик по оверлею &lt;br>
      * Примечание: этот метод используется как обработчик в слушателе клика на оверлее попапа&lt;br>
      * Поэтому в данном случае условие проверяет совпадение клика именно на оверлее попапа
@@ -153,23 +171,24 @@ class App extends React.Component {
   }
 
   /**
-   * @method handleCardLike
-   * @description Обработчик клика по иконке "лайк"&lt;br>
-   * Стрелочная функция, принимает аргументом объект с данными карточки. 
-   * Ставит или снимает "лайки", в зависимости от состояния "лайка".
-   * @param {Object} card - объект с данными лайкнутой карточки 
-   * @param {String} card.id - id лайкнутой карточки
-   * @param {Array} card.likes - массив "лайков" лайкнутой карточки
-   * @public
-   * @memberof App
-   * @instance
-   * @since v.2.0.2
-   */
+  * @method handleCardLike
+  * @description Обработчик клика по иконке "лайк"&lt;br>
+  * Стрелочная функция, принимает аргументом объект с данными карточки.
+  * Ставит или снимает "лайки", в зависимости от состояния "лайка".
+  * @param {Object} card - объект с данными лайкнутой карточки
+  * @param {String} card.id - id лайкнутой карточки
+  * @param {Array} card.likes - массив "лайков" лайкнутой карточки
+  * @public
+  * @memberof App
+  * @instance
+  * @since v.2.0.2
+  * @see {@link Card}
+  */
   handleCardLike = (card) => {
-    const isLiked = card.likes.some(likeOwner => likeOwner._id === this.state.currentUser._id);
+    const isLiked = card.likes.some((likeOwner) => likeOwner._id === this.state.currentUser._id);
     api.changeLikeCardStatus(card.id, !isLiked)
-      .then(newCard => {
-        const newCards = this.state.cards.map(cardsItem => cardsItem.id === card.id
+      .then((newCard) => {
+        const newCards = this.state.cards.map((cardsItem) => cardsItem.id === card.id
           ? {
             id: newCard._id,
             link: newCard.link,
@@ -181,19 +200,20 @@ class App extends React.Component {
           : cardsItem);
         this.setState({ cards: newCards });
       })
-      .catch(err => { console.log(err); });
+      .catch((err) => { console.log(err); });
   };
 
- /**
-  * @function handleCardClick
-  * @description Обработчик клика по изображению карточки&lt;br>
-  * Стрелочная функция, открывает попап с полноразмерным изображением карточки, 
-  * добавляет слушатель нажатия клавиши Esc
-  * @public
-  * @memberof App
-  * @instance
-  * @since v.2.0.0
-  */
+  /**
+   * @function handleCardClick
+   * @description Обработчик клика по изображению карточки&lt;br>
+   * Стрелочная функция, открывает попап с полноразмерным изображением карточки,
+   * добавляет слушатель нажатия клавиши Esc
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.0.0
+   * @see {@link Card}
+   */
   handleCardClick = (card) => {
     document.addEventListener('keydown', this.handleEscClose);
     this.setState({ selectedCard: card });
@@ -203,13 +223,14 @@ class App extends React.Component {
   /**
    * @method handleCardDelete
    * @description Обработчик клика по иконке "удалить"&lt;br>
-   * Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт. 
+   * Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт.
    * Открывает попап подтверждения удаления карточки
    * @param {Object} card - объект с данными удаляемой карточки
    * @public
    * @memberof App
    * @instance
    * @since v.2.0.4
+   * @see {@link Card}
    */
   handleCardDelete = (card) => {
     this.setState({ isDeleteConfirmPopupOpen: true });
@@ -225,11 +246,13 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.4
+   * @see {@link Card}
+   * @see {@link DeleteConfirmPopup}
    */
   handleDeleteConfirm = (evt) => {
     evt.preventDefault();
     const card = this.state.selectedCard;
-    this.setState({ isDeleteProcessing: true });
+    this.setState({ isLoading: true });
 
     api.deleteCard(card.id)
       .then(() => {
@@ -239,9 +262,9 @@ class App extends React.Component {
         this.setState({ cards: newCards });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isDeleteProcessing: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -253,6 +276,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleEditAvatarClick = () => {
     document.activeElement.blur();
@@ -264,7 +288,7 @@ class App extends React.Component {
    * @function handleUpdateAvatar
    * @description Обработчик сабмита формы редактирования аватара&lt;br>
    * Изменяет аватар пользователя.&lt;br>
-   * Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя, 
+   * Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя,
    * возвращает объект с изменнуми данными пользователя
    * @param {Object} Object - объект с новой ссылкой на аватар пользователя
    * @param {String} Object.avatar - новая ссылка на аватар пользователя
@@ -272,17 +296,18 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.2
+   * @see {@link EditAvatarPopup}
    */
   handleUpdateAvatar = ({ avatar }) => {
-    this.setState({ isNewAvatarLoading: true });
+    this.setState({ isLoading: true });
     api.editAvatar(avatar)
-      .then(res => {
+      .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewAvatarLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -294,6 +319,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleEditProfileClick = () => {
     document.activeElement.blur();
@@ -305,7 +331,7 @@ class App extends React.Component {
    * @function handleUpdateUser
    * @description Обработчик сабмита формы редактирования профиля&lt;br>
    * Редактирует профиль пользователя.&lt;br>
-   * Стрелочная функция, принимает объект с новыми данными профиля пользователя, 
+   * Стрелочная функция, принимает объект с новыми данными профиля пользователя,
    * возвращает объект с измененными данными профиля пользователя
    * @param {Object} Object - объект с новыми данными профиля пользователя
    * @param {String} Object.name - новое имя пользователя
@@ -314,18 +340,19 @@ class App extends React.Component {
    * @instance
    * @public
    * @since v.2.0.2
+   * @see {@link EditProfilePopup}
    */
   handleUpdateUser = ({ name, about }) => {
-    this.setState({ isNewProfileLoading: true });
+    this.setState({ isLoading: true });
 
     api.editProfile({ name, about })
-      .then(res => {
+      .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewProfileLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -337,6 +364,7 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.0
+   * @see {@link Main}
    */
   handleAddPlaceClick = () => {
     document.activeElement.blur();
@@ -347,7 +375,7 @@ class App extends React.Component {
   /**
    * @method handleAddPlaceSubmit
    * @description Обработчик сабмита формы добавления новой карточки&lt;br>
-   * Стрелочная функция, принимает аргументом объект с данными для создания карточки, 
+   * Стрелочная функция, принимает аргументом объект с данными для создания карточки,
    * возвращает карточку, полученную с сервера
    * @param {Object} Object - объект с данными для создания карточки
    * @param {String} Object.name - название карточки
@@ -357,9 +385,10 @@ class App extends React.Component {
    * @memberof App
    * @instance
    * @since v.2.0.2
+   * @see {@link AddPlacePopup}
    */
   handleAddPlaceSubmit = ({ name, link }) => {
-    this.setState({ isNewCardLoading: true });
+    this.setState({ isLoading: true });
 
     api.addNewCard({ name, link })
       .then((newCard) => {
@@ -375,10 +404,170 @@ class App extends React.Component {
         this.setState({ cards: resultCardsArr });
         this.closeAllPopups();
       })
-      .catch(err => { console.log(err); })
+      .catch((err) => { console.log(err); })
       .finally(() => {
-        this.setState({ isNewCardLoading: false });
+        this.setState({ isLoading: false });
       });
+  }
+
+  /**
+   * @method handleRegister
+   * @description Обработчик сабмита в форме регистрации&lt;br>
+   *  Собирает данные, введенные пользователем в форму, отправляет запрос на создание
+   *  учетной записи пользователя, в случае успеха переадресовывает на форму входа в приложение.
+   * @param {Oblect} userData - объект с данными пользователя из формы регистрации
+   * @param {String} userData.email - емэйл (логин), введенный пользователем при регистрации
+   * @param {String} userData.password - пароль, введенный пользователем при регистрации
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link Register}
+   */
+  handleRegister = ({ password, email }) => {
+    this.setState({ isLoading: true });
+    /**
+     * Метод запроса на регистрацию пользователя
+     * @see auth
+     * @ignore
+     */
+    auth.register(password, email)
+      .then((res) => {
+        if (res.data) {
+          this.props.history.push(TO_.SIGNIN);
+        } else {
+          this.setState({
+            loggedIn: false,
+            isInfoToolTipOpen: true,
+          }, () => {
+            console.log(res);
+          });
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
+  }
+
+  /**
+   * @method handleLogin
+   * @description Обработчик сабмита в форме входа&lt;br>
+   * Собирает данные, введенные пользователем в форму, отправляет запрос на авторизацию пользователя,
+   *  в случае успеха данные пользователя из формы, сохраняет токен, полученный в ответе от сервера,
+   *  переадресовывает на главную страницу приложения.
+   * @param {Object} userData - объект с данными пользователя из формы входа
+   * @param {String} userData.login - емэйл (логин), введенный пользователем при входе
+   * @param {String} userData.password - пароль, введенный пользователем при входе
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link Login}
+   */
+  handleLogin = ({ password, login }) => {
+    this.setState({ isLoading: true });
+    /**
+     * Метод запроса на авторизацию пользователя
+     * @see auth
+     * @ignore
+     */
+    auth.authorize(password, login)
+      .then((res) => {
+        if (res.token) {
+          setToken(res.token);
+          this.setState({
+            loggedIn: true,
+            userData: {
+              email: login,
+              password,
+            },
+            isInfoToolTipOpen: true,
+          }, () => {
+            this.props.history.push(TO_.MAIN);
+          });
+        } else {
+          this.setState({
+            loggedIn: false,
+            isInfoToolTipOpen: true,
+          }, () => {
+            console.log(res);
+          });
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
+  }
+
+  /**
+   * @method tokenCheck
+   * @description Метод проверки токена&lt;br>
+   * Если в локальном хранилище браузера сохранен токен, метод отправляет его на сервер для проверки
+   *  его действительности. Если токен действующий - пользователь сразу автоматически авторизуется
+   *  и перенаправляется на главную страницу приложения со своими учетными данными.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link App}
+   */
+  tokenCheck = () => {
+    const token = getToken();
+    if (token) {
+      /**
+       * Метод запроса проверки токена
+       * @see auth
+       * @igore
+       */
+      auth.getContent(token)
+        .then((res) => {
+          if (res.data) {
+            this.setState({
+              loggedIn: true,
+              userData: { email: res.data.email }
+            }, () => {
+              this.props.history.push(TO_.MAIN);
+            });
+          } else {
+            this.setState({
+              loggedIn: false,
+              isInfoToolTipOpen: true,
+            }, () => {
+              console.log(res);
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  /**
+   * @method handleSignoutButtonClick
+   * @description Обработчик клика по кнопке "Выйти"&lt;br>
+   * Пользователь выходит из профиля на форму входа, токен пользователя удаляется.
+   *  Для входа в приложение требуется повторная авторизация.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link NavBar}
+   */
+  handleSignoutButtonClick = () => {
+    this.setState({ isMenuOpened: false });
+    localStorage.removeItem(TOKEN_KEY);
+    this.props.history.push(TO_.SIGNIN);
+  }
+
+  /**
+   * @method handleMenuButtonClick
+   * @description Обработчик клика по кнопке открытия/закрытия меню&lt;br>
+   * Открывает или закрывает меню, содержащее ссылки на профил пользователя и выход из приложения.
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.1.0
+   * @see {@link NavBar}
+   */
+  handleMenuButtonClick = () => {
+    this.setState({ isMenuOpened: !this.state.isMenuOpened });
   }
 
   /**
@@ -387,12 +576,14 @@ class App extends React.Component {
    * @ignore
    */
   componentDidMount() {
+    this.tokenCheck();
     Promise.all([api.loadUserData(), api.loadCards()])
       .then(([currentUserData, initialCardsData]) => {
         this.setState({ currentUser: currentUserData });
+
         /**
          * @description массив объектов с деструктурированными данными карточек
-         * @param {Object} initialCardsData - массив объектов с данными карточек, полученный 
+         * @param {Object} initialCardsData - массив объектов с данными карточек, полученный
          * после успешного запроса на сервер
          * @constant {Object} initialCards - новый массив объектов с данными карточек
          * @property {String} initialCards.id - уникальный id карточки
@@ -414,7 +605,7 @@ class App extends React.Component {
         this.setState({ cards: initialCards });
       })
       .catch(err => { console.log(err); });
-  };
+  }
 
   /**
    * @method render
@@ -429,66 +620,120 @@ class App extends React.Component {
   render() {
     return (
       &lt;>
-        &lt;CurrentUserContext.Provider value={ this.state.currentUser }>
-          &lt;Header />
+        &lt;CurrentUserContext.Provider value={this.state.currentUser}>
 
-          &lt;Main
-            onEditProfile={ this.handleEditProfileClick }
-            onAddPlace={ this.handleAddPlaceClick }
-            onEditAvatar={ this.handleEditAvatarClick }
-            onCardClick={ this.handleCardClick }
-            onCardLike={ this.handleCardLike }
-            onCardDelete={ this.handleCardDelete }
-            cards={ this.state.cards }
+          &lt;NavBar
+            signOutButtonText="Выйти"
+            handleSignoutButtonClick={this.handleSignoutButtonClick}
+            email={this.state.userData.email}
+            handleMenuClick={this.handleMenuButtonClick}
+            isMenuOpened={this.state.isMenuOpened}
+            isDropdownMenu={true}
           />
+
+          &lt;Header
+            signinLinkText="Войти"
+            signupLinkText="Регистрация"
+            signOutButtonText="Выйти"
+            handleSignoutButtonClick={this.handleSignoutButtonClick}
+            email={this.state.userData.email}
+            handleMenuClick={this.handleMenuButtonClick}
+            isMenuOpened={this.state.isMenuOpened}
+            isDropdownMenu={false}
+          />
+
+          &lt;Switch>
+            &lt;ProtectedRoute
+              path={TO_.MAIN} exact
+              loggedIn={this.state.loggedIn}
+              onEditProfile={this.handleEditProfileClick}
+              onAddPlace={this.handleAddPlaceClick}
+              onEditAvatar={this.handleEditAvatarClick}
+              onCardClick={this.handleCardClick}
+              onCardLike={this.handleCardLike}
+              onCardDelete={this.handleCardDelete}
+              cards={this.state.cards}
+              component={Main}
+            />
+
+            &lt;Route path={TO_.SIGNUP}>
+              &lt;Register
+                isLoading={this.state.isLoading}
+                handleRegister={this.handleRegister}
+              />
+            &lt;/Route>
+
+            &lt;Route path={TO_.SIGNIN}>
+              &lt;Login
+                isLoading={this.state.isLoading}
+                handleLogin={this.handleLogin}
+                userData={this.state.userData}
+              />
+            &lt;/Route>
+
+            &lt;Route path={TO_.MAIN}>
+              {!this.state.loggedIn ? &lt;Redirect to={TO_.SIGNIN} /> : &lt;Redirect to={TO_.MAIN} />}
+            &lt;/Route>
+          &lt;/Switch>
 
           &lt;Footer />
 
           &lt;EditProfilePopup
-            isOpen={ this.state.isEditProfilePopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onUpdateUser={ this.handleUpdateUser }
-            isLoading={ this.state.isNewProfileLoading }
+            isOpen={this.state.isEditProfilePopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onUpdateUser={this.handleUpdateUser}
+            isLoading={this.state.isLoading}
           />
 
           &lt;EditAvatarPopup
-            isOpen={ this.state.isEditAvatarPopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onUpdateAvatar={ this.handleUpdateAvatar }
-            isLoading={ this.state.isNewAvatarLoading }
+            isOpen={this.state.isEditAvatarPopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onUpdateAvatar={this.handleUpdateAvatar}
+            isLoading={this.state.isLoading}
           />
 
           &lt;AddPlacePopup
-            isOpen={ this.state.isAddPlacePopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onSubmit={ this.handleAddPlaceSubmit }
-            isLoading={ this.state.isNewCardLoading }
+            isOpen={this.state.isAddPlacePopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onSubmit={this.handleAddPlaceSubmit}
+            isLoading={this.state.isLoading}
           />
 
           &lt;DeleteConfirmPopup
-            isOpen={ this.state.isDeleteConfirmPopupOpen }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            onSubmit={ this.handleDeleteConfirm }
-            isProcessing={ this.state.isDeleteProcessing }
+            isOpen={this.state.isDeleteConfirmPopupOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            onSubmit={this.handleDeleteConfirm}
+            isProcessing={this.state.isLoading}
           />
 
           &lt;ImagePopup
-            card={ this.state.selectedCard }
-            onClose={ this.closeAllPopups }
-            onOverlayClick={ this.handleClickOnOverlay }
-            isOpen={ this.state.isImagePopupOpen }
+            card={this.state.selectedCard}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            isOpen={this.state.isImagePopupOpen}
           />
+
+          &lt;InfoToolTip
+            name="info-tool-tip"
+            isOpen={this.state.isInfoToolTipOpen}
+            onClose={this.closeAllPopups}
+            onOverlayClick={this.handleClickOnOverlay}
+            titleTextSuccess="Вы успешно зарегистрировались!"
+            titleTextFail="Что-то пошло не так! Попробуйте ещё раз."
+            loggedIn={this.state.loggedIn}
+          />
+
         &lt;/CurrentUserContext.Provider>
       &lt;/>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
 </code></pre>
         </article>
     </section>
@@ -499,13 +744,13 @@ export default App;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-ProtectedRoute.html">ProtectedRoute</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 04 2020 13:11:35 GMT+0300 (GMT+03:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 05:14:32 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>

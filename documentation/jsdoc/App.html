@@ -49,7 +49,7 @@
 
 
 <div class="description">
-    Классовый React-компонент<br> 
+    Классовый React-компонент<br>
 Главный компонент приложения<br>
 Собирает все компоненты приложения и декларирует их отрисовку<br>
 </div>
@@ -98,7 +98,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line20">line 20</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -166,6 +166,461 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Объявление стейтов и установка их начальных значений
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isEditProfilePopupOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт попапа редактирования профиля,
+ управляет видимостью попапа. Начальное значение false - попап скрыт</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isAddPlacePopupOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт попапа добавления карточки,
+управляет видимостью попапа. Начальное значение false - попап скрыт</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isEditAvatarPopupOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт попапа редактирования аватара,
+управляет видимостью попапа. Начальное значение false - попап скрыт</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isImagePopupOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт попапа с полноразмерным изображением,
+управляет видимостью попапа. Начальное значение false - попап скрыт</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.selectedCard</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт кликнутой карточки,
+Может иметь одно из двух значений: объект с данными карточки или undefined.
+Начальное значение undefined - карточка не определена</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.currentUser</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт, сохраняет объект с данными о текущем пользователе</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.cards</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт, содержит массив объектов с данными карточек</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт состояния процесса, true - процесс выполняется,
+ false- процесс не выполняется</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.loggedIn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт статуса пользователя: залогинен (true)
+ или нет (false)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.userData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт, объект с данными пользователя
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">емэйл пользователя (логин профиля)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">пароль, указанный пользователем при входе</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isInfoToolTipOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт попапа подсказки о результате авторизации,
+ управляет видимостью попапа. Начальное значение false - попап скрыт</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state.isMenuOpened</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">стейт состояния меню на мобильном разрешении,
+ управляет изображением кнопки открытия/закрытия меню.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -232,7 +687,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line68">line 68</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -324,12 +779,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line304">line 304</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line331">line 331</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Main</li>
+        </ul>
+    </dd>
     
 
     
@@ -369,7 +831,7 @@
 
 <div class="description">
     Обработчик сабмита формы добавления новой карточки<br>
-Стрелочная функция, принимает аргументом объект с данными для создания карточки, 
+Стрелочная функция, принимает аргументом объект с данными для создания карточки,
 возвращает карточку, полученную с сервера
 </div>
 
@@ -538,12 +1000,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line319">line 319</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line347">line 347</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>AddPlacePopup</li>
+        </ul>
+    </dd>
     
 
     
@@ -605,7 +1074,7 @@
 
 <div class="description">
     Обработчик клика по изображению карточки<br>
-Стрелочная функция, открывает попап с полноразмерным изображением карточки, 
+Стрелочная функция, открывает попап с полноразмерным изображением карточки,
 добавляет слушатель нажатия клавиши Esc
 </div>
 
@@ -653,12 +1122,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line159">line 159</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Card</li>
+        </ul>
+    </dd>
     
 
     
@@ -698,7 +1174,7 @@
 
 <div class="description">
     Обработчик клика по иконке "удалить"<br>
-Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт. 
+Стрелочная функция, принимает аргументом объект с данными карточки и сохраняет его в стейт.
 Открывает попап подтверждения удаления карточки
 </div>
 
@@ -795,12 +1271,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line175">line 175</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Card</li>
+        </ul>
+    </dd>
     
 
     
@@ -840,7 +1323,7 @@
 
 <div class="description">
     Обработчик клика по иконке "лайк"<br>
-Стрелочная функция, принимает аргументом объект с данными карточки. 
+Стрелочная функция, принимает аргументом объект с данными карточки.
 Ставит или снимает "лайки", в зависимости от состояния "лайка".
 </div>
 
@@ -1009,12 +1492,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line127">line 127</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Card</li>
+        </ul>
+    </dd>
     
 
     
@@ -1150,7 +1640,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line105">line 105</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -1291,12 +1781,21 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line191">line 191</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line212">line 212</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Card</li>
+        
+            <li>DeleteConfirmPopup</li>
+        </ul>
+    </dd>
     
 
     
@@ -1383,12 +1882,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line220">line 220</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line243">line 243</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Main</li>
+        </ul>
+    </dd>
     
 
     
@@ -1475,12 +1981,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line261">line 261</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line286">line 286</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Main</li>
+        </ul>
+    </dd>
     
 
     
@@ -1616,12 +2129,654 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line89">line 89</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
     
 
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleLogin"><span class="type-signature"></span>handleLogin<span class="signature">(userData)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Обработчик сабмита в форме входа<br>
+Собирает данные, введенные пользователем в форму, отправляет запрос на авторизацию пользователя,
+ в случае успеха данные пользователя из формы, сохраняет токен, полученный в ответе от сервера,
+ переадресовывает на главную страницу приложения.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">объект с данными пользователя из формы входа
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>login</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">емэйл (логин), введенный пользователем при входе</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">пароль, введенный пользователем при входе</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v.2.1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line423">line 423</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Login</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleMenuButtonClick"><span class="type-signature"></span>handleMenuButtonClick<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Обработчик клика по кнопке открытия/закрытия меню<br>
+Открывает или закрывает меню, содержащее ссылки на профил пользователя и выход из приложения.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v.2.1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line531">line 531</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>NavBar</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleRegister"><span class="type-signature"></span>handleRegister<span class="signature">(userData)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Обработчик сабмита в форме регистрации<br>
+ Собирает данные, введенные пользователем в форму, отправляет запрос на создание
+ учетной записи пользователя, в случае успеха переадресовывает на форму входа в приложение.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Oblect</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">объект с данными пользователя из формы регистрации
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">емэйл (логин), введенный пользователем при регистрации</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">пароль, введенный пользователем при регистрации</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v.2.1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line385">line 385</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Register</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleSignoutButtonClick"><span class="type-signature"></span>handleSignoutButtonClick<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Обработчик клика по кнопке "Выйти"<br>
+Пользователь выходит из профиля на форму входа, токен пользователя удаляется.
+ Для входа в приложение требуется повторная авторизация.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v.2.1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line514">line 514</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>NavBar</li>
+        </ul>
+    </dd>
     
 
     
@@ -1662,7 +2817,7 @@
 <div class="description">
     Обработчик сабмита формы редактирования аватара<br>
 Изменяет аватар пользователя.<br>
-Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя, 
+Стрелочная функция, принимает объект с новой ссылкой на аватар пользователя,
 возвращает объект с изменнуми данными пользователя
 </div>
 
@@ -1808,12 +2963,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line235">line 235</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>EditAvatarPopup</li>
+        </ul>
+    </dd>
     
 
     
@@ -1854,7 +3016,7 @@
 <div class="description">
     Обработчик сабмита формы редактирования профиля<br>
 Редактирует профиль пользователя.<br>
-Стрелочная функция, принимает объект с новыми данными профиля пользователя, 
+Стрелочная функция, принимает объект с новыми данными профиля пользователя,
 возвращает объект с измененными данными профиля пользователя
 </div>
 
@@ -2023,12 +3185,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line276">line 276</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>EditProfilePopup</li>
+        </ul>
+    </dd>
     
 
     
@@ -2118,12 +3287,113 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line391">line 391</a>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line582">line 582</a>
     </li></ul></dd>
     
 
     
 
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="tokenCheck"><span class="type-signature"></span>tokenCheck<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Метод проверки токена<br>
+Если в локальном хранилище браузера сохранен токен, метод отправляет его на сервер для проверки
+ его действительности. Если токен действующий - пользователь сразу автоматически авторизуется
+ и перенаправляется на главную страницу приложения со своими учетными данными.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>v.2.1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_App.js.html">components/App.js</a>, <a href="components_App.js.html#line472">line 472</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="App.html">App</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -2164,13 +3434,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Namespaces</h3><ul><li><a href="constants.html">constants</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li><li><a href="FormValidator.html">FormValidator</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-ProtectedRoute.html">ProtectedRoute</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 04 2020 13:11:35 GMT+0300 (GMT+03:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 05:14:33 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>
