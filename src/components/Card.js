@@ -15,9 +15,9 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
  * @param {Number} props.likesQuantity - количество лайков
  * @param {Object} props.owner - объект, данные о владельце карточки
  * @param {Array} props.likes - массив, содержит id всех пользователей, лайкнувших карточку
- * @param {Function} props.onCardClick - функция-колбэк, вызывается при клике по изображению карточки, 
+ * @param {Function} props.onCardClick - функция-колбэк, вызывается при клике по изображению карточки,
  * открывает попап с полноразмерным изображением карточки<br>
- * Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи 
+ * Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи
  * этих параметров в ImagePopup
  * @param {Function} props.onCardLike -  функция-колбэк, вызывается при клике по "лайку" карточки,
  * ставит/снимает "лайки", принимает аргументом объект с id карточки и массивом лайков карточки
@@ -28,38 +28,16 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
  */
 function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCardLike, onCardDelete }) {
 
-  /**
-   * @constant currentUser
-   * @type {Object}
-   * @description Контекст текущего пользователя<br>
-   * Используется для того, чтобы определить является ли текущий пользователь автором карточки
-   *  и нажимал ли он на карточке "лайк".
-   * @param {Object} currentUser - объект с актуальными данными текущего пользователя
-   * @property {String} currentUser._id - id текущего пользователя
-   * @since v.2.0.2
-   */
   const currentUser = React.useContext(CurrentUserContext);
 
-  /**
-   * @constant isOwn
-   * @type {Boolean}
-   * @description Идентификатор, устанавливающий является ли текущий пользователь владельцем карточки
-   * @since v.2.0.2
-   */
   const isOwn = owner._id === currentUser._id;
 
-  /**
-   * @constant isLiked
-   * @type {Boolean}
-   * @description Идентификатор, устанавливающий лайкал ли текущий пользователь карточку
-   * @since v.2.0.2
-   */
   const isLiked = likes.some(likeOwner => likeOwner._id === currentUser._id);
 
   /**
    * @method handleImageClick
    * @description Обработчик клика по изображению карточки, вызывает коллбэк props.onCardClick и передает ему данные карточки
-   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardClick 
+   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardClick
    * @param {String} object.link - ссылка на изображение кликнутой карточки
    * @param {String} object.title - название кликнутой карточки
    * @public

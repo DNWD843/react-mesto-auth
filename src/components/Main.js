@@ -26,20 +26,9 @@ import Card from './Card';
  * @since v.2.0.0
  */
 function Main(props) {
- 
-  /**
-   * @constant currentUser
-   * @type {Object}
-   * @description Контекст текущего пользователя<br>
-   * Используется для того, чтобы определить актуальные данные профиля пользователя.
-   * @param {Object} currentUser - объект с актуальными данными текущего пользователя
-   * @property {String} currentUser.name - имя пользователя
-   * @property {String} currentUser.about - описание о пользователе
-   * @property {String} currentUser.avatar - ссылка на аватар пользователя
-   * @since v.2.0.2
-   */
+
   const currentUser = React.useContext(CurrentUserContext);
-    
+
   return (
     <main className="content page__content">
       <section className="user-profile content__user-profile" key="user-profile">

@@ -43,9 +43,9 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
  * @param {Number} props.likesQuantity - количество лайков
  * @param {Object} props.owner - объект, данные о владельце карточки
  * @param {Array} props.likes - массив, содержит id всех пользователей, лайкнувших карточку
- * @param {Function} props.onCardClick - функция-колбэк, вызывается при клике по изображению карточки, 
+ * @param {Function} props.onCardClick - функция-колбэк, вызывается при клике по изображению карточки,
  * открывает попап с полноразмерным изображением карточки&lt;br>
- * Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи 
+ * Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи
  * этих параметров в ImagePopup
  * @param {Function} props.onCardLike -  функция-колбэк, вызывается при клике по "лайку" карточки,
  * ставит/снимает "лайки", принимает аргументом объект с id карточки и массивом лайков карточки
@@ -56,38 +56,16 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
  */
 function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCardLike, onCardDelete }) {
 
-  /**
-   * @constant currentUser
-   * @type {Object}
-   * @description Контекст текущего пользователя&lt;br>
-   * Используется для того, чтобы определить является ли текущий пользователь автором карточки
-   *  и нажимал ли он на карточке "лайк".
-   * @param {Object} currentUser - объект с актуальными данными текущего пользователя
-   * @property {String} currentUser._id - id текущего пользователя
-   * @since v.2.0.2
-   */
   const currentUser = React.useContext(CurrentUserContext);
 
-  /**
-   * @constant isOwn
-   * @type {Boolean}
-   * @description Идентификатор, устанавливающий является ли текущий пользователь владельцем карточки
-   * @since v.2.0.2
-   */
   const isOwn = owner._id === currentUser._id;
 
-  /**
-   * @constant isLiked
-   * @type {Boolean}
-   * @description Идентификатор, устанавливающий лайкал ли текущий пользователь карточку
-   * @since v.2.0.2
-   */
   const isLiked = likes.some(likeOwner => likeOwner._id === currentUser._id);
 
   /**
    * @method handleImageClick
    * @description Обработчик клика по изображению карточки, вызывает коллбэк props.onCardClick и передает ему данные карточки
-   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardClick 
+   * @argument {Object} object - объект с данными карточки, аргумент коллбэка props.onCardClick
    * @param {String} object.link - ссылка на изображение кликнутой карточки
    * @param {String} object.title - название кликнутой карточки
    * @public
@@ -143,13 +121,13 @@ export default Card;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-ProtectedRoute.html">ProtectedRoute</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-token.html">token</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 05:14:32 GMT+0300 (Москва, стандартное время)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 19:33:40 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>

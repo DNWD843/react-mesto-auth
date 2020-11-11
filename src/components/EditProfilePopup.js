@@ -13,12 +13,12 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  * @param {Object} props - объект с параметрами
  * @param {Function} props.onClose - функция-коллбэк, закрывает попап
  * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею, закрывает попап
- * @param {Function} props.onUpdateUser -  функция-коллбэк, обновляет данные профиля пользователя 
+ * @param {Function} props.onUpdateUser -  функция-коллбэк, обновляет данные профиля пользователя
  * при успешном сабмите формы редактирования профиля
  * @param {Boolean} props.isOpen - индикатор состояния попапа, управляет его видимостью:<br>
  *  - true - попап открыт<br>
  *  - false - попап закрыт
- * @param {Boolean} props.isLoading - индикатор состояния загрузки новых данных профиля пользователя, 
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки новых данных профиля пользователя,
  * управляет отображением прелоадера загрузки:<br>
  *  - true - идет загрузка, отображется текст-прелоадер на кнопке сабмит;<br>
  *  - false - нет загрузки, на кнопке сабмит дефолтный текст
@@ -28,23 +28,8 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  */
 function EditProfilePopup({ isOpen, isLoading, onClose, onOverlayClick, onUpdateUser }) {
 
-  /**
-   * Запускаем хук валидации формы
-   * @ignore
-   * @since v.2.0.6
-   */
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
-  /**
-   * @constant currentUser
-   * @type {Boolean}
-   * @description Контекст текущего пользователя<br>
-   * Используется для того, чтобы определить актуальные данные профиля пользователя.
-   * @param {Object} currentUser - объект с актуальными данными текущего пользователя
-   * @property {String} currentUser.name - имя пользователя
-   * @property {String} currentUser.about - описание о пользователе
-   * @since v.2.0.2
-   */
   const currentUser = React.useContext(CurrentUserContext);
 
   const { name, description } = values;

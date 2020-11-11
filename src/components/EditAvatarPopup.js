@@ -16,7 +16,7 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  * @param {Boolean} props.isOpen - индикатор состояния попапа, управляет его видимостью:<br>
  *  - true - попап открыт<br>
  *  - false - попап закрыт
- * @param {Boolean} props.isLoading - индикатор состояния загрузки нового аватара пользователя, 
+ * @param {Boolean} props.isLoading - индикатор состояния загрузки нового аватара пользователя,
  * управляет отображением прелоадера загрузки:<br>
  *  - true - идет загрузка, отображется текст-прелоадер на кнопке сабмит;<br>
  *  - false - нет загрузки, на кнопке сабмит дефолтный текст:
@@ -26,16 +26,10 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  */
 const EditAvatarPopup = ({ isOpen, isLoading, onClose, onOverlayClick, onUpdateAvatar }) => {
 
-  /**
-  * @constant useFormWithValidation
-  * @description Запуск хука валидации формы
-  * @see {@link useFormWithValidation}
-  * @since v.2.0.6
-  */
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { avatar } = values;
-  
+
   /**
   * @method handleSubmit
   * @argument {Event} evt - событие

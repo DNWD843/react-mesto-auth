@@ -22,14 +22,19 @@ import StartPageWithForm from './StartPageWithForm';
  * @since v.2.1.0
  */
 function Login({ isLoading, handleLogin, userData }) {
-  /**
-   * Подключаем пользовательский хук работы с формой и валидации полей формы
-   * @ignore
-   */
+
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { login, password } = values;
 
+  /**
+   * @method handleSubmit
+   * @argument {Event} evt - событие
+   * @description Обработчик сабмита формы входа<br>
+   * Вызывает метод handleLogin, полученный из props.
+   * @public
+   * @since v.2.0.6
+   */
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const userData = { password, login };

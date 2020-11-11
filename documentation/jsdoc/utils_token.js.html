@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: index</title>
+    <title>JSDoc: Source: utils/token.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,133 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: index</h1>
+    <h1 class="page-title">Source: utils/token.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Файл index.js - точка входа для всего приложения<br>
-Метод ReactDOM.render() - отрисовывает главный компонент приложения App в DOM</div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line7">line 7</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>export const TOKEN_KEY = 'token';
+
+/**
+ * @module token
+ * @description Компонент, содержащий методы работы с токеном.
+ * @since v.2.1.0
+ */
+
+
+/**
+ * @method setToken
+ * @description Метод сохранения токена в локальное хранилище браузера
+ * @param {String} token - токен
+ * @since v.2.1.0
+ */
+export const setToken = (token) => {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+/**
+ * @method getToken
+ * @description Метод получения токена из локального хранилища браузера
+ * @since v.2.1.0
+ */
+export const getToken = () => localStorage.getItem(TOKEN_KEY)
+
+/**
+ * @method removeToken
+ * @description Метод удаления токена из локального хранилища браузера
+ * @since v.2.1.0
+ */
+export const removeToken = () => {
+  localStorage.removeItem(TOKEN_KEY);
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

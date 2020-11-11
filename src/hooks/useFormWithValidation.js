@@ -13,33 +13,10 @@ import { useCallback, useState } from 'react';
  */
 export function useFormWithValidation() {
 
-  /**
-   * @constant {Object}
-   * @name values
-   * @description Стейт-переменная, сохраняет значения полей инпутов формы в виде объекта,
-   *  в котором у пар "ключ: значение" ключами являются имена инпутов (name),
-   *  а значениями - значения полей инпутов (value).
-   * @since v.2.0.6
-   */
   const [values, setValues] = useState({});
 
-  /**
-   * @constant {Object}
-   * @name errors
-   * @description Стейт-переменная, сохраняет ошибки валидации инпутов формы в виде объекта,
-   *  в котором у пар "ключ: значение" ключами являются имена инпутов (name),
-   *  а значениями - браузерные сообщения об ошибке.
-   * @since v.2.0.6
-   */
   const [errors, setErrors] = useState({});
 
-  /**
-   * @constant {Boolean}
-   * @name isValid
-   * @description Стейт-переменная, устанавливающая является ли форма валидной по состоянию
-   *  свойства validity объекта ValidityState.<br> true - форма валидна, false - форма не валидна.
-   * @since v.2.0.6
-   */
   const [isValid, setIsValid] = useState(false);
 
   /**

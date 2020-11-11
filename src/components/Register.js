@@ -15,14 +15,19 @@ import StartPageWithForm from './StartPageWithForm';
  * @since v.2.1.0
  */
 function Register({ isLoading, handleRegister }) {
-  /**
-   * Подключаем пользовательский хук работы с формой и валидации полей формы
-   * @ignore
-   */
+
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { regEmail, regPassword } = values;
 
+  /**
+   * @method handleSubmit
+   * @argument {Event} evt - событие
+   * @description Обработчик сабмита формы регистрации<br>
+   * Вызывает метод handleRegister, полученный из props.
+   * @public
+   * @since v.2.0.6
+   */
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const userRegistrationData = {

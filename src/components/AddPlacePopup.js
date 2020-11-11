@@ -30,12 +30,7 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
 const AddPlacePopup = ({
   isOpen, isLoading, onClose, onOverlayClick, onSubmit,
 }) => {
-  /**
-   * @constant useFormWithValidation
-   * @description Запуск хука валидации формы
-   * @see {@link useFormWithValidation}
-   * @since v.2.0.6
-   */
+
   const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
 
   const { title, link } = values;

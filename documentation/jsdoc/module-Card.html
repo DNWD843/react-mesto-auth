@@ -38,7 +38,10 @@
     <div class="container-overview">
     
         
-            <div class="description">Функциональный React-компонент<br>Декларирует отрисовку карточки<br>Принимает объект параметров - props<br>Возвращает JSX-фрагмент разметки - карточку, заполненный данными карточки<br></div>
+            <div class="description">Функциональный React-компонент<br>
+Декларирует отрисовку карточки<br>
+Принимает объект параметров - props<br>
+Возвращает JSX-фрагмент разметки - карточку, заполненный данными карточки<br></div>
         
 
         
@@ -137,7 +140,8 @@
 
             
 
-            <td class="description last">уникальный идентификатор карточки, присваивается карточке сервером.<br><b>ПРИМЕЧАНИЕ: props.id используется при отрисовке компонента Card для присвоения обязательному параметру key</b></td>
+            <td class="description last">уникальный идентификатор карточки, присваивается карточке сервером.<br>
+<b>ПРИМЕЧАНИЕ: props.id используется при отрисовке компонента Card для присвоения обязательному параметру key</b></td>
         </tr>
 
     
@@ -275,7 +279,10 @@
 
             
 
-            <td class="description last">функция-колбэк, вызывается при клике по изображению карточки, открывает попап с полноразмерным изображением карточки<br>Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи этих параметров в ImagePopup</td>
+            <td class="description last">функция-колбэк, вызывается при клике по изображению карточки,
+открывает попап с полноразмерным изображением карточки<br>
+Принимает аргументом объект с названием карточки и ссылкой на изображение для дальнейшей передачи
+этих параметров в ImagePopup</td>
         </tr>
 
     
@@ -298,7 +305,8 @@
 
             
 
-            <td class="description last">функция-колбэк, вызывается при клике по "лайку" карточки,ставит/снимает "лайки", принимает аргументом объект с id карточки и массивом лайков карточки</td>
+            <td class="description last">функция-колбэк, вызывается при клике по "лайку" карточки,
+ставит/снимает "лайки", принимает аргументом объект с id карточки и массивом лайков карточки</td>
         </tr>
 
     
@@ -321,7 +329,8 @@
 
             
 
-            <td class="description last">функция-колбэк, вызывается при клике по иконке удаления карточки,открывает попап подтверждения удаления, принимает аргументом объект с id карточки</td>
+            <td class="description last">функция-колбэк, вызывается при клике по иконке удаления карточки,
+открывает попап подтверждения удаления, принимает аргументом объект с id карточки</td>
         </tr>
 
     
@@ -440,287 +449,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="~currentUser"><span class="type-signature">(inner, constant) </span>currentUser<span class="type-signature"> :Object</span></h4>
-
-
-
-
-<div class="description">
-    Контекст текущего пользователя<br>Используется для того, чтобы определить является ли текущий пользователь автором карточки и нажимал ли он на карточке "лайк".
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>currentUser._id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">id текущего пользователя</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>v.2.0.2</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~isLiked"><span class="type-signature">(inner, constant) </span>isLiked<span class="type-signature"> :Boolean</span></h4>
-
-
-
-
-<div class="description">
-    Идентификатор, устанавливающий лайкал ли текущий пользователь карточку
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Boolean</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>v.2.0.2</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line51">line 51</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~isOwn"><span class="type-signature">(inner, constant) </span>isOwn<span class="type-signature"> :Boolean</span></h4>
-
-
-
-
-<div class="description">
-    Идентификатор, устанавливающий является ли текущий пользователь владельцем карточки
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Boolean</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>v.2.0.2</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
     
 
     
@@ -885,7 +613,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line83">line 83</a>
+        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -1097,7 +825,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line59">line 59</a>
+        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -1309,7 +1037,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line72">line 72</a>
+        <a href="components_Card.js.html">components/Card.js</a>, <a href="components_Card.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -1355,13 +1083,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-ProtectedRoute.html">ProtectedRoute</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CurrentUserContext">CurrentUserContext</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AddPlacePopup.html">AddPlacePopup</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-Card.html">Card</a></li><li><a href="module-DeleteConfirmPopup.html">DeleteConfirmPopup</a></li><li><a href="module-EditAvatarPopup.html">EditAvatarPopup</a></li><li><a href="module-EditProfilePopup.html">EditProfilePopup</a></li><li><a href="module-Footer.html">Footer</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-ImagePopup.html">ImagePopup</a></li><li><a href="module-index.html">index</a></li><li><a href="module-InfoToolTip.html">InfoToolTip</a></li><li><a href="module-Login.html">Login</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-NavBar.html">NavBar</a></li><li><a href="module-PopupWithForm.html">PopupWithForm</a></li><li><a href="module-Register.html">Register</a></li><li><a href="module-StartPageWithForm.html">StartPageWithForm</a></li><li><a href="module-token.html">token</a></li><li><a href="module-useFormWithValidation.html">useFormWithValidation</a></li></ul><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="App.html">App</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 05:14:33 GMT+0300 (Москва, стандартное время)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 19:33:40 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>
