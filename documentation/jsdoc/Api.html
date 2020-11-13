@@ -49,7 +49,8 @@
 
 
 <div class="description">
-    Класс Api <br>Отвечает за отправку запросов на сервер и проверку полученных ответов
+    Класс Api <br>
+Отвечает за отправку запросов на сервер и проверку полученных ответов
 </div>
 
 
@@ -461,7 +462,19 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const api = new Api({URLs: {  baseURL: 'https://mesto...',  cardsURL: 'https://mesto.../cards/',  userURL: 'https://mesto.../users/me',  likesURL: 'https://mesto.../cards/likes/',  avatarURL: 'https://mesto.../users/me/avatar'},headers: {  "authorization": '&lt;Ваш код авторизации>'},token: '&lt;Ваш токен>'});</code></pre>
+    <pre class="prettyprint"><code>const api = new Api({
+URLs: {
+  baseURL: 'https://mesto...',
+  cardsURL: 'https://mesto.../cards/',
+  userURL: 'https://mesto.../users/me',
+  likesURL: 'https://mesto.../cards/likes/',
+  avatarURL: 'https://mesto.../users/me/avatar'
+},
+headers: {
+  "authorization": '&lt;Ваш код авторизации>'
+},
+token: '&lt;Ваш токен>'
+});</code></pre>
 
 
 
@@ -491,7 +504,8 @@
 
 
 <div class="description">
-    Экземпляр класса Api<br>Экспортируется в компонент App
+    Экземпляр класса Api<br>
+Экспортируется в компонент App
 </div>
 
 
@@ -532,7 +546,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line231">line 231</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -568,7 +582,9 @@
 
 
 <div class="description">
-    Публичный метод<br>Сохраняет на сервер элемент, добавленный через Форму добавления нового элемента<br>Принимает аргументом объект item
+    Публичный метод<br>
+Сохраняет на сервер элемент, добавленный через Форму добавления нового элемента<br>
+Принимает аргументом объект item
 </div>
 
 
@@ -736,7 +752,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line96">line 96</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -807,7 +823,9 @@
 
 
 <div class="description">
-    Публичный метод<br>Изменяет статус кнопки "лайк" у карточки<br>Принимает аргументом id карточки, у которой произошло нажатие "лайка" и новое состояние "лайка"
+    Публичный метод<br>
+Изменяет статус кнопки "лайк" у карточки<br>
+Принимает аргументом id карточки, у которой произошло нажатие "лайка" и новое состояние "лайка"
 </div>
 
 
@@ -926,7 +944,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line187">line 187</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -992,7 +1010,9 @@
 
 
 <div class="description">
-    Публичный метод<br>Удаляет элемент с сервера<br>Принимает аргументом id удаляемого элемента
+    Публичный метод<br>
+Удаляет элемент с сервера<br>
+Принимает аргументом id удаляемого элемента
 </div>
 
 
@@ -1088,7 +1108,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line125">line 125</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1154,7 +1174,9 @@
 
 
 <div class="description">
-    Публичный метод<br>Сохраняет на сервер новую ссылку на аватар пользователя<br>Принимает аргументом ссылку на новый аватар пользователя, полученную из Формы редактирования аватара
+    Публичный метод<br>
+Сохраняет на сервер новую ссылку на аватар пользователя<br>
+Принимает аргументом ссылку на новый аватар пользователя, полученную из Формы редактирования аватара
 </div>
 
 
@@ -1250,7 +1272,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line211">line 211</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -1316,7 +1338,9 @@
 
 
 <div class="description">
-    Публичный метод<br>Редактирует данные в профиле пользователя на сервере<br>Принимает арументом объект с новыми данными пользователя, веденными через Форму редактирования профиля
+    Публичный метод<br>
+Редактирует данные в профиле пользователя на сервере<br>
+Принимает арументом объект с новыми данными пользователя, веденными через Форму редактирования профиля
 </div>
 
 
@@ -1484,7 +1508,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line156">line 156</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -1537,7 +1561,10 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>api.editProfile({   name: &lt;новое имя пользователя, введенное в инпут Формы редактирования профиля>,   job: &lt;новое описание пользователя, введенное в инпут Формы редактирования профиля >});</code></pre>
+    <pre class="prettyprint"><code>api.editProfile({
+  name: &lt;новое имя пользователя, введенное в инпут Формы редактирования профиля>,
+  job: &lt;новое описание пользователя, введенное в инпут Формы редактирования профиля >
+});</code></pre>
 
 
 
@@ -1555,7 +1582,8 @@
 
 
 <div class="description">
-    Публичный метод<br>Загружает элементы с сервера
+    Публичный метод<br>
+Загружает элементы с сервера
 </div>
 
 
@@ -1602,7 +1630,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line69">line 69</a>
+        <a href="utils_api.js.html">utils/api.js</a>, <a href="utils_api.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -1668,7 +1696,8 @@
 
 
 <div class="description">
-    Публичный метод<br>Загружает с сервера данные пользователя
+    Публичный метод<br>
+Загружает с сервера данные пользователя
 </div>
 
 
@@ -1789,7 +1818,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 19:33:40 GMT+0300 (Москва, стандартное время)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Fri Nov 13 2020 05:54:34 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>

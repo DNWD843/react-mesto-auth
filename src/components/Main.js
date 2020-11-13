@@ -1,6 +1,7 @@
-import React from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import Card from './Card';
+import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Card from "./Card";
+import PropTypes from 'prop-types';
 
 /**
  * @module Main
@@ -25,37 +26,82 @@ import Card from './Card';
  * @see {@link Card}
  * @since v.2.0.0
  */
-function Main(props) {
-
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  cards,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content page__content">
-      <section className="user-profile content__user-profile" key="user-profile">
-        <button type="button" onClick={ props.onEditAvatar } className="button  user-profile__avatar-button" style={ { backgroundImage: `url(${currentUser.avatar})` } } name="edit-avatar-form-button" id="edit-avatar-form-button" value="Добавить аватар" title="Изменить аватар"></button>
+      <section
+        className="user-profile content__user-profile"
+        key="user-profile"
+      >
+        <button
+          type="button"
+          onClick={onEditAvatar}
+          className="button  user-profile__avatar-button"
+          style={{ backgroundImage: `url(${currentUser.avatar})` }}
+          name="edit-avatar-form-button"
+          id="edit-avatar-form-button"
+          value="Добавить аватар"
+          title="Изменить аватар"
+        ></button>
         <div className="user-profile__user-info">
-          <h1 className="user-profile__user-name">{ currentUser.name }</h1>
-          <button type="button" onClick={ props.onEditProfile } className="button button_type_edit user-profile__edit-button" name="edit-profile-form-button" id="edit-profile-form-button" value="Открыть форму" title="Редактировать профиль"></button>
-          <p className="user-profile__user-job">{ currentUser.about }</p>
+          <h1 className="user-profile__user-name">{currentUser.name}</h1>
+          <button
+            type="button"
+            onClick={onEditProfile}
+            className="button button_type_edit user-profile__edit-button"
+            name="edit-profile-form-button"
+            id="edit-profile-form-button"
+            value="Открыть форму"
+            title="Редактировать профиль"
+          ></button>
+          <p className="user-profile__user-job">{currentUser.about}</p>
         </div>
-        <button type="button" onClick={ props.onAddPlace } className="button button_type_add user-profile__add-button" name="add-photo-form-button" id="add-photo-form-button" value="Добавить фото" title="Добавить фото"></button>
+        <button
+          type="button"
+          onClick={onAddPlace}
+          className="button button_type_add user-profile__add-button"
+          name="add-photo-form-button"
+          id="add-photo-form-button"
+          value="Добавить фото"
+          title="Добавить фото"
+        ></button>
       </section>
 
       <section className="photo content__photo" key="photo-cards">
         <ul className="photo__cards">
-          { props.cards.map(card =>
+          {cards.map((card) => (
             <Card
-              key={ card.id }
-              { ...card }
-              onCardClick={ props.onCardClick }
-              onCardLike={ props.onCardLike }
-              onCardDelete={ props.onCardDelete }
-            />)
-          }
+              key={card.id}
+              {...card}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+            />
+          ))}
         </ul>
       </section>
     </main>
   );
 }
+
+Main.propTypes = {
+  onEditAvatar: PropTypes.func.isRequired,
+  onEditProfile: PropTypes.func.isRequired,
+  onAddPlace: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onCardLike: PropTypes.func.isRequired,
+  onCardDelete: PropTypes.func.isRequired,
+  cards: PropTypes.array.isRequired,
+};
 
 export default Main;

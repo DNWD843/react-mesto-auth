@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * @module ImagePopup
@@ -18,18 +19,43 @@ import React from 'react';
  * @returns {JSX} - JSX-фрагмент разметки, попап с полноразмерным изображением карточки
  * @since v.2.0.0
  */
-function ImagePopup(props) {
+function ImagePopup({ onOverlayClick, onClose, isOpen, card }) {
   return (
-    <div onClick={ props.onOverlayClick } className={ `popup page__overlay page__overlay_theme_dark popup_type_view-photo ${props.isOpen ? 'popup_opened' : ''}` } id="view">
+    <div
+      onClick={onOverlayClick}
+      className={`popup page__overlay page__overlay_theme_dark popup_type_view-photo ${
+        isOpen ? "popup_opened" : ""
+      }`}
+      id="view"
+    >
       <div className="popup__container">
-        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button popup__close-button_type_photo" name="close-photo" value="Закрыть фото"></button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="button button_type_close popup__close-button popup__close-button_type_photo"
+          name="close-photo"
+          value="Закрыть фото"
+        ></button>
         <figure className="popup__photo-content">
-          <img className="popup__place-image" src={ `${props.card ? props.card.link : '#'}  ` } alt={ `${props.card ? props.card.title : 'изображение'}` } />
-          <figcaption className="popup__place-name">{ `${props.card ? props.card.title : 'изображение'}` }</figcaption>
+          <img
+            className="popup__place-image"
+            src={`${card ? card.link : "#"}  `}
+            alt={`${card ? card.title : "изображение"}`}
+          />
+          <figcaption className="popup__place-name">{`${
+            card ? card.title : "изображение"
+          }`}</figcaption>
         </figure>
       </div>
     </div>
   );
 }
+
+ImagePopup.propTypes = {
+  onOverlayClick: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  card: PropTypes.object.isRequired
+};
 
 export default ImagePopup;

@@ -26,10 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useFormWithValidation } from '../hooks/useFormWithValidation';
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import PopupWithForm from "./PopupWithForm";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useFormWithValidation } from "../hooks/useFormWithValidation";
+import PropTypes from "prop-types";
 
 /**
  * @module EditProfilePopup
@@ -54,38 +55,50 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  * @see {@link PopupWithForm}
  * @since v.2.0.2
  */
-function EditProfilePopup({ isOpen, isLoading, onClose, onOverlayClick, onUpdateUser }) {
-
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+function EditProfilePopup({
+  isOpen,
+  isLoading,
+  onClose,
+  onOverlayClick,
+  onUpdateUser,
+}) {
+  const {
+    values,
+    errors,
+    isValid,
+    handleInputChange,
+    resetForm,
+  } = useFormWithValidation();
 
   const currentUser = React.useContext(CurrentUserContext);
 
   const { name, description } = values;
 
- /**
-  * @method handleSubmit
-  * @argument {Event} evt - событие
-  * @description Обработчик сабмита формы добавления новой карточки&lt;br>
-  * Вызывает метод onUpdateUser, полученный из props.
-  * @public
-  * @since v.2.0.6
-  */
+  /**
+   * @method handleSubmit
+   * @argument {Event} evt - событие
+   * @description Обработчик сабмита формы добавления новой карточки&lt;br>
+   * Вызывает метод onUpdateUser, полученный из props.
+   * @public
+   * @since v.2.0.6
+   */
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onUpdateUser({
-      name, about: description
+      name,
+      about: description,
     });
-  }
+  };
 
-  /**
-   * При открытии попапа устанавливаем актуальные данные профиля пользователя в инпутах формы
-   * @ignore
-   */
   React.useEffect(() => {
-    resetForm({
-      name: currentUser.name,
-      description: currentUser.about
-    }, {}, true);
+    resetForm(
+      {
+        name: currentUser.name,
+        description: currentUser.about,
+      },
+      {},
+      true
+    );
     // eslint-disable-next-line
   }, [isOpen]);
 
@@ -94,13 +107,12 @@ function EditProfilePopup({ isOpen, isLoading, onClose, onOverlayClick, onUpdate
       name="edit-profile"
       title="Редактировать профиль"
       submitButtonText="Сохранить"
-      isOpen={ isOpen }
-      onClose={ onClose }
-      onOverlayClick={ onOverlayClick }
-      onSubmit={ handleSubmit }
-      isLoading={ isLoading }
-      preloaderText="Сохранение..."
-      isDisabled={ !isValid }
+      isOpen={isOpen}
+      onClose={onClose}
+      onOverlayClick={onOverlayClick}
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
+      isDisabled={!isValid}
     >
       &lt;>
         &lt;ul className="form__inputs">
@@ -109,36 +121,48 @@ function EditProfilePopup({ isOpen, isLoading, onClose, onOverlayClick, onUpdate
               id="user-name-input"
               name="name"
               type="text"
-              onChange={ handleInputChange }
-              value={ name || '' }
+              onChange={handleInputChange}
+              value={name || ""}
               className="form__input form__input_type_name"
               placeholder="Имя"
               required
               minLength="1"
               maxLength="30"
             />
-            &lt;span className="form__input-error" id="edit-profile-input-error">{ errors.name || '' }&lt;/span>
+            &lt;span className="form__input-error" id="edit-profile-input-error">
+              {errors.name || ""}
+            &lt;/span>
           &lt;/li>
           &lt;li className="form__field">
             &lt;input
               id="user-job-input"
               name="description"
               type="text"
-              onChange={ handleInputChange }
-              value={ description || '' }
+              onChange={handleInputChange}
+              value={description || ""}
               className="form__input form__input_type_job"
               placeholder="О себе"
               required
               minLength="3"
               maxLength="35"
             />
-            &lt;span className="form__input-error" id="edit-profile-input-error">{ errors.description || '' }&lt;/span>
+            &lt;span className="form__input-error" id="edit-profile-input-error">
+              {errors.description || ""}
+            &lt;/span>
           &lt;/li>
         &lt;/ul>
       &lt;/>
     &lt;/PopupWithForm>
   );
 }
+
+EditProfilePopup.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  onOverlayClick: PropTypes.func.isRequired,
+  onUpdateUser: PropTypes.func.isRequired,
+};
 
 export default EditProfilePopup;
 </code></pre>
@@ -157,7 +181,7 @@ export default EditProfilePopup;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 19:33:40 GMT+0300 (Москва, стандартное время)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Fri Nov 13 2020 05:54:34 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>

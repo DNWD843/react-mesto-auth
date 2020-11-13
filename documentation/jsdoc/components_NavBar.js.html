@@ -26,58 +26,101 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { Link } from 'react-router-dom';
+            <pre class="prettyprint source linenums"><code>import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 /**
  * @module NavBar
  * @description Функциональный React-компонент&lt;br>
- * Представляет собой меню со ссылками на профиль пользователя и выход из приложения.
- *  В зависимости от места и контекста использования может иметь разный вид, быть с кнопкой открытия/закрытия
- *  меню и без нее.&lt;br>
- *  * представляет собой выезжающее меню без кнопки открытия/закрытия при использовании на мобильных устройствах,
- *  при этом кнопка открытия/закрытия располагается в хэдере&lt;br>
- *  * представляет собой меню со ссылками без кнопки открытия/закрытия, при использования в хэдере на больших
- *  разрешениях
+ * Представляет собой меню со ссылками на профиль пользователя и выход из приложения.&lt;br>
+ * Меню ссылок NavBar  определяется в двух местах приложения:&lt;br>
+ *  * над хэдером - для мобильных разрешений;&lt;br>
+ *  * в хэдере - для десктопных разрешений.&lt;br>
+ *  На мобильных разрешениях меню скрыто над хэдером, выезжает сверху вниз при нажатии на кнопку управления меню,
+ *  расположенную в хэдере(меню из десктопных разрешений преобразуется в кнопку)&lt;br>
+ *  На десктопных разрешениях расположено в хэдере, представляет собой меню со ссылками без кнопки открытия/закрытия,
+ *  меню для мобильных разрешений (над хэдером) на десктопных разрешениях отключено.&lt;br>
+ * Анимция выезда меню сверху и трансформация меню в хэдере в кнопку управления реализованы средствами CSS.
+ * (См. blocks\navbar)
  * @param {Object} props - пропсы, принимаемые компонентом
  * @param {String} props.email - емэйл (логин), введенный пользователем при входе в приложение
  * @param {Function} props.handleSignoutButtonClick - функция-коллбэк, вызывается при клике по "Выйти", выход из профиля
  * на страницу входа (авторизации)
- * @param {String} props.signOutButtonText - текст, который будет отображен на кнопке выхода из профиля
+ * @param {String} props.signOutButtonText - текст, который будет отображен на кнопке выхода из профиля. &lt;b>Не обязательный пропс.
+ *  Значение по умолчанию: "Выйти"&lt;/b>
  * @param {Function} props.handleMenuClick - функция-коллбэк, вызывается при клике по иконке "Меню", открывает или
  *  закрывает меню на мобильных разрешениях
  * @param {Boolean} props.isMenuOpened - индикатор состояния меню:&lt;br>
  *  - true - меню открыто&lt;br>
  *  - false - меню закрыто
  * @param {Boolean} props.isDropdownMenu - пропс, определяющий как будет отрисован компонент:&lt;br>
- *  * true - меню будет отрисовано как выпадающее меню,кнопка управления меню может находиться в другом компоненте
- *  * false - меню будет отрисовано статичным списком ссылок без кнопки открытия/закрытия.&lt;br>
- * &lt;b>Внимание!&lt;/b> Этот пропс задается вручную и не является управляемым стейтом.
+ *  - true - для мобильных разрешений экрана(на десктопных разрешениях меню скрыто), меню будет отрисовано как выпадающее меню,
+ *  при этом меню из десктопных разрешений преобразуется в кнопку управления&lt;br>
+ *   - false - для десктопных разрешений (на мобильных разрешениях меню преобразуется в кнопку управления меню), меню будет
+ *  отрисовано статичным списком ссылок без кнопки открытия/закрытия.&lt;br>
+ * &lt;b>Внимание!&lt;/b> Этот пропс задается вручную и не является стейтом.
  * @returns {JSX}
  * @since v.2.1.0
  */
-function NavBar({ email, handleSignoutButtonClick, signOutButtonText, handleMenuClick, isMenuOpened, isDropdownMenu }) {
+function NavBar({
+  email,
+  handleSignoutButtonClick,
+  signOutButtonText,
+  handleMenuClick,
+  isMenuOpened,
+  isDropdownMenu,
+}) {
   return (
     &lt;>
-      &lt;ul className={`navbar ${isDropdownMenu ? `navbar_type_mobile ${isMenuOpened ? 'navbar_opened' : ''}` : ''}`}>
+      &lt;ul
+        className={`navbar ${
+          isDropdownMenu
+            ? `navbar_type_mobile ${isMenuOpened ? "navbar_opened" : ""}`
+            : ""
+        }`}
+      >
         &lt;li className="navbar__item">
-          &lt;Link to="#" className="navbar__link">{email}&lt;/Link>
+          &lt;Link to="#" className="navbar__link">
+            {email}
+          &lt;/Link>
         &lt;/li>
         &lt;li className="navbar__item">
-          &lt;button onClick={handleSignoutButtonClick} className="button button_type_signout navbar__button-signout">{signOutButtonText}&lt;/button>
+          &lt;button
+            onClick={handleSignoutButtonClick}
+            className="button button_type_signout navbar__button-signout"
+          >
+            {signOutButtonText}
+          &lt;/button>
         &lt;/li>
       &lt;/ul>
-      {!isDropdownMenu
-        &amp;&amp; &lt;button
+      {!isDropdownMenu &amp;&amp; (
+        &lt;button
           type="button"
           title="Меню"
           onClick={handleMenuClick}
-          className={`button navbar__menu-button ${isMenuOpened ? "navbar__menu-button_type_open" : "navbar__menu-button_type_close"}`}
-        >
-        &lt;/button>
-      }
+          className={`button navbar__menu-button ${
+            isMenuOpened
+              ? "navbar__menu-button_type_open"
+              : "navbar__menu-button_type_close"
+          }`}
+        >&lt;/button>
+      )}
     &lt;/>
-  )
+  );
 }
+
+NavBar.propTypes = {
+  email: PropTypes.string.isRequired,
+  handleSignoutButtonClick: PropTypes.func.isRequired,
+  signOutButtonText: PropTypes.string,
+  handleMenuClick: PropTypes.func.isRequired,
+  isMenuOpened: PropTypes.bool.isRequired,
+  isDropdownMenu: PropTypes.bool.isRequired,
+};
+
+NavBar.defaultProps = {
+  signOutButtonText: "Выйти"
+};
 
 export default NavBar;
 </code></pre>
@@ -96,7 +139,7 @@ export default NavBar;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Nov 11 2020 19:33:40 GMT+0300 (Москва, стандартное время)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Fri Nov 13 2020 05:54:34 GMT+0300 (Москва, стандартное время)
 </footer>
 
 <script> prettyPrint(); </script>

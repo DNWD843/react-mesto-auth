@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 /**
  * @module useFormWithValidation
@@ -12,11 +12,8 @@ import { useCallback, useState } from 'react';
  * @public
  */
 export function useFormWithValidation() {
-
   const [values, setValues] = useState({});
-
   const [errors, setErrors] = useState({});
-
   const [isValid, setIsValid] = useState(false);
 
   /**
@@ -30,7 +27,7 @@ export function useFormWithValidation() {
    */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({...values, [name]: value });
+    setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: event.target.validationMessage });
     setIsValid(event.target.closest("form").checkValidity());
   };
@@ -54,7 +51,7 @@ export function useFormWithValidation() {
      * @since v.2.0.6
      */
     (newValues = {}, newErrors = {}, newIsValid = false) => {
-      setValues((newValues));
+      setValues(newValues);
       setErrors(newErrors);
       setIsValid(newIsValid);
     },
@@ -62,4 +59,4 @@ export function useFormWithValidation() {
   );
 
   return { values, errors, isValid, handleInputChange, setValues, resetForm };
-};
+}

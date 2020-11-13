@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import StartPageWithForm from './StartPageWithForm';
+import React, { useEffect } from "react";
+import { useFormWithValidation } from "../hooks/useFormWithValidation";
+import StartPageWithForm from "./StartPageWithForm";
+import PropTypes from "prop-types";
 
 /**
  * @module Register
@@ -15,8 +16,13 @@ import StartPageWithForm from './StartPageWithForm';
  * @since v.2.1.0
  */
 function Register({ isLoading, handleRegister }) {
-
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+  const {
+    values,
+    errors,
+    isValid,
+    handleInputChange,
+    resetForm,
+  } = useFormWithValidation();
 
   const { regEmail, regPassword } = values;
 
@@ -32,15 +38,11 @@ function Register({ isLoading, handleRegister }) {
     evt.preventDefault();
     const userRegistrationData = {
       email: regEmail,
-      password: regPassword
-    }
+      password: regPassword,
+    };
     handleRegister(userRegistrationData);
   };
 
-  /**
-   * При открытии или обновлении формы все ее поля очищаются.
-   * @ignore
-   */
   useEffect(() => {
     resetForm({}, {}, false);
     //eslint-disable-next-line
@@ -48,15 +50,13 @@ function Register({ isLoading, handleRegister }) {
 
   return (
     <StartPageWithForm
-      name='register'
-      title='Регистрация'
+      name="register"
+      title="Регистрация"
       onSubmit={handleSubmit}
       isDisabled={!isValid}
       isLoading={isLoading}
-      submitButtonText='Зарегистрироваться'
-      preloaderText='Регистрация...'
-      redirectTitleText="Уже зарегистрированы? "
-      redirectLinkText="Войти"
+      submitButtonText="Зарегистрироваться"
+      preloaderText="Регистрация..."
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -67,12 +67,14 @@ function Register({ isLoading, handleRegister }) {
               type="email"
               onChange={handleInputChange}
               onFocus={handleInputChange}
-              value={regEmail || ''}
+              value={regEmail || ""}
               className="form__input form__input_type_start form__input_type_reg-email"
               placeholder="Email"
               required
             />
-            <span className="form__input-error" id="user-email-input-error">{errors.regEmail || ''}</span>
+            <span className="form__input-error" id="user-email-input-error">
+              {errors.regEmail || ""}
+            </span>
           </li>
           <li className="form__field">
             <input
@@ -81,19 +83,26 @@ function Register({ isLoading, handleRegister }) {
               type="password"
               onChange={handleInputChange}
               onFocus={handleInputChange}
-              value={regPassword || ''}
+              value={regPassword || ""}
               className="form__input form__input_type_start form__input_type_reg-password"
               placeholder="Пароль"
               required
               minLength="3"
               maxLength="35"
             />
-            <span className="form__input-error" id="reg-password-input-error">{errors.regPassword || ''}</span>
+            <span className="form__input-error" id="reg-password-input-error">
+              {errors.regPassword || ""}
+            </span>
           </li>
         </ul>
       </>
     </StartPageWithForm>
   );
 }
+
+Register.propTypes = {
+  isLoading: PropTypes.bool,
+  handleRegister: PropTypes.func.isRequired,
+};
 
 export default Register;

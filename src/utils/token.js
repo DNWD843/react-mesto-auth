@@ -1,11 +1,10 @@
-export const TOKEN_KEY = 'token';
+export const TOKEN_KEY = "token";
 
 /**
  * @module token
  * @description Компонент, содержащий методы работы с токеном.
  * @since v.2.1.0
  */
-
 
 /**
  * @method setToken
@@ -15,14 +14,14 @@ export const TOKEN_KEY = 'token';
  */
 export const setToken = (token) => {
   localStorage.setItem(TOKEN_KEY, token);
-}
+};
 
 /**
  * @method getToken
  * @description Метод получения токена из локального хранилища браузера
  * @since v.2.1.0
  */
-export const getToken = () => localStorage.getItem(TOKEN_KEY)
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 /**
  * @method removeToken
@@ -31,4 +30,4 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY)
  */
 export const removeToken = () => {
   localStorage.removeItem(TOKEN_KEY);
-}
+};

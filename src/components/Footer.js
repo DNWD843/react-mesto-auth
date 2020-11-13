@@ -1,6 +1,6 @@
-import React from 'react';
-import {Route} from 'react-router-dom';
-import {MAIN} from '../utils/routesMap';
+import React from "react";
+import { Route } from "react-router-dom";
+import { MAIN } from "../utils/routesMap";
 
 /**
  * @module Footer

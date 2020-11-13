@@ -1,6 +1,7 @@
-import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
-import { SIGNIN, SIGNUP } from '../utils/routesMap';
+import React from "react";
+import { Route, Link, Switch } from "react-router-dom";
+import { SIGNIN, SIGNUP } from "../utils/routesMap";
+import PropTypes from "prop-types";
 
 /**
  * @module StartPageWithForm
@@ -14,9 +15,11 @@ import { SIGNIN, SIGNUP } from '../utils/routesMap';
  * @param {Boolean} props.isLoading - индикатор состояния загрузки, используется для информирования пользовтаеля
  *  о том, что инициированный им процесс выполняется
  * @param {String} props.submitButtonText - текст, который будет отображаться на кнопке submit
- * @param {String} props.preloaderText - екст, отображаемый на кнопке сабмит во время загрузки, т.е. когда isLoading: true
+ * @param {String} props.preloaderText - текст, отображаемый на кнопке сабмит во время загрузки, т.е. когда isLoading: true
  * @param {String} props.redirectTitleText - текст, перед перенаправляющей ссылкой (не текст ссылки)
+ *  <b>Не обязательный пропс. Значение по умолчанию: "Уже зарегистрированы? "</b>
  * @param {String} props.redirectLinkText - текст непосредственно перенаправляющей ссылки
+ *  <b>Не обязательный пропс. Значение по умолчанию: "Войти"</b>
  * @param {JSX} props.children - JSX - фрагмент
  * @returns {JSX} - JSX - фрагмент, страница регистрации или авторизации
  * @since v.2.1.0
@@ -46,7 +49,11 @@ function StartPageWithForm({
         <button
           type="submit"
           disabled={isDisabled}
-          className={`button ${isDisabled ? 'button_type_submit-inactive' : 'button_type_submit-start'} form__submit-button form__submit-button_type_start`}
+          className={`button ${
+            isDisabled
+              ? "button_type_submit-inactive"
+              : "button_type_submit-start"
+          } form__submit-button form__submit-button_type_start`}
           name={`${name}-button`}
           value={submitButtonText}
         >
@@ -73,6 +80,24 @@ function StartPageWithForm({
       </form>
     </div>
   );
+}
+
+StartPageWithForm.propTypes = {
+  name: PropTypes.string,
+  title: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  submitButtonText: PropTypes.string,
+  preloaderText: PropTypes.string,
+  redirectTitleText: PropTypes.string,
+  redirectLinkText: PropTypes.string,
+  children: PropTypes.node,
+};
+
+StartPageWithForm.defaultProps = {
+  redirectTitleText: "Уже зарегистрированы? ",
+  redirectLinkText: "Войти",
 };
 
 export default StartPageWithForm;

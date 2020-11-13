@@ -1,5 +1,6 @@
-import React from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import PropTypes from 'prop-types';
 
 /**
  * @module Card
@@ -26,13 +27,22 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
  * @returns {JSX} - JSX-фрагмент разметки, элемент card
  * @since v.2.0.0
  */
-function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCardLike, onCardDelete }) {
-
+function Card({
+  id,
+  link,
+  title,
+  likesQuantity,
+  owner,
+  likes,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
 
   const isOwn = owner._id === currentUser._id;
 
-  const isLiked = likes.some(likeOwner => likeOwner._id === currentUser._id);
+  const isLiked = likes.some((likeOwner) => likeOwner._id === currentUser._id);
 
   /**
    * @method handleImageClick
@@ -56,7 +66,9 @@ function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCar
    * @public
    * @since v.2.0.2
    */
-  const handleLikeClick = () => { onCardLike({ id, likes }) };
+  const handleLikeClick = () => {
+    onCardLike({ id, likes });
+  };
 
   /**
    * @method handleDeleteClick
@@ -66,21 +78,61 @@ function Card({ id, link, title, likesQuantity, owner, likes, onCardClick, onCar
    * @public
    * @since v.2.0.2
    */
-  const handleDeleteClick = () => { onCardDelete({ id }) };
+  const handleDeleteClick = () => {
+    onCardDelete({ id });
+  };
 
   return (
     <li className="card">
-      <img className="card__image" onClick={ handleImageClick } src={ link } alt={ title } name="photo" title="Открыть фото" />
-      <button type="button" onClick={ handleDeleteClick } className={ `button button_type_delete card__delete-button ${isOwn ? 'card__delete-button_enabled' : ''}` } name="delete-button" value="delete" title="Удалить фото"></button>
+      <img
+        className="card__image"
+        onClick={handleImageClick}
+        src={link}
+        alt={title}
+        name="photo"
+        title="Открыть фото"
+      />
+      <button
+        type="button"
+        onClick={handleDeleteClick}
+        className={`button button_type_delete card__delete-button ${
+          isOwn ? "card__delete-button_enabled" : ""
+        }`}
+        name="delete-button"
+        value="delete"
+        title="Удалить фото"
+      ></button>
       <div className="card__description">
-        <h2 className="card__title">{ title }</h2>
+        <h2 className="card__title">{title}</h2>
         <div className="card__like-info">
-          <button type="button" onClick={ handleLikeClick } className={ `button button_type_like card__like-button  ${isLiked ? 'button_like-status_checked' : 'button_like-status_not-checked'}` } name="like-button" value="like"></button>
-          <span className="card__like-counter">{ likesQuantity }</span>
+          <button
+            type="button"
+            onClick={handleLikeClick}
+            className={`button button_type_like card__like-button  ${
+              isLiked
+                ? "button_like-status_checked"
+                : "button_like-status_not-checked"
+            }`}
+            name="like-button"
+            value="like"
+          ></button>
+          <span className="card__like-counter">{likesQuantity}</span>
         </div>
       </div>
     </li>
   );
 }
+
+Card.propTypes = {
+  id: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  title:PropTypes.string.isRequired,
+  likesQuantity: PropTypes.number.isRequired,
+  owner: PropTypes.object.isRequired,
+  likes: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onCardLike: PropTypes.func.isRequired,
+  onCardDelete: PropTypes.func.isRequired,
+};
 
 export default Card;

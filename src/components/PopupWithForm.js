@@ -1,3 +1,6 @@
+import React from "react";
+import PropTypes from "prop-types";
+
 /**
  * @module PopupWithForm
  * @description Функциональный React-компонент<br>
@@ -11,8 +14,10 @@
  * <b>ПРИМЕЧАНИЕ:</b> Может не указываться явно в пропсах, может быть указан JSX-фрагментом при декларировании отрисовки компонента
  * @param {String} props.name - название формы, вставляется в атрибут name тега form и в css-класс, уточняющий тип формы
  * @param {String} props.title - название попапа
- * @param {String} props.submitButtonText - текст, который будет отображаться на кнопке submit
+ * @param {String} props.submitButtonText - текст, который будет отображаться на кнопке submit.
+ *  <b>Не обязательный пропс. Значение по умолчанию: "Создать"</b>
  * @param {String} props.preloaderText - текст, отображаемый на кнопке сабмит во время загрузки, т.е. когда isLoading: true
+ *  <b>Не обязательный пропс. Значение по умолчанию: "Сохранение..."</b>
  * @param {Funcion} props.onClose - функция-коллбэк, вызывается при клике по иконке закрытия попапа, закрывает попап
  * @param {Function} props.onOverlayClick - функция-коллбэк, вызывается при клике по оверлею попапа, закрывает попап
  * @param {Function} props.onSubmit - функция-коллбэк, вызывается при сабмите формы попапа
@@ -29,19 +34,77 @@
  * @returns {JSX} - JSX-фрагмент разметки, попап
  * @since v.2.0.0
  */
-function PopupWithForm(props) {
+function PopupWithForm({
+  onOverlayClick,
+  onSubmit,
+  onClose,
+  isDisabled,
+  isOpen,
+  isLoading,
+  submitButtonText,
+  preloaderText,
+  name,
+  title,
+  children,
+}) {
   return (
-    <div onClick={ props.onOverlayClick } className={ `popup page__overlay page__overlay_theme_light popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}` } id={ props.name }>
+    <div
+      onClick={onOverlayClick}
+      className={`popup page__overlay page__overlay_theme_light popup_type_${name} ${
+        isOpen ? "popup_opened" : ""
+      }`}
+      id={name}
+    >
       <div className="popup__container">
-        <button type="button" onClick={ props.onClose } className="button button_type_close popup__close-button popup__close-button_type_modal" name="close-popup" value="Закрыть"></button>
-        <form onSubmit={ props.onSubmit } className={ `form popup__form form_type_${props.name}` } name={ `${props.name}-form` } id={ `${props.name}-form` } >
-          <h2 className="form__title">{ props.title }</h2>
-          { props.children }
-          <button type="submit" disabled={ props.isDisabled } className={ `button ${props.isDisabled ? 'button_type_submit-inactive' : 'button_type_submit'} form__submit-button` } name={ `${props.name}-button` } value={ props.submitButtonText }>{ props.isLoading ? props.preloaderText : props.submitButtonText }</button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="button button_type_close popup__close-button popup__close-button_type_modal"
+          name="close-popup"
+          value="Закрыть"
+        ></button>
+        <form
+          onSubmit={onSubmit}
+          className={`form popup__form form_type_${name}`}
+          name={`${name}-form`}
+          id={`${name}-form`}
+        >
+          <h2 className="form__title">{title}</h2>
+          {children}
+          <button
+            type="submit"
+            disabled={isDisabled}
+            className={`button ${
+              isDisabled ? "button_type_submit-inactive" : "button_type_submit"
+            } form__submit-button`}
+            name={`${name}-button`}
+            value={submitButtonText}
+          >
+            {isLoading ? preloaderText : submitButtonText}
+          </button>
         </form>
       </div>
     </div>
   );
 }
+
+PopupWithForm.propTypes = {
+  onOverlayClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  submitButtonText: PropTypes.string,
+  preloaderText: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+
+PopupWithForm.defaultProps = {
+  submitButtonText: "Создать",
+  preloaderText: "Сохранение",
+};
 
 export default PopupWithForm;

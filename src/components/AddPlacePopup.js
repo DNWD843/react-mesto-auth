@@ -1,6 +1,7 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { useFormWithValidation } from '../hooks/useFormWithValidation';
+import React from "react";
+import PopupWithForm from "./PopupWithForm";
+import { useFormWithValidation } from "../hooks/useFormWithValidation";
+import PropTypes from "prop-types";
 
 /**
  * @module AddPlacePopup
@@ -27,11 +28,20 @@ import { useFormWithValidation } from '../hooks/useFormWithValidation';
  * @see {@link PopupWithForm}
  * @since v.2.0.2
  */
-const AddPlacePopup = ({
-  isOpen, isLoading, onClose, onOverlayClick, onSubmit,
-}) => {
-
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+function AddPlacePopup({
+  isOpen,
+  isLoading,
+  onClose,
+  onOverlayClick,
+  onSubmit,
+}) {
+  const {
+    values,
+    errors,
+    isValid,
+    handleInputChange,
+    resetForm,
+  } = useFormWithValidation();
 
   const { title, link } = values;
 
@@ -48,10 +58,6 @@ const AddPlacePopup = ({
     onSubmit({ name: title, link });
   };
 
-  /**
-   * После закрытия попапа сбрасываем значения полей формы и валидацию
-   * @ignore
-   */
   React.useEffect(() => {
     resetForm({}, {}, false);
     // eslint-disable-next-line
@@ -61,13 +67,11 @@ const AddPlacePopup = ({
     <PopupWithForm
       name="add-photo"
       title="Новое место"
-      submitButtonText="Создать"
       isOpen={isOpen}
       onClose={onClose}
       onOverlayClick={onOverlayClick}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      preloaderText="Сохранение..."
       isDisabled={!isValid}
     >
       <ul className="form__inputs">
@@ -77,7 +81,7 @@ const AddPlacePopup = ({
             name="title"
             type="text"
             onChange={handleInputChange}
-            value={title || ''}
+            value={title || ""}
             className="form__input form__input_type_place-title"
             placeholder="Название"
             required
@@ -92,7 +96,7 @@ const AddPlacePopup = ({
             name="link"
             type="url"
             onChange={handleInputChange}
-            value={link || ''}
+            value={link || ""}
             className="form__input form__input_type_image-link"
             placeholder="Ссылка на картинку"
             required
@@ -102,6 +106,14 @@ const AddPlacePopup = ({
       </ul>
     </PopupWithForm>
   );
+}
+
+AddPlacePopup.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  onOverlayClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AddPlacePopup;

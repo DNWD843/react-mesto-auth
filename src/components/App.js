@@ -1,23 +1,23 @@
-import React from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import ImagePopup from './ImagePopup';
-import api from '../utils/api';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import EditProfilePopup from './EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup';
-import AddPlacePopup from './AddPlacePopup';
-import DeleteConfirmPopup from './DeleteConfirmPopup';
-import InfoToolTip from './InfoToolTip';
-import Login from './Login';
-import Register from './Register';
-import * as TO_ from '../utils/routesMap';
-import ProtectedRoute from './ProtectedRoute';
-import { getToken, setToken, TOKEN_KEY } from '../utils/token';
-import * as auth from '../utils/auth';
-import NavBar from './NavBar';
+import React from "react";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+import ImagePopup from "./ImagePopup";
+import api from "../utils/api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
+import DeleteConfirmPopup from "./DeleteConfirmPopup";
+import InfoToolTip from "./InfoToolTip";
+import Login from "./Login";
+import Register from "./Register";
+import * as TO_ from "../utils/routesMap";
+import ProtectedRoute from "./ProtectedRoute";
+import { getToken, setToken, TOKEN_KEY } from "../utils/token";
+import * as auth from "../utils/auth";
+import NavBar from "./NavBar";
 
 /**
  * @description Классовый React-компонент<br>
@@ -44,8 +44,7 @@ class App extends React.Component {
      * @property {Boolean} state.isImagePopupOpen - стейт попапа с полноразмерным изображением,
      * управляет видимостью попапа. Начальное значение false - попап скрыт
      * @property {Object | undefined} state.selectedCard - стейт кликнутой карточки,
-     * Может иметь одно из двух значений: объект с данными карточки или undefined.
-     * Начальное значение undefined - карточка не определена
+     * Начальное значение пустой объект - карточка не определена
      * @property {Object} state.currentUser - стейт, сохраняет объект с данными о текущем пользователе
      * @property {Array} state.cards - стейт, содержит массив объектов с данными карточек
      * @property {Boolean} state.isLoading - стейт состояния процесса, true - процесс выполняется,
@@ -68,14 +67,14 @@ class App extends React.Component {
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
       isImagePopupOpen: false,
-      selectedCard: undefined,
+      selectedCard: {},
       currentUser: {},
       cards: [],
       isLoading: false,
       loggedIn: false,
       userData: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       },
       isInfoToolTipOpen: false,
       isMenuOpened: false,
@@ -92,33 +91,33 @@ class App extends React.Component {
    * @since v.2.0.0
    */
   closeAllPopups = () => {
-    document.removeEventListener('keydown', this.handleEscClose);
+    document.removeEventListener("keydown", this.handleEscClose);
     this.setState({
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       isDeleteConfirmPopupOpen: false,
       isImagePopupOpen: false,
-      selectedCard: undefined,
+      selectedCard: {},
       isInfoToolTipOpen: false,
     });
-  }
+  };
 
   /**
-  * @method handleEscClose
-  * @description Обработчик нажатия на клавишу Escape<br>
-  * Стрелочная функция, закрывает попап при нажатии клавиши Esc
-  * @param {Event} evt - событие
-  * @public
-  * @memberof App
-  * @instance
-  * @since v.2.0.0
-  */
+   * @method handleEscClose
+   * @description Обработчик нажатия на клавишу Escape<br>
+   * Стрелочная функция, закрывает попап при нажатии клавиши Esc
+   * @param {Event} evt - событие
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.0.0
+   */
   handleEscClose = (evt) => {
-    if (evt.key === 'Escape') {
+    if (evt.key === "Escape") {
       this.closeAllPopups();
     }
-  }
+  };
 
   /**
    * @method handleClickOnOverlay
@@ -140,39 +139,46 @@ class App extends React.Component {
     if (evt.target === evt.currentTarget) {
       this.closeAllPopups();
     }
-  }
+  };
 
   /**
-  * @method handleCardLike
-  * @description Обработчик клика по иконке "лайк"<br>
-  * Стрелочная функция, принимает аргументом объект с данными карточки.
-  * Ставит или снимает "лайки", в зависимости от состояния "лайка".
-  * @param {Object} card - объект с данными лайкнутой карточки
-  * @param {String} card.id - id лайкнутой карточки
-  * @param {Array} card.likes - массив "лайков" лайкнутой карточки
-  * @public
-  * @memberof App
-  * @instance
-  * @since v.2.0.2
-  * @see {@link Card}
-  */
+   * @method handleCardLike
+   * @description Обработчик клика по иконке "лайк"<br>
+   * Стрелочная функция, принимает аргументом объект с данными карточки.
+   * Ставит или снимает "лайки", в зависимости от состояния "лайка".
+   * @param {Object} card - объект с данными лайкнутой карточки
+   * @param {String} card.id - id лайкнутой карточки
+   * @param {Array} card.likes - массив "лайков" лайкнутой карточки
+   * @public
+   * @memberof App
+   * @instance
+   * @since v.2.0.2
+   * @see {@link Card}
+   */
   handleCardLike = (card) => {
-    const isLiked = card.likes.some((likeOwner) => likeOwner._id === this.state.currentUser._id);
-    api.changeLikeCardStatus(card.id, !isLiked)
+    const isLiked = card.likes.some(
+      (likeOwner) => likeOwner._id === this.state.currentUser._id
+    );
+    api
+      .changeLikeCardStatus(card.id, !isLiked)
       .then((newCard) => {
-        const newCards = this.state.cards.map((cardsItem) => cardsItem.id === card.id
-          ? {
-            id: newCard._id,
-            link: newCard.link,
-            title: newCard.name,
-            likesQuantity: newCard.likes.length,
-            owner: newCard.owner,
-            likes: newCard.likes
-          }
-          : cardsItem);
+        const newCards = this.state.cards.map((cardsItem) =>
+          cardsItem.id === card.id
+            ? {
+                id: newCard._id,
+                link: newCard.link,
+                title: newCard.name,
+                likesQuantity: newCard.likes.length,
+                owner: newCard.owner,
+                likes: newCard.likes,
+              }
+            : cardsItem
+        );
         this.setState({ cards: newCards });
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   /**
@@ -187,10 +193,10 @@ class App extends React.Component {
    * @see {@link Card}
    */
   handleCardClick = (card) => {
-    document.addEventListener('keydown', this.handleEscClose);
+    document.addEventListener("keydown", this.handleEscClose);
     this.setState({ selectedCard: card });
     this.setState({ isImagePopupOpen: true });
-  }
+  };
 
   /**
    * @method handleCardDelete
@@ -226,19 +232,22 @@ class App extends React.Component {
     const card = this.state.selectedCard;
     this.setState({ isLoading: true });
 
-    api.deleteCard(card.id)
+    api
+      .deleteCard(card.id)
       .then(() => {
         const newCards = this.state.cards.filter((cardsItem) => {
-          return cardsItem.id !== card.id
+          return cardsItem.id !== card.id;
         });
         this.setState({ cards: newCards });
         this.closeAllPopups();
       })
-      .catch((err) => { console.log(err); })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
   /**
    * @method handleEditAvatarClick
@@ -252,9 +261,9 @@ class App extends React.Component {
    */
   handleEditAvatarClick = () => {
     document.activeElement.blur();
-    document.addEventListener('keydown', this.handleEscClose);
+    document.addEventListener("keydown", this.handleEscClose);
     this.setState({ isEditAvatarPopupOpen: true });
-  }
+  };
 
   /**
    * @function handleUpdateAvatar
@@ -272,16 +281,19 @@ class App extends React.Component {
    */
   handleUpdateAvatar = ({ avatar }) => {
     this.setState({ isLoading: true });
-    api.editAvatar(avatar)
+    api
+      .editAvatar(avatar)
       .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch((err) => { console.log(err); })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
   /**
    * @method handleEditProfileClick
@@ -295,9 +307,9 @@ class App extends React.Component {
    */
   handleEditProfileClick = () => {
     document.activeElement.blur();
-    document.addEventListener('keydown', this.handleEscClose);
+    document.addEventListener("keydown", this.handleEscClose);
     this.setState({ isEditProfilePopupOpen: true });
-  }
+  };
 
   /**
    * @function handleUpdateUser
@@ -317,16 +329,19 @@ class App extends React.Component {
   handleUpdateUser = ({ name, about }) => {
     this.setState({ isLoading: true });
 
-    api.editProfile({ name, about })
+    api
+      .editProfile({ name, about })
       .then((res) => {
         this.setState({ currentUser: res });
         this.closeAllPopups();
       })
-      .catch((err) => { console.log(err); })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
   /**
    * @method handleAddPlaceClick
@@ -340,9 +355,9 @@ class App extends React.Component {
    */
   handleAddPlaceClick = () => {
     document.activeElement.blur();
-    document.addEventListener('keydown', this.handleEscClose);
+    document.addEventListener("keydown", this.handleEscClose);
     this.setState({ isAddPlacePopupOpen: true });
-  }
+  };
 
   /**
    * @method handleAddPlaceSubmit
@@ -361,8 +376,8 @@ class App extends React.Component {
    */
   handleAddPlaceSubmit = ({ name, link }) => {
     this.setState({ isLoading: true });
-
-    api.addNewCard({ name, link })
+    api
+      .addNewCard({ name, link })
       .then((newCard) => {
         const obtainedCard = {
           id: newCard._id,
@@ -370,17 +385,19 @@ class App extends React.Component {
           title: newCard.name,
           likesQuantity: newCard.likes.length,
           owner: newCard.owner,
-          likes: newCard.likes
+          likes: newCard.likes,
         };
         const resultCardsArr = this.state.cards.concat(obtainedCard);
         this.setState({ cards: resultCardsArr });
         this.closeAllPopups();
       })
-      .catch((err) => { console.log(err); })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  }
+  };
 
   /**
    * @method handleRegister
@@ -398,27 +415,26 @@ class App extends React.Component {
    */
   handleRegister = ({ password, email }) => {
     this.setState({ isLoading: true });
-    /**
-     * Метод запроса на регистрацию пользователя
-     * @see auth
-     * @ignore
-     */
-    auth.register(password, email)
+    auth
+      .register(password, email)
       .then((res) => {
         if (res.data) {
           this.props.history.push(TO_.SIGNIN);
         } else {
-          this.setState({
-            loggedIn: false,
-            isInfoToolTipOpen: true,
-          }, () => {
-            console.log(res);
-          });
+          this.setState(
+            {
+              loggedIn: false,
+              isInfoToolTipOpen: true,
+            },
+            () => {
+              console.log(res);
+            }
+          );
         }
       })
       .catch((err) => console.log(err))
       .finally(() => this.setState({ isLoading: false }));
-  }
+  };
 
   /**
    * @method handleLogin
@@ -437,37 +453,39 @@ class App extends React.Component {
    */
   handleLogin = ({ password, login }) => {
     this.setState({ isLoading: true });
-    /**
-     * Метод запроса на авторизацию пользователя
-     * @see auth
-     * @ignore
-     */
-    auth.authorize(password, login)
+    auth
+      .authorize(password, login)
       .then((res) => {
         if (res.token) {
           setToken(res.token);
-          this.setState({
-            loggedIn: true,
-            userData: {
-              email: login,
-              password,
+          this.setState(
+            {
+              loggedIn: true,
+              userData: {
+                email: login,
+                password,
+              },
+              isInfoToolTipOpen: true,
             },
-            isInfoToolTipOpen: true,
-          }, () => {
-            this.props.history.push(TO_.MAIN);
-          });
+            () => {
+              this.props.history.push(TO_.MAIN);
+            }
+          );
         } else {
-          this.setState({
-            loggedIn: false,
-            isInfoToolTipOpen: true,
-          }, () => {
-            console.log(res);
-          });
+          this.setState(
+            {
+              loggedIn: false,
+              isInfoToolTipOpen: true,
+            },
+            () => {
+              console.log(res);
+            }
+          );
         }
       })
       .catch((err) => console.log(err))
       .finally(() => this.setState({ isLoading: false }));
-  }
+  };
 
   /**
    * @method tokenCheck
@@ -484,32 +502,34 @@ class App extends React.Component {
   tokenCheck = () => {
     const token = getToken();
     if (token) {
-      /**
-       * Метод запроса проверки токена
-       * @see auth
-       * @igore
-       */
-      auth.getContent(token)
+      auth
+        .getContent(token)
         .then((res) => {
           if (res.data) {
-            this.setState({
-              loggedIn: true,
-              userData: { email: res.data.email }
-            }, () => {
-              this.props.history.push(TO_.MAIN);
-            });
+            this.setState(
+              {
+                loggedIn: true,
+                userData: { email: res.data.email },
+              },
+              () => {
+                this.props.history.push(TO_.MAIN);
+              }
+            );
           } else {
-            this.setState({
-              loggedIn: false,
-              isInfoToolTipOpen: true,
-            }, () => {
-              console.log(res);
-            });
+            this.setState(
+              {
+                loggedIn: false,
+                isInfoToolTipOpen: true,
+              },
+              () => {
+                console.log(res);
+              }
+            );
           }
         })
         .catch((err) => console.log(err));
     }
-  }
+  };
 
   /**
    * @method handleSignoutButtonClick
@@ -526,7 +546,7 @@ class App extends React.Component {
     this.setState({ isMenuOpened: false });
     localStorage.removeItem(TOKEN_KEY);
     this.props.history.push(TO_.SIGNIN);
-  }
+  };
 
   /**
    * @method handleMenuButtonClick
@@ -540,7 +560,7 @@ class App extends React.Component {
    */
   handleMenuButtonClick = () => {
     this.setState({ isMenuOpened: !this.state.isMenuOpened });
-  }
+  };
 
   /**
    * При монтировании компонента загружаем с сервера актуальные данные профиля пользователя
@@ -572,11 +592,13 @@ class App extends React.Component {
           title: initialCard.name,
           likesQuantity: initialCard.likes.length,
           owner: initialCard.owner,
-          likes: initialCard.likes
+          likes: initialCard.likes,
         }));
         this.setState({ cards: initialCards });
       })
-      .catch(err => { console.log(err); });
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   /**
@@ -593,9 +615,7 @@ class App extends React.Component {
     return (
       <>
         <CurrentUserContext.Provider value={this.state.currentUser}>
-
           <NavBar
-            signOutButtonText="Выйти"
             handleSignoutButtonClick={this.handleSignoutButtonClick}
             email={this.state.userData.email}
             handleMenuClick={this.handleMenuButtonClick}
@@ -604,9 +624,6 @@ class App extends React.Component {
           />
 
           <Header
-            signinLinkText="Войти"
-            signupLinkText="Регистрация"
-            signOutButtonText="Выйти"
             handleSignoutButtonClick={this.handleSignoutButtonClick}
             email={this.state.userData.email}
             handleMenuClick={this.handleMenuButtonClick}
@@ -616,7 +633,8 @@ class App extends React.Component {
 
           <Switch>
             <ProtectedRoute
-              path={TO_.MAIN} exact
+              path={TO_.MAIN}
+              exact
               loggedIn={this.state.loggedIn}
               onEditProfile={this.handleEditProfileClick}
               onAddPlace={this.handleAddPlaceClick}
@@ -644,7 +662,11 @@ class App extends React.Component {
             </Route>
 
             <Route path={TO_.MAIN}>
-              {!this.state.loggedIn ? <Redirect to={TO_.SIGNIN} /> : <Redirect to={TO_.MAIN} />}
+              {!this.state.loggedIn ? (
+                <Redirect to={TO_.SIGNIN} />
+              ) : (
+                <Redirect to={TO_.MAIN} />
+              )}
             </Route>
           </Switch>
 
@@ -690,15 +712,11 @@ class App extends React.Component {
           />
 
           <InfoToolTip
-            name="info-tool-tip"
             isOpen={this.state.isInfoToolTipOpen}
             onClose={this.closeAllPopups}
             onOverlayClick={this.handleClickOnOverlay}
-            titleTextSuccess="Вы успешно зарегистрировались!"
-            titleTextFail="Что-то пошло не так! Попробуйте ещё раз."
             loggedIn={this.state.loggedIn}
           />
-
         </CurrentUserContext.Provider>
       </>
     );

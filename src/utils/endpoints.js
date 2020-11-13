@@ -2,8 +2,8 @@
  * Эндпоинты
  * @ignore
  */
-export const LOGIN = '/signin';
+export const LOGIN = "/signin";
 
-export const REGISTER = '/signup';
+export const REGISTER = "/signup";
 
-export const USER = '/users/me'
+export const USER = "/users/me";

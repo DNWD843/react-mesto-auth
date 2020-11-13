@@ -2,8 +2,8 @@
  * Роуты
  * @ignore
  */
-export const MAIN = '/';
+export const MAIN = "/";
 
-export const SIGNIN = '/sign-in';
+export const SIGNIN = "/sign-in";
 
-export const SIGNUP = '/sign-up';
+export const SIGNUP = "/sign-up";

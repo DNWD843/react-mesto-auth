@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import StartPageWithForm from './StartPageWithForm';
+import React, { useEffect } from "react";
+import { useFormWithValidation } from "../hooks/useFormWithValidation";
+import StartPageWithForm from "./StartPageWithForm";
+import PropTypes from "prop-types";
 
 /**
  * @module Login
@@ -22,8 +23,13 @@ import StartPageWithForm from './StartPageWithForm';
  * @since v.2.1.0
  */
 function Login({ isLoading, handleLogin, userData }) {
-
-  const { values, errors, isValid, handleInputChange, resetForm } = useFormWithValidation();
+  const {
+    values,
+    errors,
+    isValid,
+    handleInputChange,
+    resetForm,
+  } = useFormWithValidation();
 
   const { login, password } = values;
 
@@ -39,7 +45,7 @@ function Login({ isLoading, handleLogin, userData }) {
     evt.preventDefault();
     const userData = { password, login };
     handleLogin(userData);
-  }
+  };
 
   /**
    * При первом выходе из приложения пользовательские данные подставляются в форму, пользователь может
@@ -47,21 +53,25 @@ function Login({ isLoading, handleLogin, userData }) {
    * @ignore
    */
   useEffect(() => {
-    resetForm({ login: userData.email, password: userData.password }, {});
+    resetForm(
+      {
+        login: userData.email,
+        password: userData.password,
+      },
+      {}
+    );
     //eslint-disable-next-line
   }, []);
 
   return (
     <StartPageWithForm
-      name='login'
-      title='Вход'
+      name="login"
+      title="Вход"
       onSubmit={handleSubmit}
       isDisabled={!isValid}
       isLoading={isLoading}
-      submitButtonText='Войти'
-      preloaderText='Выполняется вход...'
-      redirectTitleText="Уже зарегистрированы? "
-      redirectLinkText="Войти"
+      submitButtonText="Войти"
+      preloaderText="Выполняется вход..."
     >
       <>
         <ul className="form__inputs form__inputs_type_start">
@@ -72,12 +82,14 @@ function Login({ isLoading, handleLogin, userData }) {
               type="email"
               onChange={handleInputChange}
               onFocus={handleInputChange}
-              value={login || ''}
+              value={login || ""}
               className="form__input form__input_type_start form__input_type_user-login"
               placeholder="Email"
               required
             />
-            <span className="form__input-error" id="user-login-input-error">{errors.login || ''}</span>
+            <span className="form__input-error" id="user-login-input-error">
+              {errors.login || ""}
+            </span>
           </li>
           <li className="form__field">
             <input
@@ -86,19 +98,27 @@ function Login({ isLoading, handleLogin, userData }) {
               type="password"
               onChange={handleInputChange}
               onFocus={handleInputChange}
-              value={password || ''}
+              value={password || ""}
               className="form__input form__input_type_start form__input_type_user-password"
               placeholder="Пароль"
               required
               minLength="3"
               maxLength="35"
             />
-            <span className="form__input-error" id="user-password-input-error">{errors.password || ''}</span>
+            <span className="form__input-error" id="user-password-input-error">
+              {errors.password || ""}
+            </span>
           </li>
         </ul>
       </>
     </StartPageWithForm>
   );
+}
+
+Login.propTypes = {
+  isLoading: PropTypes.bool,
+  handleLogin: PropTypes.func.isRequired,
+  userData: PropTypes.object.isRequired,
 };
 
 export default Login;
