@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @module ImagePopup
@@ -20,19 +21,28 @@ import PropTypes from "prop-types";
  * @since v.2.0.0
  */
 function ImagePopup({ onOverlayClick, onClose, isOpen, card }) {
+  const popupClassName = classNames(
+    "popup",
+    "page__overlay",
+    "page__overlay_theme_dark",
+    "popup_type_view-photo",
+    isOpen && "popup_opened"
+  );
+
+  const popupCloseButtonClassName = classNames(
+    "button",
+    "button_type_close",
+    "popup__close-button",
+    "popup__close-button_type_photo"
+  );
+
   return (
-    <div
-      onClick={onOverlayClick}
-      className={`popup page__overlay page__overlay_theme_dark popup_type_view-photo ${
-        isOpen ? "popup_opened" : ""
-      }`}
-      id="view"
-    >
+    <div onClick={onOverlayClick} className={popupClassName} id="view">
       <div className="popup__container">
         <button
           type="button"
           onClick={onClose}
-          className="button button_type_close popup__close-button popup__close-button_type_photo"
+          className={popupCloseButtonClassName}
           name="close-photo"
           value="Закрыть фото"
         ></button>
@@ -55,7 +65,7 @@ ImagePopup.propTypes = {
   onOverlayClick: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  card: PropTypes.object.isRequired
+  card: PropTypes.object.isRequired,
 };
 
 export default ImagePopup;

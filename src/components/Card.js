@@ -1,6 +1,7 @@
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @module Card
@@ -43,6 +44,23 @@ function Card({
   const isOwn = owner._id === currentUser._id;
 
   const isLiked = likes.some((likeOwner) => likeOwner._id === currentUser._id);
+
+  const cardDeleteButtonClassName = classNames(
+    "button",
+    "button_type_delete",
+    "card__delete-button",
+    isOwn && "card__delete-button_enabled"
+  );
+
+  const cardLikeButtonClassName = classNames(
+    "button",
+    "button_type_like",
+    "card__like-button",
+    {
+      "button_like-status_checked": isLiked,
+      "button_like-status_not-checked": !isLiked,
+    }
+  );
 
   /**
    * @method handleImageClick
@@ -95,9 +113,7 @@ function Card({
       <button
         type="button"
         onClick={handleDeleteClick}
-        className={`button button_type_delete card__delete-button ${
-          isOwn ? "card__delete-button_enabled" : ""
-        }`}
+        className={cardDeleteButtonClassName}
         name="delete-button"
         value="delete"
         title="Удалить фото"
@@ -108,11 +124,7 @@ function Card({
           <button
             type="button"
             onClick={handleLikeClick}
-            className={`button button_type_like card__like-button  ${
-              isLiked
-                ? "button_like-status_checked"
-                : "button_like-status_not-checked"
-            }`}
+            className={cardLikeButtonClassName}
             name="like-button"
             value="like"
           ></button>
@@ -126,7 +138,7 @@ function Card({
 Card.propTypes = {
   id: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  title:PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   likesQuantity: PropTypes.number.isRequired,
   owner: PropTypes.object.isRequired,
   likes: PropTypes.array.isRequired,

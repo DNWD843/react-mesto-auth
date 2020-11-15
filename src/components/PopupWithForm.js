@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @module PopupWithForm
@@ -10,7 +11,7 @@ import PropTypes from "prop-types";
  * Принимает объект параметров - props<br>
  * Возвращает JSX-фрагмент разметки - попап<br>
  * @param {Object} props - объект с параметрами и переданными функциями-коллбэками
- * @param {JSX} props.children - JSX-фрагмент, список инпутов попапа<br>
+ * @param {JSX} props.children - JSX-фрагмент, список инпутов попапа<br><b>Не обязательный пропс.</b>
  * <b>ПРИМЕЧАНИЕ:</b> Может не указываться явно в пропсах, может быть указан JSX-фрагментом при декларировании отрисовки компонента
  * @param {String} props.name - название формы, вставляется в атрибут name тега form и в css-класс, уточняющий тип формы
  * @param {String} props.title - название попапа
@@ -25,7 +26,7 @@ import PropTypes from "prop-types";
  *  - true: попап отображается<br>
  *  - false: попап не отображается
  * @param {Boolean} props.isLoading - индикатор состояния загрузки новых данных на сервер:<br>
- *  - true - идет загрузка<br> -  false - нет загрузки
+ *  - true - идет загрузка<br> -  false - нет загрузки. <b>Не обязательный пропс</b>
  * @param {Boolean} props.isReadyToSubmit - индикатор готовности формы к сабмиту, вычисляется по результатам валидации инпутов:<br>
  * true - форма готова к сабмиту, все поля валидны<br>
  * false - форма не готова к сабмиту, хотя бы одно из полей не валидно<br>
@@ -47,25 +48,49 @@ function PopupWithForm({
   title,
   children,
 }) {
+  const popupClassName = classNames(
+    "popup",
+    "page__overlay",
+    "page__overlay_theme_light",
+    `popup_type_${name}`,
+    { popup_opened: isOpen }
+  );
+
+  const popupCloseButtonClassName = classNames(
+    "button",
+    "button_type_close",
+    "popup__close-button",
+    "popup__close-button_type_modal"
+  );
+
+  const popupFormClassName = classNames(
+    "form",
+    "popup__form",
+    `form_type_${name}`
+  );
+
+  const popupFormSubmitButtonClassName = classNames(
+    "button",
+    "form__submit-button",
+    {
+      "button_type_submit-inactive": isDisabled,
+      button_type_submit: !isDisabled,
+    }
+  );
+
   return (
-    <div
-      onClick={onOverlayClick}
-      className={`popup page__overlay page__overlay_theme_light popup_type_${name} ${
-        isOpen ? "popup_opened" : ""
-      }`}
-      id={name}
-    >
+    <div onClick={onOverlayClick} className={popupClassName} id={name}>
       <div className="popup__container">
         <button
           type="button"
           onClick={onClose}
-          className="button button_type_close popup__close-button popup__close-button_type_modal"
+          className={popupCloseButtonClassName}
           name="close-popup"
           value="Закрыть"
         ></button>
         <form
           onSubmit={onSubmit}
-          className={`form popup__form form_type_${name}`}
+          className={popupFormClassName}
           name={`${name}-form`}
           id={`${name}-form`}
         >
@@ -74,9 +99,7 @@ function PopupWithForm({
           <button
             type="submit"
             disabled={isDisabled}
-            className={`button ${
-              isDisabled ? "button_type_submit-inactive" : "button_type_submit"
-            } form__submit-button`}
+            className={popupFormSubmitButtonClassName}
             name={`${name}-button`}
             value={submitButtonText}
           >

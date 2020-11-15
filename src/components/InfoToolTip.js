@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @module InfoToolTip
@@ -33,29 +34,39 @@ function InfoToolTip({
   titleTextFail,
   loggedIn,
 }) {
+  const popupClassName = classNames(
+    "popup",
+    "page__overlay",
+    "page__overlay_theme_light",
+    `popup_type_${name}`,
+    isOpen && "popup_opened"
+  );
+
+  const popupCloseButtonClassName = classNames(
+    "button",
+    "button_type_close",
+    "popup__close-button",
+    "popup__close-button_type_info-tool-tip"
+  );
+
+  const popupImageClassName = classNames("info-tool-tip__image", {
+    "info-tool-tip__image_type_success": loggedIn,
+    "info-tool-tip__image_type_fail": !loggedIn,
+  });
+
   return (
-    <div
-      onClick={onOverlayClick}
-      className={`popup page__overlay page__overlay_theme_light popup_type_${name} ${
-        isOpen ? "popup_opened" : ""
-      }`}
-      id={name}
-    >
+    <div onClick={onOverlayClick} className={popupClassName} id={name}>
       <div className="popup__container">
         <button
           type="button"
           onClick={onClose}
-          className="button button_type_close popup__close-button popup__close-button_type_info-tool-tip"
+          className={popupCloseButtonClassName}
           name="close-popup"
           value="Закрыть"
         ></button>
         <div className="info-tool-tip popup__info-tool-tip">
           <div
-            className={`info-tool-tip__image ${
-              loggedIn
-                ? "info-tool-tip__image_type_success"
-                : "info-tool-tip__image_type_fail"
-            }`}
+            className={popupImageClassName}
           ></div>
           <p className="info-tool-tip__title">
             {loggedIn ? titleTextSuccess : titleTextFail}

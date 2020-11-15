@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 /**
  * @module NavBar
@@ -12,7 +13,7 @@ import PropTypes from 'prop-types';
  *  расположенную в хэдере(меню из десктопных разрешений преобразуется в кнопку)<br>
  *  На десктопных разрешениях расположено в хэдере, представляет собой меню со ссылками без кнопки открытия/закрытия,
  *  меню для мобильных разрешений (над хэдером) на десктопных разрешениях отключено.<br>
- * Анимция выезда меню сверху и трансформация меню в хэдере в кнопку управления реализованы средствами CSS.
+ * Анимация выезда меню сверху и трансформация меню в хэдере в кнопку управления реализованы средствами CSS.
  * (См. blocks\navbar)
  * @param {Object} props - пропсы, принимаемые компонентом
  * @param {String} props.email - емэйл (логин), введенный пользователем при входе в приложение
@@ -42,15 +43,19 @@ function NavBar({
   isMenuOpened,
   isDropdownMenu,
 }) {
+  const navbarClassName = classNames("navbar", {
+    navbar_type_mobile: isDropdownMenu,
+    navbar_opened: isDropdownMenu && isMenuOpened,
+  });
+
+  const menuButtonClassName = classNames("button", "navbar__menu-button", {
+    "navbar__menu-button_type_close": isMenuOpened,
+    "navbar__menu-button_type_open": !isMenuOpened,
+  });
+
   return (
     <>
-      <ul
-        className={`navbar ${
-          isDropdownMenu
-            ? `navbar_type_mobile ${isMenuOpened ? "navbar_opened" : ""}`
-            : ""
-        }`}
-      >
+      <ul className={navbarClassName}>
         <li className="navbar__item">
           <Link to="#" className="navbar__link">
             {email}
@@ -70,11 +75,7 @@ function NavBar({
           type="button"
           title="Меню"
           onClick={handleMenuClick}
-          className={`button navbar__menu-button ${
-            isMenuOpened
-              ? "navbar__menu-button_type_open"
-              : "navbar__menu-button_type_close"
-          }`}
+          className={menuButtonClassName}
         ></button>
       )}
     </>
@@ -91,7 +92,7 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  signOutButtonText: "Выйти"
+  signOutButtonText: "Выйти",
 };
 
 export default NavBar;
