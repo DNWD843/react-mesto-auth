@@ -1,6 +1,7 @@
 import * as PATH_TO_ from './endpoints';
 
-const BASE_URL = 'http://api.linuxoid.students.nomoreparties.xyz';
+//const BASE_URL = 'http://api.linuxoid.students.nomoreparties.xyz';
+const BASE_URL = 'http://localhost:4000';
 
 /**
  * @module auth
