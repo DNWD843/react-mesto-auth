@@ -237,15 +237,10 @@ class Api {
  */
 const api = new Api({
   URLs: {
-    //baseURL: 'http://localhost:3000',
-    /*cardsURL: 'http://api.linuxoid.students.nomoreparties.xyz/cards',
-    userURL: 'http://api.linuxoid.students.nomoreparties.xyz/users/me',
-    likesURL: 'http://api.linuxoid.students.nomoreparties.xyz/cards/likes/',
-    avatarURL: 'http://api.linuxoid.students.nomoreparties.xyz/users/me/avatar',*/
-    cardsURL: 'http://localhost:4000/cards',
-    userURL: 'http://localhost:4000/users/me',
-    likesURL: 'http://localhost:4000/cards/likes/',
-    avatarURL: 'http://localhost:4000/users/me/avatar',
+    cardsURL: 'https://api.linuxoid.students.nomoreparties.xyz/cards',
+    userURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me',
+    likesURL: 'https://api.linuxoid.students.nomoreparties.xyz/cards/likes/',
+    avatarURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me/avatar',
   },
 });
 
