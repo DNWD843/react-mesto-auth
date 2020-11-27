@@ -1,7 +1,7 @@
 **ПРОЕКТ "MESTO-REACT-AUTH" - FRONTEND**
 
 License: Yandex.Praktikum<br>
-Version: 2.1.1<br>
+Version: 2.1.2<br>
 Author: Dmitry Neklyudov<br>
 
 **Описание**<br>
