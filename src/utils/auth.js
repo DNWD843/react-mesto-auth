@@ -1,6 +1,7 @@
 import * as PATH_TO_ from './endpoints';
 
 const BASE_URL = 'https://api.linuxoid.students.nomoreparties.xyz';
+// const BASE_URL = 'http://localhost:4000'; // develop mode
 
 /**
  * @module auth

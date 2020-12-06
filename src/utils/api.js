@@ -240,6 +240,10 @@ const api = new Api({
     cardsURL: 'https://api.linuxoid.students.nomoreparties.xyz/cards',
     userURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me',
     avatarURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me/avatar',
+    // for develop mode
+    /* cardsURL: 'http://localhost:4000/cards',
+     userURL: 'http://localhost:4000/users/me',
+     avatarURL: 'http://localhost:4000/users/me/avatar',  */
   },
 });
 
