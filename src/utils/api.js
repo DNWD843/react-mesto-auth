@@ -237,9 +237,9 @@ class Api {
  */
 const api = new Api({
   URLs: {
-    cardsURL: 'https://api.linuxoid.students.nomoreparties.xyz/cards',
-    userURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me',
-    avatarURL: 'https://api.linuxoid.students.nomoreparties.xyz/users/me/avatar',
+    cardsURL: 'https://api.mesto.students.nomoreparties.space/cards',
+    userURL: 'https://api.mesto.students.nomoreparties.space/users/me',
+    avatarURL: 'https://api.mesto.students.nomoreparties.space/users/me/avatar',
   },
 });
 
